@@ -87,9 +87,9 @@ public class FuncionarioListController implements Initializable, DataChangeListe
 		tableColumnId.setCellValueFactory(new PropertyValueFactory<>("id"));
 		tableColumnName.setCellValueFactory(new PropertyValueFactory<>("name"));
 		tableColumnEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
-		tableColumnBirthDate.setCellValueFactory(new PropertyValueFactory<>("birthDate"));
+		tableColumnBirthDate.setCellValueFactory(new PropertyValueFactory<>("DataDeNascimento"));
 		Utils.formatTableColumnDate(tableColumnBirthDate, "dd/MM/yyyy");
-		tableColumnBaseSalary.setCellValueFactory(new PropertyValueFactory<>("baseSalary"));
+		tableColumnBaseSalary.setCellValueFactory(new PropertyValueFactory<>("baseSalarial"));
 		Utils.formatTableColumnDouble(tableColumnBaseSalary, 2);
 
 		Stage stage = (Stage) Main.getMainScene().getWindow();
@@ -98,7 +98,7 @@ public class FuncionarioListController implements Initializable, DataChangeListe
 
 	public void updateTableView() {
 		if (service == null) {
-			throw new IllegalStateException("Service was null");
+			throw new IllegalStateException("Service esta vazio");
 		}
 		List<Funcionario> list = service.findAll();
 		obsList = FXCollections.observableArrayList(list);
@@ -128,7 +128,7 @@ public class FuncionarioListController implements Initializable, DataChangeListe
 			dialogStage.showAndWait();
 		} catch (IOException e) {
 			e.printStackTrace();
-			Alerts.showAlert("IO Exception", "Error loading view", e.getMessage(), AlertType.ERROR);
+			Alerts.showAlert("IO Exception", "Error ao carregar", e.getMessage(), AlertType.ERROR);
 		}
 	}
 
@@ -175,18 +175,18 @@ public class FuncionarioListController implements Initializable, DataChangeListe
 	}
 
 	private void removeEntity(Funcionario obj) {
-		Optional<ButtonType> result = Alerts.showConfirmation("Confirmation", "Are you sure to delete?");
+		Optional<ButtonType> result = Alerts.showConfirmation("Confirmação", "Voce tem certeza?");
 
 		if (result.get() == ButtonType.OK) {
 			if (service == null) {
-				throw new IllegalStateException("Service was null");
+				throw new IllegalStateException("Service esta vazio");
 			}
 			try {
 				service.remove(obj);
 				updateTableView();
 			}
 			catch (DbIntegrityException e) {
-				Alerts.showAlert("Error removing object", null, e.getMessage(), AlertType.ERROR);
+				Alerts.showAlert("Erro ao remover objeto", null, e.getMessage(), AlertType.ERROR);
 			}
 		}
 	}
