@@ -1,31 +1,85 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
 
-<ScrollPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.MainViewController">
-   <content>
-      <VBox prefHeight="298.0" prefWidth="468.0">
-         <children>
-            <MenuBar>
-              <menus>
-                <Menu mnemonicParsing="false" text="Registration">
-                  <items>
-                    <MenuItem fx:id="menuItemFuncionario" mnemonicParsing="false" onAction="#onMenuItemFuncionarioAction" text="Funcionario" />
-                        <MenuItem fx:id="menuItemDepartment" mnemonicParsing="false" onAction="#onMenuItemDepartmentAction" text="Department" />
-                  </items>
-                </Menu>
-                <Menu mnemonicParsing="false" text="Help">
-                  <items>
-                    <MenuItem fx:id="menuItemAbout" mnemonicParsing="false" onAction="#onMenuItemAboutAction" text="About" />
-                  </items>
-                </Menu>
-              </menus>
-            </MenuBar>
-         </children>
-      </VBox>
-   </content>
+<ScrollPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.MainViewController">
+    <content>
+        <VBox alignment="CENTER" prefHeight="598.0" prefWidth="398.0" spacing="15.0">
+            <children>
+                <!-- Logo da empresa -->
+                <HBox alignment="CENTER" prefHeight="297.0" prefWidth="398.0">
+                    <children>
+                        <Circle fill="LIGHTGRAY" radius="113.0">
+                     <HBox.margin>
+                        <Insets left="90.0" />
+                     </HBox.margin>
+                  </Circle>
+                        <ImageView fx:id="logoImage" fitHeight="80.0" fitWidth="80.0" />
+                    </children>
+                </HBox>
+
+                <!-- Menu de Registro -->
+                <MenuBar maxWidth="300.0" prefHeight="30.0" prefWidth="300.0">
+                    <menus>
+                        <Menu mnemonicParsing="false" text="Registration">
+                            <items>
+                                <MenuItem fx:id="menuItemFuncionario" mnemonicParsing="false" onAction="#onMenuItemFuncionarioAction" text="Funcionario" />
+                                <MenuItem fx:id="menuItemDepartment" mnemonicParsing="false" onAction="#onMenuItemDepartmentAction" text="Department" />
+                                <MenuItem fx:id="menuItemCliente" mnemonicParsing="false" onAction="#onMenuItemClienteAction" text="Cliente" />
+                            </items>
+                        </Menu>
+                    </menus>
+               <VBox.margin>
+                  <Insets left="150.0" right="140.0" />
+               </VBox.margin>
+               <padding>
+                  <Insets left="13.0" />
+               </padding>
+                </MenuBar>
+
+                <!-- Botão de Login -->
+                <MenuBar prefHeight="30.0" prefWidth="100.0">
+                    <menus>
+                        <Menu mnemonicParsing="false" text="Login">
+                            <items>
+                                <MenuItem fx:id="menuItemLoginCliente" mnemonicParsing="false" onAction="#onMenuItemLoginClienteAction" text="Cliente" />
+                                <MenuItem fx:id="menuItemLoginFuncionario" mnemonicParsing="false" onAction="#onMenuItemLoginFuncionarioAction" text="Funcionario" />
+                            </items>
+                        </Menu>
+                    </menus>
+               <VBox.margin>
+                  <Insets left="150.0" right="140.0" />
+               </VBox.margin>
+               <padding>
+                  <Insets left="30.0" />
+               </padding>
+                </MenuBar>
+
+                <!-- Menu de Ajuda -->
+                <MenuBar prefHeight="30.0" prefWidth="100.0">
+                    <menus>
+                        <Menu mnemonicParsing="false" text="Help">
+                            <items>
+                                <MenuItem fx:id="menuItemAbout" mnemonicParsing="false" onAction="#onMenuItemAboutAction" text="About" />
+                            </items>
+                        </Menu>
+                    </menus>
+               <VBox.margin>
+                  <Insets left="150.0" right="140.0" />
+               </VBox.margin>
+               <padding>
+                  <Insets left="35.0" />
+               </padding>
+                </MenuBar>
+            </children>
+        </VBox>
+    </content>
 </ScrollPane>
