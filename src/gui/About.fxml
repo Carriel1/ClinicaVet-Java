@@ -4,11 +4,11 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-
-<VBox prefHeight="220.0" prefWidth="367.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/23.0.1">
+<VBox prefHeight="400.0" prefWidth="367.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/23.0.1">
    <children>
-      <Label text="About">
+      <Label text="Informações de Primeiros Socorros para Animais">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
@@ -16,10 +16,17 @@
             <Insets bottom="10.0" left="20.0" top="10.0" />
          </padding>
       </Label>
-      <Label text="JavaFX application demo">
-         <padding>
-            <Insets left="20.0" />
-         </padding>
-      </Label>
+
+      <Text text="Em caso de envenenamento:" wrappingWidth="330.0" />
+      <Text text="• Administre carvão ativado se recomendado pelo veterinário, pois ajuda a reduzir a absorção do veneno." wrappingWidth="310.0" />
+
+      <Text text="Em caso de engasgamento:" wrappingWidth="330.0" />
+      <Text text="• Realize a manobra de desengasgo segurando o animal pelas patas traseiras e inclinando-o com a cabeça para baixo. Faça compressões suaves na região do peito." wrappingWidth="310.0" />
+
+      <Text text="Para administrar medicamentos:" wrappingWidth="330.0" />
+      <Text text="• Siga as orientações do veterinário. Coloque o comprimido no fundo da boca e feche suavemente a boca até que o animal engula." wrappingWidth="310.0" />
+
+      <Text text="Quando levar ao veterinário:" wrappingWidth="330.0" />
+      <Text text="• Em caso de sintomas graves como convulsões, sangramentos, respiração ofegante ou apatia prolongada, leve o animal ao veterinário imediatamente." wrappingWidth="310.0" />
    </children>
 </VBox>

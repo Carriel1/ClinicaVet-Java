@@ -92,14 +92,7 @@ public class MainViewController implements Initializable {
 
     @Override
     public void initialize(URL uri, ResourceBundle rb) {
-        // Verificar se a cena foi inicializada corretamente
-        Scene mainScene = Main.getMainScene();
-        if (mainScene == null || mainScene.getRoot() == null) {
-            Alerts.showAlert("Error", "A cena principal não está inicializada corretamente.", "Erro", AlertType.ERROR);
-            return;
-        }
-
-        VBox mainVBox = (VBox) ((ScrollPane) mainScene.getRoot()).getContent();
+        
 
         // Define margens com objeto Insets para assegurar que o valor seja reconhecido
         if (registrationMenu != null && loginMenu != null && helpMenu != null) {
