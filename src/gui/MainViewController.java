@@ -84,15 +84,6 @@ public class MainViewController implements Initializable {
         }
     }
 
-    // Método para carregar a LoginView
-    public void loadLoginView() {
-        String fxmlPath = "/gui/view/LoginView.fxml"; // Altere se necessário
-        System.out.println("Tentando carregar o FXML: " + fxmlPath);
-        loadView(fxmlPath, controller -> {
-            // Inicialize o controlador se necessário
-        });
-    }
-
     private synchronized <T> void loadView(String absoluteName, Consumer<T> initializingAction) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(absoluteName));
