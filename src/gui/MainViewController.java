@@ -19,16 +19,9 @@ import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
-import model.services.DepartmentService;
 import model.services.FuncionarioService;
 
 public class MainViewController implements Initializable {
-
-    @FXML
-    private MenuItem menuItemFuncionario;
-
-    @FXML
-    private MenuItem menuItemDepartment;
 
     @FXML
     private MenuItem menuItemAbout;
@@ -41,9 +34,9 @@ public class MainViewController implements Initializable {
 
     @FXML
     private MenuBar helpMenu;
-    
+
     @FXML
-    private MenuItem menuItemCliente; // Corrigido para MenuItem, não MenuBar
+    private MenuItem menuItemCliente;
 
     @FXML
     private MenuItem menuItemLoginFuncionario;
@@ -57,49 +50,47 @@ public class MainViewController implements Initializable {
         });
     }
 
-    // Método para ação do menu de Departamentos
-    @FXML
-    public void onMenuItemDepartmentAction() {
-        loadView("/gui/DepartmentList.fxml", (DepartmentListController controller) -> {
-            controller.setDepartmentService(new DepartmentService());
-            controller.updateTableView();
-        });
-    }
-
     // Método para ação do menu Sobre
     @FXML
     public void onMenuItemAboutAction() {
         loadView("/gui/About.fxml", x -> {});
     }
-    
+
+    // Método para ação do menu Cliente
     @FXML
     public void onMenuItemClienteAction(ActionEvent event) {
-        // Lógica para quando o menu de cliente é clicado
         System.out.println("Menu Cliente clicado!");
     }
-    
+
+    // Método para abrir a tela de login do cliente
     @FXML
     public void onMenuItemLoginClienteAction() {
-        // Ação do menu de login do cliente
-        System.out.println("Menu Login Cliente clicado!");
+        loadView("/gui/LoginCliente.fxml", x -> {}); // Certifique-se de que o caminho está correto
     }
-    
+
+    // Método para abrir a tela de login do funcionário
     @FXML
     public void onMenuItemLoginFuncionarioAction() {
-        // Implementação da ação ao clicar no menu de login do funcionário
-        System.out.println("Menu Login Funcionário clicado!");
+        loadView("/gui/LoginFuncionario.fxml", x -> {}); // Certifique-se de que o caminho está correto
     }
 
     @Override
     public void initialize(URL uri, ResourceBundle rb) {
-        
-
-        // Define margens com objeto Insets para assegurar que o valor seja reconhecido
+        // Configurações iniciais dos menus
         if (registrationMenu != null && loginMenu != null && helpMenu != null) {
-            VBox.setMargin(registrationMenu, new Insets(20, 0, 10, 0)); // Margem superior e inferior
-            VBox.setMargin(loginMenu, new Insets(10, 0, 10, 0));        // Margem entre os menus
-            VBox.setMargin(helpMenu, new Insets(10, 0, 20, 0));         // Margem entre os menus e abaixo
+            VBox.setMargin(registrationMenu, new Insets(20, 0, 10, 0));
+            VBox.setMargin(loginMenu, new Insets(10, 0, 10, 0));
+            VBox.setMargin(helpMenu, new Insets(10, 0, 20, 0));
         }
+    }
+
+    // Método para carregar a LoginView
+    public void loadLoginView() {
+        String fxmlPath = "/gui/view/LoginView.fxml"; // Altere se necessário
+        System.out.println("Tentando carregar o FXML: " + fxmlPath);
+        loadView(fxmlPath, controller -> {
+            // Inicialize o controlador se necessário
+        });
     }
 
     private synchronized <T> void loadView(String absoluteName, Consumer<T> initializingAction) {
@@ -122,5 +113,3 @@ public class MainViewController implements Initializable {
         }
     }
 }
-
-

@@ -26,4 +26,15 @@ public class FuncionarioService {
 	public void remove(Funcionario obj) {
 		dao.deleteById(obj.getId());
 	}
+
+	// Método de autenticação
+	public boolean authenticate(String username, String password) {
+		// Busca um funcionário pelo username
+		Funcionario funcionario = dao.findByUsername(username);
+		// Verifica se o funcionário existe e se a senha está correta
+		if (funcionario != null && funcionario.getPassword().equals(password)) {
+			return true; // Autenticação bem-sucedida
+		}
+		return false; // Falha na autenticação
+	}
 }

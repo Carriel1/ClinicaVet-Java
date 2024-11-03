@@ -22,29 +22,28 @@
                             </HBox.margin>
                         </Circle>
                     </children>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
                 </HBox>
 
                 <!-- Menu de Registro -->
-                <MenuBar maxWidth="300.0" prefHeight="30.0" prefWidth="300.0">
+                <MenuBar maxWidth="135.0" prefHeight="30.0" prefWidth="135.0">
                     <menus>
                         <Menu mnemonicParsing="false" text="Registration">
                             <items>
                                 <MenuItem fx:id="menuItemFuncionario" mnemonicParsing="false" onAction="#onMenuItemFuncionarioAction" text="Funcionario" />
-                                <MenuItem fx:id="menuItemDepartment" mnemonicParsing="false" onAction="#onMenuItemDepartmentAction" text="Department" />
                                 <MenuItem fx:id="menuItemCliente" mnemonicParsing="false" onAction="#onMenuItemClienteAction" text="Cliente" />
                             </items>
                         </Menu>
                     </menus>
-                    <VBox.margin>
-                        <Insets left="150.0" right="140.0" />
-                    </VBox.margin>
-                    <padding>
-                        <Insets left="13.0" />
-                    </padding>
+               <padding>
+                  <Insets left="27.0" />
+               </padding>
                 </MenuBar>
 
                 <!-- Botão de Login -->
-                <MenuBar prefHeight="30.0" prefWidth="100.0">
+                <MenuBar prefHeight="30.0" prefWidth="550.0">
                     <menus>
                         <Menu mnemonicParsing="false" text="Login">
                             <items>
@@ -53,16 +52,16 @@
                             </items>
                         </Menu>
                     </menus>
-                    <VBox.margin>
-                        <Insets left="150.0" right="140.0" />
-                    </VBox.margin>
-                    <padding>
-                        <Insets left="30.0" />
-                    </padding>
+               <VBox.margin>
+                  <Insets left="132.0" right="129.0" />
+               </VBox.margin>
+               <padding>
+                  <Insets left="45.0" />
+               </padding>
                 </MenuBar>
 
                 <!-- Menu de Ajuda -->
-                <MenuBar prefHeight="30.0" prefWidth="100.0">
+                <MenuBar prefHeight="30.0" prefWidth="412.0">
                     <menus>
                         <Menu mnemonicParsing="false" text="Help">
                             <items>
@@ -70,12 +69,12 @@
                             </items>
                         </Menu>
                     </menus>
-                    <VBox.margin>
-                        <Insets left="150.0" right="140.0" />
-                    </VBox.margin>
-                    <padding>
-                        <Insets left="35.0" />
-                    </padding>
+               <VBox.margin>
+                  <Insets left="132.0" right="128.0" />
+               </VBox.margin>
+               <padding>
+                  <Insets left="50.0" />
+               </padding>
                 </MenuBar>
             </children>
         </VBox>
