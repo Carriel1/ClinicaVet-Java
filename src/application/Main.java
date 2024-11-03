@@ -2,7 +2,6 @@ package application;
 
 import java.io.IOException;
 
-import gui.MainViewController; // Importando o controlador
 import gui.util.Alerts; // Certifique-se de que Alerts é uma classe existente no seu pacote
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -29,15 +28,6 @@ public class Main extends Application {
             mainScene = new Scene(scrollPane);
             primaryStage.setScene(mainScene);
             primaryStage.setTitle("Clinica Vet");
-
-            // Acesso ao controlador da MainView
-            MainViewController controller = loader.getController();
-            if (controller != null) {
-                // Chamando o método para carregar a tela de login do funcionário por padrão
-                controller.onMenuItemLoginFuncionarioAction(); // Altere se desejar usar o cliente como padrão
-            } else {
-                System.err.println("Erro: Controlador MainViewController não pôde ser obtido.");
-            }
 
             // Exibe a janela principal
             primaryStage.show();
