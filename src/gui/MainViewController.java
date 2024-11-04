@@ -41,6 +41,9 @@ public class MainViewController implements Initializable {
     @FXML
     private MenuItem menuItemLoginFuncionario;
 
+    @FXML
+    private MenuItem menuItemLoginVeterinario; // Adicionado
+
     // Método para ação do menu de Funcionários
     @FXML
     public void onMenuItemFuncionarioAction() {
@@ -65,7 +68,6 @@ public class MainViewController implements Initializable {
         });
     }
 
-
     // Método para abrir a tela de login do cliente
     @FXML
     public void onMenuItemLoginClienteAction() {
@@ -76,6 +78,12 @@ public class MainViewController implements Initializable {
     @FXML
     public void onMenuItemLoginFuncionarioAction() {
         loadView("/gui/LoginFuncionario.fxml", x -> {}); // Certifique-se de que o caminho está correto
+    }
+
+    // Método para abrir a tela de login do veterinário
+    @FXML
+    public void onMenuItemLoginVeterinarioAction() {
+        loadView("/gui/LoginVeterinario.fxml", x -> {}); // Certifique-se de que o caminho está correto
     }
 
     @Override
@@ -108,3 +116,4 @@ public class MainViewController implements Initializable {
         }
     }
 }
+

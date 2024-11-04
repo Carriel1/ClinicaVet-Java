@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.GridPane?>
+
+<GridPane xmlns:fx="http://javafx.com/fxml" fx:controller="gui.LoginVeterinarioController" hgap="10" vgap="10" padding="20">
+    <Label text="Nome:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+    <TextField fx:id="txtNome" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+    <Label text="Senha:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+    <PasswordField fx:id="txtSenha" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+    <Button text="Login" onAction="#onBtLoginAction" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+    <Button text="Cancelar" onAction="#onBtCancelarAction" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+</GridPane>

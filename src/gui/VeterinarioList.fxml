@@ -1,0 +1,17 @@
+<ScrollPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.VeterinarioListController">
+    <content>
+        <VBox spacing="10">
+            <TableView fx:id="tableViewVeterinarios">
+                <columns>
+                    <TableColumn fx:id="tableColumnId" text="ID" />
+                    <TableColumn fx:id="tableColumnNome" text="Nome" />
+                    <TableColumn fx:id="tableColumnEmail" text="E-mail" />
+                    <TableColumn fx:id="tableColumnTelefone" text="Telefone" />
+                </columns>
+            </TableView>
+            <Button text="Novo Veterinário" onAction="#onBtNewVeterinarioAction"/>
+            <Button text="Editar Veterinário" onAction="#onBtEditVeterinarioAction"/>
+            <Button text="Excluir Veterinário" onAction="#onBtDeleteVeterinarioAction"/>
+        </VBox>
+    </content>
+</ScrollPane>

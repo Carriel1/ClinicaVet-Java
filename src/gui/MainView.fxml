@@ -9,74 +9,93 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Circle?>
 
-<ScrollPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.MainViewController">
-    <content>
-        <VBox alignment="CENTER" prefHeight="598.0" prefWidth="398.0" spacing="15.0">
-            <children>
-                <!-- Logo da empresa -->
-                <HBox alignment="CENTER" prefHeight="297.0" prefWidth="398.0">
-                    <children>
-                        <Circle fill="LIGHTGRAY" radius="113.0">
-                            <HBox.margin>
-                                <Insets left="10.0" />
-                            </HBox.margin>
-                        </Circle>
-                    </children>
-               <VBox.margin>
-                  <Insets />
-               </VBox.margin>
-                </HBox>
+<ScrollPane maxHeight="-Infinity" maxWidth="-Infinity"
+	minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0"
+	prefWidth="400.0" xmlns="http://javafx.com/javafx/23.0.1"
+	xmlns:fx="http://javafx.com/fxml/1"
+	fx:controller="gui.MainViewController">
+	<content>
+		<VBox alignment="CENTER" prefHeight="598.0" prefWidth="398.0"
+			spacing="15.0">
+			<children>
+				<!-- Logo da empresa -->
+				<HBox alignment="CENTER" prefHeight="297.0" prefWidth="398.0">
+					<children>
+						<Circle fill="LIGHTGRAY" radius="113.0">
+							<HBox.margin>
+								<Insets left="10.0" />
+							</HBox.margin>
+						</Circle>
+					</children>
+					<VBox.margin>
+						<Insets />
+					</VBox.margin>
+				</HBox>
 
-                <!-- Menu de Registro -->
-                <MenuBar maxWidth="135.0" prefHeight="30.0" prefWidth="135.0">
-                    <menus>
-                        <Menu mnemonicParsing="false" text="Registration">
-                            <items>
-                                <MenuItem fx:id="menuItemFuncionario" mnemonicParsing="false" onAction="#onMenuItemFuncionarioAction" text="Funcionario" />
-                                <MenuItem fx:id="menuItemCliente" mnemonicParsing="false" onAction="#onMenuItemClienteAction" text="Cliente" />
-                            </items>
-                        </Menu>
-                    </menus>
-               <padding>
-                  <Insets left="27.0" />
-               </padding>
-                </MenuBar>
+				<!-- Menu de Registro -->
+				<MenuBar maxWidth="135.0" prefHeight="30.0"
+					prefWidth="135.0">
+					<menus>
+						<Menu mnemonicParsing="false" text="Registration">
+							<items>
+								<MenuItem fx:id="menuItemFuncionario"
+									mnemonicParsing="false" onAction="#onMenuItemFuncionarioAction"
+									text="Funcionario" />
+								<MenuItem fx:id="menuItemCliente"
+									mnemonicParsing="false" onAction="#onMenuItemClienteAction"
+									text="Cliente" />
+							</items>
+						</Menu>
+					</menus>
+					<padding>
+						<Insets left="27.0" />
+					</padding>
+				</MenuBar>
 
-                <!-- Botão de Login -->
-                <MenuBar prefHeight="30.0" prefWidth="550.0">
-                    <menus>
-                        <Menu mnemonicParsing="false" text="Login">
-                            <items>
-                                <MenuItem fx:id="menuItemLoginCliente" mnemonicParsing="false" onAction="#onMenuItemLoginClienteAction" text="Cliente" />
-                                <MenuItem fx:id="menuItemLoginFuncionario" mnemonicParsing="false" onAction="#onMenuItemLoginFuncionarioAction" text="Funcionario" />
-                            </items>
-                        </Menu>
-                    </menus>
-               <VBox.margin>
-                  <Insets left="132.0" right="129.0" />
-               </VBox.margin>
-               <padding>
-                  <Insets left="45.0" />
-               </padding>
-                </MenuBar>
+				<!-- Botão de Login -->
+				<MenuBar prefHeight="30.0" prefWidth="550.0">
+					<menus>
+						<Menu mnemonicParsing="false" text="Login">
+							<items>
+								<MenuItem fx:id="menuItemLoginCliente"
+									mnemonicParsing="false"
+									onAction="#onMenuItemLoginClienteAction" text="Cliente" />
+								<MenuItem fx:id="menuItemLoginFuncionario"
+									mnemonicParsing="false"
+									onAction="#onMenuItemLoginFuncionarioAction" text="Funcionario" />
+								<MenuItem fx:id="menuItemLoginVeterinario"
+									mnemonicParsing="false"
+									onAction="#onMenuItemLoginVeterinarioAction" text="Veterinário" /> <!-- Adicione esta linha -->
+							</items>
+						</Menu>
+					</menus>
+					<VBox.margin>
+						<Insets left="132.0" right="129.0" />
+					</VBox.margin>
+					<padding>
+						<Insets left="45.0" />
+					</padding>
+				</MenuBar>
 
-                <!-- Menu de Ajuda -->
-                <MenuBar prefHeight="30.0" prefWidth="412.0">
-                    <menus>
-                        <Menu mnemonicParsing="false" text="Help">
-                            <items>
-                                <MenuItem fx:id="menuItemAbout" mnemonicParsing="false" onAction="#onMenuItemAboutAction" text="About" />
-                            </items>
-                        </Menu>
-                    </menus>
-               <VBox.margin>
-                  <Insets left="132.0" right="128.0" />
-               </VBox.margin>
-               <padding>
-                  <Insets left="50.0" />
-               </padding>
-                </MenuBar>
-            </children>
-        </VBox>
-    </content>
+
+				<!-- Menu de Ajuda -->
+				<MenuBar prefHeight="30.0" prefWidth="412.0">
+					<menus>
+						<Menu mnemonicParsing="false" text="Help">
+							<items>
+								<MenuItem fx:id="menuItemAbout" mnemonicParsing="false"
+									onAction="#onMenuItemAboutAction" text="About" />
+							</items>
+						</Menu>
+					</menus>
+					<VBox.margin>
+						<Insets left="132.0" right="128.0" />
+					</VBox.margin>
+					<padding>
+						<Insets left="50.0" />
+					</padding>
+				</MenuBar>
+			</children>
+		</VBox>
+	</content>
 </ScrollPane>
