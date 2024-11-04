@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.ClienteListController" spacing="10" alignment="CENTER" style="-fx-padding: 20;">
+    <Label text="Lista de Clientes" style="-fx-font-size: 20; -fx-font-weight: bold;" />
+    
+    <TableView fx:id="tableViewClientes" prefWidth="600">
+        <columns>
+            <TableColumn fx:id="tableColumnId" text="ID" prefWidth="100" />
+            <TableColumn fx:id="tableColumnName" text="Nome" prefWidth="200" />
+            <TableColumn fx:id="tableColumnEmail" text="Email" prefWidth="200" />
+            <TableColumn fx:id="tableColumnPhone" text="Telefone" prefWidth="100" />
+        </columns>
+    </TableView>
+    
+    <HBox spacing="10" alignment="CENTER">
+        <Button text="Novo Cliente" onAction="#onBtNewClienteAction"/>
+        <Button text="Editar Cliente" onAction="#onBtEditClienteAction"/>
+        <Button text="Excluir Cliente" onAction="#onBtDeleteClienteAction"/>
+    </HBox>
+</VBox>

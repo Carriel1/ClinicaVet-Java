@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.GridPane?>
+
+<GridPane xmlns:fx="http://javafx.com/fxml" fx:controller="gui.ClienteRegistroController" hgap="10" vgap="10" padding="20">
+    <Label text="Nome:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+    <TextField fx:id="txtNome" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+    <Label text="Endereço:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+    <TextField fx:id="txtEndereco" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+    <Label text="Telefone:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+    <TextField fx:id="txtTelefone" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+
+    <Label text="E-mail:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+    <TextField fx:id="txtEmail" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+
+    <Label text="CPF:" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+    <TextField fx:id="txtCpf" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+
+    <Button text="Salvar" onAction="#onBtSalvarAction" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
+    <Button text="Cancelar" onAction="#onBtCancelarAction" GridPane.rowIndex="5" GridPane.columnIndex="1"/>
+</GridPane>

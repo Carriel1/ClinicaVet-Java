@@ -7,7 +7,6 @@ import java.util.function.Consumer;
 
 import application.Main;
 import gui.util.Alerts;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -19,6 +18,7 @@ import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
+import model.services.ClienteService;
 import model.services.FuncionarioService;
 
 public class MainViewController implements Initializable {
@@ -58,9 +58,13 @@ public class MainViewController implements Initializable {
 
     // Método para ação do menu Cliente
     @FXML
-    public void onMenuItemClienteAction(ActionEvent event) {
-        System.out.println("Menu Cliente clicado!");
+    public void onMenuItemClienteAction() {
+        loadView("/gui/ClienteList.fxml", (ClienteListController controller) -> {
+            controller.setClienteService(new ClienteService());
+            controller.updateTableView();
+        });
     }
+
 
     // Método para abrir a tela de login do cliente
     @FXML
