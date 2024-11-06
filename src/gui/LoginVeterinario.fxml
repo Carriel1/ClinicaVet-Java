@@ -5,15 +5,15 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.VBox?>
 
-<GridPane xmlns:fx="http://javafx.com/fxml" fx:controller="gui.LoginVeterinarioController" hgap="10" vgap="10" padding="20">
-    <Label text="Nome:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
-    <TextField fx:id="txtNome" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+<VBox xmlns:fx="http://javafx.com/fxml" fx:controller="gui.LoginVeterinarioController" spacing="20" alignment="CENTER" style="-fx-padding: 20;">
+    <Label text="Nome:"/>
+    <TextField fx:id="txtNome"/>
 
-    <Label text="Senha:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
-    <PasswordField fx:id="txtSenha" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+    <Label text="Senha:"/>
+    <PasswordField fx:id="txtSenha"/>
 
-    <Button text="Login" onAction="#onBtLoginAction" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
-    <Button text="Cancelar" onAction="#onBtCancelarAction" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
-</GridPane>
+    <Button text="Login" onAction="#onBtLoginAction"/>
+    <Button text="Cancelar" onAction="#onBtCancelarAction"/>
+</VBox>

@@ -20,6 +20,8 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
 import model.services.ClienteService;
 import model.services.FuncionarioService;
+import model.services.VeterinarioService;
+
 
 public class MainViewController implements Initializable {
 
@@ -83,7 +85,9 @@ public class MainViewController implements Initializable {
     // Método para abrir a tela de login do veterinário
     @FXML
     public void onMenuItemLoginVeterinarioAction() {
-        loadView("/gui/LoginVeterinario.fxml", x -> {}); // Certifique-se de que o caminho está correto
+    	loadView("/gui/LoginVeterinario.fxml", (LoginVeterinarioController controller) -> {
+    	    controller.setVeterinarioService(new VeterinarioService());
+    	});
     }
 
     @Override
@@ -112,6 +116,7 @@ public class MainViewController implements Initializable {
             T controller = loader.getController();
             initializingAction.accept(controller);
         } catch (IOException e) {
+        	e.printStackTrace();
             Alerts.showAlert("IO Exception", "Erro ao carregar a view", e.getMessage(), AlertType.ERROR);
         }
     }
