@@ -9,8 +9,7 @@ public class Funcionario {
     private String email;
     private Date birthDate;
     private Double baseSalary;
-    private String password; // Adicionado para autenticação
-
+    private String password; 
     public Funcionario() {
     }
 
@@ -20,7 +19,7 @@ public class Funcionario {
         this.email = email;
         this.birthDate = birthDate;
         this.baseSalary = baseSalary;
-        this.password = password; // Inicializa a senha
+        this.password = password; 
     }
 
     public Integer getId() {
@@ -64,11 +63,11 @@ public class Funcionario {
     }
 
     public String getPassword() {
-        return password; // Adicionado para obter a senha
+        return password; 
     }
 
     public void setPassword(String password) {
-        this.password = password; // Adicionado para definir a senha
+        this.password = password; 
     }
 
     @Override

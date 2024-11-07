@@ -2,7 +2,7 @@ package application;
 
 import java.io.IOException;
 
-import gui.util.Alerts; // Certifique-se de que Alerts é uma classe existente no seu pacote
+import gui.util.Alerts; 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;

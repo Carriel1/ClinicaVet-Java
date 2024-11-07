@@ -44,7 +44,7 @@ public class MainViewController implements Initializable {
     private MenuItem menuItemLoginFuncionario;
 
     @FXML
-    private MenuItem menuItemLoginVeterinario; // Adicionado
+    private MenuItem menuItemLoginVeterinario; 
 
     // Método para ação do menu de Funcionários
     @FXML

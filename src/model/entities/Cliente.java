@@ -9,9 +9,8 @@ public class Cliente implements Serializable {
     private String nome;
     private String email;
     private String telefone;
-    private String senha; // Novo campo para a senha
+    private String senha; 
 
-    // Construtor padrão
     public Cliente() {
     }
 
@@ -21,7 +20,7 @@ public class Cliente implements Serializable {
         this.nome = nome;
         this.email = email;
         this.telefone = telefone;
-        this.senha = senha; // Inicializa a senha
+        this.senha = senha; 
     }
 
     // Getters e Setters
@@ -57,11 +56,11 @@ public class Cliente implements Serializable {
         this.telefone = telefone;
     }
     
-    public String getSenha() { // Getter para a senha
+    public String getSenha() { 
         return senha;
     }
 
-    public void setSenha(String senha) { // Setter para a senha
+    public void setSenha(String senha) { 
         this.senha = senha;
     }
 

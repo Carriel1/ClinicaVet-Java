@@ -9,40 +9,36 @@ import java.util.List;
 
 import db.DB;
 import db.DbException;
-import model.dao.FuncionarioDao;
-import model.entities.Funcionario;
+import model.dao.VeterinarioDao;
+import model.entities.Veterinario;
 
-public class FuncionarioDaoJDBC implements FuncionarioDao {
+public class VeterinarioDaoJDBC implements VeterinarioDao {
 
     private Connection conn;
 
-    public FuncionarioDaoJDBC(Connection conn) {
+    public VeterinarioDaoJDBC(Connection conn) {
         this.conn = conn;
     }
 
     @Override
-    public void insert(Funcionario obj) {
+    public void insert(Veterinario obj) {
         PreparedStatement st = null;
         try {
             st = conn.prepareStatement(
-                    "INSERT INTO Funcionario "
-                    + "(name, email, birthDate, baseSalary, password) "
-                    + "VALUES (?, ?, ?, ?, ?)", 
+                    "INSERT INTO Veterinario (nome, email, telefone, senha) VALUES (?, ?, ?, ?)", 
                     PreparedStatement.RETURN_GENERATED_KEYS);
 
-            st.setString(1, obj.getName());
+            st.setString(1, obj.getNome());
             st.setString(2, obj.getEmail());
-            st.setDate(3, new java.sql.Date(obj.getBirthDate().getTime()));
-            st.setDouble(4, obj.getBaseSalary());
-            st.setString(5, obj.getPassword());
+            st.setString(3, obj.getTelefone());
+            st.setString(4, obj.getSenha());
 
             int rowsAffected = st.executeUpdate();
 
             if (rowsAffected > 0) {
                 ResultSet rs = st.getGeneratedKeys();
                 if (rs.next()) {
-                    int id = rs.getInt(1);
-                    obj.setId(id);
+                    obj.setId(rs.getInt(1));
                 }
                 DB.closeResultSet(rs);
             } else {
@@ -56,20 +52,17 @@ public class FuncionarioDaoJDBC implements FuncionarioDao {
     }
 
     @Override
-    public void update(Funcionario obj) {
+    public void update(Veterinario obj) {
         PreparedStatement st = null;
         try {
             st = conn.prepareStatement(
-                    "UPDATE Funcionario "
-                    + "SET name = ?, email = ?, birthDate = ?, baseSalary = ?, password = ? "
-                    + "WHERE id = ?");
+                    "UPDATE Veterinario SET nome = ?, email = ?, telefone = ?, senha = ? WHERE id = ?");
 
-            st.setString(1, obj.getName());
+            st.setString(1, obj.getNome());
             st.setString(2, obj.getEmail());
-            st.setDate(3, new java.sql.Date(obj.getBirthDate().getTime()));
-            st.setDouble(4, obj.getBaseSalary());
-            st.setString(5, obj.getPassword());
-            st.setInt(6, obj.getId());
+            st.setString(3, obj.getTelefone());
+            st.setString(4, obj.getSenha());
+            st.setInt(5, obj.getId());
 
             st.executeUpdate();
         } catch (SQLException e) {
@@ -83,7 +76,7 @@ public class FuncionarioDaoJDBC implements FuncionarioDao {
     public void deleteById(Integer id) {
         PreparedStatement st = null;
         try {
-            st = conn.prepareStatement("DELETE FROM Funcionario WHERE id = ?");
+            st = conn.prepareStatement("DELETE FROM Veterinario WHERE id = ?");
 
             st.setInt(1, id);
             st.executeUpdate();
@@ -95,17 +88,15 @@ public class FuncionarioDaoJDBC implements FuncionarioDao {
     }
 
     @Override
-    public Funcionario findById(Integer id) {
+    public Veterinario findById(Integer id) {
         PreparedStatement st = null;
         ResultSet rs = null;
         try {
-            st = conn.prepareStatement(
-                    "SELECT * FROM Funcionario WHERE id = ?");
-
+            st = conn.prepareStatement("SELECT * FROM Veterinario WHERE id = ?");
             st.setInt(1, id);
             rs = st.executeQuery();
             if (rs.next()) {
-                return instantiateFuncionario(rs);
+                return instantiateVeterinario(rs);
             }
             return null;
         } catch (SQLException e) {
@@ -117,16 +108,15 @@ public class FuncionarioDaoJDBC implements FuncionarioDao {
     }
 
     @Override
-    public Funcionario findByUsername(String username) {
+    public Veterinario findByEmail(String email) {
         PreparedStatement st = null;
         ResultSet rs = null;
         try {
-            st = conn.prepareStatement(
-                    "SELECT * FROM Funcionario WHERE email = ?");
-            st.setString(1, username);
+            st = conn.prepareStatement("SELECT * FROM Veterinario WHERE email = ?");
+            st.setString(1, email);
             rs = st.executeQuery();
             if (rs.next()) {
-                return instantiateFuncionario(rs);
+                return instantiateVeterinario(rs);
             }
             return null;
         } catch (SQLException e) {
@@ -137,28 +127,27 @@ public class FuncionarioDaoJDBC implements FuncionarioDao {
         }
     }
 
-    private Funcionario instantiateFuncionario(ResultSet rs) throws SQLException {
-        Funcionario obj = new Funcionario();
+    private Veterinario instantiateVeterinario(ResultSet rs) throws SQLException {
+        Veterinario obj = new Veterinario();
         obj.setId(rs.getInt("id"));
-        obj.setName(rs.getString("name"));
+        obj.setNome(rs.getString("nome"));
         obj.setEmail(rs.getString("email"));
-        obj.setBaseSalary(rs.getDouble("baseSalary"));
-        obj.setBirthDate(rs.getDate("birthDate"));
-        obj.setPassword(rs.getString("password"));
+        obj.setTelefone(rs.getString("telefone"));
+        obj.setSenha(rs.getString("senha"));
         return obj;
     }
 
     @Override
-    public List<Funcionario> findAll() {
+    public List<Veterinario> findAll() {
         PreparedStatement st = null;
         ResultSet rs = null;
         try {
-            st = conn.prepareStatement("SELECT * FROM Funcionario ORDER BY name");
+            st = conn.prepareStatement("SELECT * FROM Veterinario ORDER BY nome");
             rs = st.executeQuery();
 
-            List<Funcionario> list = new ArrayList<>();
+            List<Veterinario> list = new ArrayList<>();
             while (rs.next()) {
-                list.add(instantiateFuncionario(rs));
+                list.add(instantiateVeterinario(rs));
             }
             return list;
         } catch (SQLException e) {

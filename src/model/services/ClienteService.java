@@ -3,7 +3,7 @@ package model.services;
 import java.util.ArrayList;
 import java.util.List;
 
-import model.entities.Cliente; // Importe a classe Cliente do pacote model.entities
+import model.entities.Cliente; 
 
 public class ClienteService {
 
