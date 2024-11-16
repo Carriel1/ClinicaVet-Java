@@ -41,6 +41,9 @@ public class FuncionarioFormController implements Initializable {
     private TextField txtName;
 
     @FXML
+    private TextField txtPassword;
+    
+    @FXML
     private TextField txtEmail;
 
     @FXML
@@ -60,6 +63,9 @@ public class FuncionarioFormController implements Initializable {
 
     @FXML
     private Label labelErrorEmail;
+    
+    @FXML
+    private Label labelErrorPassword;
 
     @FXML
     private Label labelErrorBirthDate;
@@ -104,18 +110,22 @@ public class FuncionarioFormController implements Initializable {
         Funcionario obj = new Funcionario();
         ValidationException exception = new ValidationException("Validation error");
 
+        // Verifica e seta o ID
         obj.setId(Utils.tryParseToInt(txtId.getText()));
 
+        // Valida e seta o campo 'name'
         if (txtName.getText() == null || txtName.getText().trim().isEmpty()) {
             exception.addError("name", "Field can't be empty");
         }
         obj.setName(txtName.getText());
 
+        // Valida e seta o campo 'email'
         if (txtEmail.getText() == null || txtEmail.getText().trim().isEmpty()) {
             exception.addError("email", "Field can't be empty");
         }
         obj.setEmail(txtEmail.getText());
 
+        // Valida e seta o campo 'birthDate'
         if (dpBirthDate.getValue() == null) {
             exception.addError("birthDate", "Field can't be empty");
         } else {
@@ -123,16 +133,25 @@ public class FuncionarioFormController implements Initializable {
             obj.setBirthDate(Date.from(instant));
         }
 
+        // Valida e seta o campo 'baseSalary'
         if (txtBaseSalary.getText() == null || txtBaseSalary.getText().trim().isEmpty()) {
             exception.addError("baseSalary", "Field can't be empty");
         } else {
             obj.setBaseSalary(Utils.tryParseToDouble(txtBaseSalary.getText()));
         }
 
+        // Valida e seta o campo 'password'
+        if (txtPassword.getText() == null || txtPassword.getText().trim().isEmpty()) {
+            exception.addError("password", "Field can't be empty");
+        }
+        obj.setPassword(txtPassword.getText());
+
+        // Lança exceção se houver erros
         if (exception.getErrors().size() > 0) throw exception;
 
         return obj;
     }
+
 
     @FXML
     public void onBtCancelAction(ActionEvent event) {
@@ -155,7 +174,7 @@ public class FuncionarioFormController implements Initializable {
     public void updateFormData() {
         if (entity == null) throw new IllegalStateException("Entity was null");
 
-        txtId.setText(String.valueOf(entity.getId()));
+        txtId.setText(entity.getId() == null ? "" : String.valueOf(entity.getId()));
         txtName.setText(entity.getName());
         txtEmail.setText(entity.getEmail());
         txtBaseSalary.setText(String.format(Locale.US, "%.2f", entity.getBaseSalary()));
@@ -163,7 +182,11 @@ public class FuncionarioFormController implements Initializable {
         if (entity.getBirthDate() != null) {
             dpBirthDate.setValue(LocalDate.ofInstant(entity.getBirthDate().toInstant(), ZoneId.systemDefault()));
         }
+
+        // Preenche o campo 'password' (vazio para novos funcionários)
+        txtPassword.setText(entity.getPassword() == null ? "" : entity.getPassword());
     }
+
 
     private void setErrorMessages(Map<String, String> errors) {
         labelErrorName.setText(errors.getOrDefault("name", ""));

@@ -10,6 +10,7 @@ public class Funcionario {
     private Date birthDate;
     private Double baseSalary;
     private String password; 
+
     public Funcionario() {
     }
 
