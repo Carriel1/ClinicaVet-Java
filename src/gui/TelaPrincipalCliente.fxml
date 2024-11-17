@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.*?>
+
+<VBox xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.TelaPrincipalClienteController" spacing="20" alignment="CENTER" style="-fx-padding: 20;">
+    <Label fx:id="lblWelcomeMessage" text="Bem-vindo, Cliente!" style="-fx-font-size: 24; -fx-font-weight: bold;"/>
+    
+    <Button fx:id="btnRequisitarConsulta" text="Requisitar Consulta" onAction="#onRequisitarConsulta"/>
+    <Button fx:id="btnVerRelatorios" text="Ver Relatórios" onAction="#onVerRelatorios"/>
+    <Button fx:id="btnVerAnimaisRegistrados" text="Ver Animais Registrados" onAction="#onVerAnimaisRegistrados"/>
+    <Button fx:id="btnSair" text="Sair" onAction="#onSairAction"/>
+</VBox>

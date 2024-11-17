@@ -1,31 +1,54 @@
 package gui.util;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.Date;
-import java.util.Locale;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.stage.Stage;
+import java.io.IOException;
 
 import javafx.event.ActionEvent;
-import javafx.scene.Node;
+import javafx.util.StringConverter;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
-import javafx.stage.Stage;
-import javafx.util.StringConverter;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class Utils {
 
     // Método para obter o Stage atual a partir de um evento
-	public static Stage currentStage(ActionEvent event) {
-	    if (event == null || event.getSource() == null) {
-	        throw new IllegalArgumentException("O evento ou a origem do evento está nulo.");
-	    }
-	    return (Stage) ((Node) event.getSource()).getScene().getWindow();
-	}
+    public static Stage currentStage(ActionEvent event) {
+        if (event == null || event.getSource() == null) {
+            throw new IllegalArgumentException("O evento ou a origem do evento está nulo.");
+        }
+        return (Stage) ((Node) event.getSource()).getScene().getWindow();
+    }
 
+    // Método para carregar uma nova cena a partir de um arquivo FXML
+    public static Scene loadScene(String fxmlPath) {
+        try {
+            FXMLLoader loader = new FXMLLoader(Utils.class.getResource(fxmlPath));
+            Parent root = loader.load(); // Carrega o arquivo FXML
+            return new Scene(root); // Retorna a cena com o layout carregado
+        } catch (IOException e) {
+            e.printStackTrace(); // Exibe o erro no console
+            return null; // Retorna null em caso de erro
+        }
+    }
 
+    
+    // Método para obter o controlador da cena carregada
+    public static Object getController(Scene scene) {
+        if (scene != null && scene.getRoot() != null) {
+            return scene.getRoot().getProperties().get("controller");
+        }
+        return null;
+    }
 
     // Método para tentar converter String para Integer, retornando null em caso de erro
     public static Integer tryParseToInt(String str) {
@@ -115,4 +138,3 @@ public class Utils {
         }
     }
 }
-

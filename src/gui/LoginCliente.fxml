@@ -14,6 +14,6 @@
     <!-- Label para erro -->
     <Label fx:id="lblError" text="" style="-fx-text-fill: red;"/>
     
-    <Button text="Entrar" onAction="#onBtLoginAction"/>
+    <Button fx:id="btLogin" text="Entrar" onAction="#onBtLoginAction"/>
     <Button text="Cancelar" onAction="#onBtCancelAction"/>
 </VBox>
