@@ -79,8 +79,11 @@ public class MainViewController implements Initializable {
     // Método para abrir a tela de login do funcionário
     @FXML
     public void onMenuItemLoginFuncionarioAction() {
-        loadView("/gui/LoginFuncionario.fxml", x -> {}); // Certifique-se de que o caminho está correto
+        loadView("/gui/LoginFuncionario.fxml", (LoginFuncionarioController controller) -> {
+            controller.setFuncionarioService(new FuncionarioService());
+        });
     }
+
 
     // Método para abrir a tela de login do veterinário
     @FXML

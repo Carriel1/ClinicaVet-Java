@@ -37,24 +37,22 @@ public class LoginFuncionarioController {
 
     @FXML
     public void onBtLoginAction(ActionEvent event) {
-        if (service == null) throw new IllegalStateException("Service was null");
+        if (service == null) {
+            Alerts.showAlert("Erro no Login", null, "Service não foi configurado.", AlertType.ERROR);
+            return;
+        }
 
         String username = txtUsername.getText();
         String password = txtPassword.getText();
 
         if (service.authenticate(username, password)) {
-            try {
-                Stage stage = Utils.currentStage(event);
-                stage.close();
-            } catch (IllegalArgumentException e) {
-                Alerts.showAlert("Erro no Login", null, "Não foi possível capturar a janela atual para fechamento.", AlertType.ERROR);
-            }
+            Stage stage = Utils.currentStage(event);
+            stage.close();
         } else {
             lblError.setText("Invalid username or password");
             Alerts.showAlert("Login Error", null, "Username or password is incorrect.", AlertType.ERROR);
         }
     }
-
 
 
     @FXML
