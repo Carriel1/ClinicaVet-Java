@@ -7,8 +7,12 @@
 <!-- Especifica o controlador correto para esta view -->
 <VBox xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.LoginClienteController" spacing="20" alignment="CENTER" style="-fx-padding: 20;">
     <Label text="Login do Cliente" style="-fx-font-size: 24; -fx-font-weight: bold;"/>
+    
     <TextField fx:id="txtUsername" promptText="Usuário" />
     <PasswordField fx:id="txtPassword" promptText="Senha" />
+    
+    <!-- Label para erro -->
+    <Label fx:id="lblError" text="" style="-fx-text-fill: red;"/>
     
     <Button text="Entrar" onAction="#onBtLoginAction"/>
     <Button text="Cancelar" onAction="#onBtCancelAction"/>

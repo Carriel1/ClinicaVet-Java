@@ -1,6 +1,7 @@
 package gui;
 
 import gui.util.Alerts;
+import gui.util.Utils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert.AlertType;
@@ -36,13 +37,16 @@ public class LoginClienteController {
 
     @FXML
     public void onBtLoginAction(ActionEvent event) {
-        if (service == null) throw new IllegalStateException("Service was null");
+        if (service == null) {
+            Alerts.showAlert("Erro no Login", null, "Service não foi configurado.", AlertType.ERROR);
+            return;
+        }
 
         String username = txtUsername.getText();
         String password = txtPassword.getText();
 
         if (service.authenticate(username, password)) {
-            Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+            Stage stage = Utils.currentStage(event);
             stage.close();
         } else {
             lblError.setText("Invalid username or password");
@@ -52,7 +56,8 @@ public class LoginClienteController {
 
     @FXML
     public void onBtCancelAction(ActionEvent event) {
-        Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+        Stage stage = Utils.currentStage(event);
         stage.close();
     }
 }
+

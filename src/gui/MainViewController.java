@@ -104,8 +104,11 @@ public class MainViewController implements Initializable {
     // Carregar tela de Login do Cliente
     @FXML
     public void onMenuItemLoginClienteAction() {
-        loadView("/gui/LoginCliente.fxml", x -> {});
+        loadView("/gui/LoginCliente.fxml", (LoginClienteController controller) -> {
+            controller.setClienteService(new ClienteService());
+        });
     }
+
 
     // Carregar tela de Login do Funcionário
     @FXML
