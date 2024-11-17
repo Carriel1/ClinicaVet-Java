@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="gui.TelaPrincipalFuncionarioController">
+    <VBox spacing="15" alignment="CENTER" prefWidth="600" prefHeight="400">
+        <Label fx:id="lblWelcomeMessage" text="Bem-vindo, Funcionário!" style="-fx-font-size: 18px; -fx-font-weight: bold;" />
+        
+        <Button fx:id="btnCadastrarVeterinario" text="Fazer cadastro de um novo Veterinário" onAction="#onCadastrarVeterinario" />
+        <Button fx:id="btnCadastrarCliente" text="Fazer cadastro de um Cliente" onAction="#onCadastrarCliente" />
+        <Button fx:id="btnConsulta" text="Aceitar ou Marcar uma Consulta" onAction="#onMarcarConsulta" />
+        <Button fx:id="btnEstoque" text="Controle de Estoque" onAction="#onControleEstoque" />
+        <Button fx:id="btnSair" text="Sair" onAction="#onSairAction" />
+    </VBox>
+</AnchorPane>
