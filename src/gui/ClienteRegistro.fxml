@@ -1,27 +1,53 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.Pos?>
 
-<GridPane xmlns:fx="http://javafx.com/fxml" fx:controller="gui.ClienteRegistroController" hgap="10" vgap="10" padding="20">
-    <Label text="Nome:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
-    <TextField fx:id="txtNome" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="gui.ClienteRegistroController">
+    <children>
+        <!-- Título do Formulário -->
+        <Label text="Registro de Cliente" style="-fx-font-size: 18; -fx-font-weight: bold;" layoutX="150" layoutY="20"/>
+        
+        <!-- ID -->
+        <Label text="ID" layoutX="30" layoutY="60"/>
+        <TextField fx:id="txtId" layoutX="100" layoutY="55" prefWidth="200" editable="false"/>
 
-    <Label text="Endereço:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
-    <TextField fx:id="txtEndereco" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+        <!-- Nome -->
+        <Label text="Nome" layoutX="30" layoutY="100"/>
+        <TextField fx:id="txtName" layoutX="100" layoutY="95" prefWidth="200"/>
+        <Label fx:id="labelErrorName" textFill="red" layoutX="100" layoutY="130"/>
 
-    <Label text="Telefone:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
-    <TextField fx:id="txtTelefone" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+        <!-- Email -->
+        <Label text="Email" layoutX="30" layoutY="160"/>
+        <TextField fx:id="txtEmail" layoutX="100" layoutY="155" prefWidth="200"/>
+        <Label fx:id="labelErrorEmail" textFill="red" layoutX="100" layoutY="190"/>
 
-    <Label text="E-mail:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
-    <TextField fx:id="txtEmail" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+        <!-- Telefone -->
+        <Label text="Telefone" layoutX="30" layoutY="220"/>
+        <TextField fx:id="txtPhone" layoutX="100" layoutY="215" prefWidth="200"/>
+        <Label fx:id="labelErrorPhone" textFill="red" layoutX="100" layoutY="250"/>
 
-    <Label text="CPF:" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
-    <TextField fx:id="txtCpf" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+        <!-- Senha -->
+        <Label text="Senha" layoutX="30" layoutY="340"/>
+        <PasswordField fx:id="txtPassword" layoutX="100" layoutY="335" prefWidth="200"/>
+        <Label fx:id="labelErrorPassword" textFill="red" layoutX="100" layoutY="370"/>
 
-    <Button text="Salvar" onAction="#onBtSalvarAction" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
-    <Button text="Cancelar" onAction="#onBtCancelarAction" GridPane.rowIndex="5" GridPane.columnIndex="1"/>
-</GridPane>
+        <!-- Endereço -->
+        <Label text="Endereço" layoutX="30" layoutY="400"/>
+        <TextField fx:id="txtEndereco" layoutX="100" layoutY="395" prefWidth="200"/>
+        <Label fx:id="labelErrorEndereco" textFill="red" layoutX="100" layoutY="430"/>
+
+        <!-- CPF -->
+        <Label text="CPF" layoutX="30" layoutY="460"/>
+        <TextField fx:id="txtCpf" layoutX="100" layoutY="455" prefWidth="200"/>
+        <Label fx:id="labelErrorCpf" textFill="red" layoutX="100" layoutY="490"/>
+
+        <!-- Botões -->
+        <HBox spacing="20" alignment="CENTER" layoutX="100" layoutY="520">
+            <Button fx:id="btSave" text="Salvar" onAction="#onBtSaveAction" prefWidth="80"/>
+            <Button fx:id="btCancel" text="Cancelar" onAction="#onBtCancelAction" prefWidth="80"/>
+        </HBox>
+    </children>
+</AnchorPane>
+

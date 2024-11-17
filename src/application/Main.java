@@ -24,7 +24,7 @@ public class Main extends Application {
             scrollPane.setFitToHeight(true);
             scrollPane.setFitToWidth(true);
 
-            // Cria a cena principal e a define no estágio
+          // Cria a cena principal e a define no estágio
             mainScene = new Scene(scrollPane);
             primaryStage.setScene(mainScene);
             primaryStage.setTitle("Clinica Vet");

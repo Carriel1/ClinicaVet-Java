@@ -1,6 +1,7 @@
-package model.entities;
+package model.entities; 
 
 import java.io.Serializable;
+import java.util.Date;
 
 public class Cliente implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -9,18 +10,22 @@ public class Cliente implements Serializable {
     private String nome;
     private String email;
     private String telefone;
-    private String senha; 
+    private String senha;
+    private String endereco; // Atributo para endereço
+    private String cpf; // Atributo para CPF
 
     public Cliente() {
     }
 
-    // Construtor com parâmetros
-    public Cliente(Integer id, String nome, String email, String telefone, String senha) {
+    // Construtor com parâmetros, incluindo o CPF
+    public Cliente(Integer id, String nome, String email, String telefone, String senha, String endereco, String cpf) {
         this.id = id;
         this.nome = nome;
         this.email = email;
         this.telefone = telefone;
-        this.senha = senha; 
+        this.senha = senha;
+        this.endereco = endereco;
+        this.cpf = cpf; // Inicializa o CPF
     }
 
     // Getters e Setters
@@ -55,7 +60,7 @@ public class Cliente implements Serializable {
     public void setTelefone(String telefone) {
         this.telefone = telefone;
     }
-    
+
     public String getSenha() { 
         return senha;
     }
@@ -64,10 +69,26 @@ public class Cliente implements Serializable {
         this.senha = senha;
     }
 
-    // Método toString
+    public String getEndereco() {
+        return endereco;
+    }
+
+    public void setEndereco(String endereco) {
+        this.endereco = endereco;
+    }
+
+    public String getCpf() { // Getter para o CPF
+        return cpf;
+    }
+
+    public void setCpf(String cpf) { // Setter para o CPF
+        this.cpf = cpf;
+    }
+
+    // Método toString - Ajustado para não incluir dados sensíveis como a senha
     @Override
     public String toString() {
-        return "Cliente [id=" + id + ", nome=" + nome + ", email=" + email + ", telefone=" + telefone + "]";
+        return "Cliente [id=" + id + ", nome=" + nome + ", email=" + email + ", telefone=" + telefone + ", endereco=" + endereco + ", cpf=" + cpf + "]";
     }
 
     // Métodos de comparação (equals e hashCode) para uso em coleções e validações
@@ -89,4 +110,3 @@ public class Cliente implements Serializable {
         return id != null && id.equals(other.id);
     }
 }
-

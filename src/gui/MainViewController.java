@@ -12,6 +12,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.MenuBar;
@@ -22,76 +23,24 @@ import model.services.ClienteService;
 import model.services.FuncionarioService;
 import model.services.VeterinarioService;
 
-
 public class MainViewController implements Initializable {
 
+    // Menu items
     @FXML
     private MenuItem menuItemAbout;
-
-    @FXML
-    private MenuBar registrationMenu;
-
-    @FXML
-    private MenuBar loginMenu;
-
-    @FXML
-    private MenuBar helpMenu;
-
     @FXML
     private MenuItem menuItemCliente;
-
     @FXML
     private MenuItem menuItemLoginFuncionario;
-
     @FXML
-    private MenuItem menuItemLoginVeterinario; 
-
-    // Método para ação do menu de Funcionários
+    private MenuItem menuItemLoginVeterinario;
+    
     @FXML
-    public void onMenuItemFuncionarioAction() {
-        loadView("/gui/FuncionarioList.fxml", (FuncionarioListController controller) -> {
-            controller.setFuncionarioService(new FuncionarioService());
-            controller.updateTableView();
-        });
-    }
-
-    // Método para ação do menu Sobre
+    private MenuBar registrationMenu;
     @FXML
-    public void onMenuItemAboutAction() {
-        loadView("/gui/About.fxml", x -> {});
-    }
-
-    // Método para ação do menu Cliente
+    private MenuBar loginMenu;
     @FXML
-    public void onMenuItemClienteAction() {
-        loadView("/gui/ClienteList.fxml", (ClienteListController controller) -> {
-            controller.setClienteService(new ClienteService());
-            controller.updateTableView();
-        });
-    }
-
-    // Método para abrir a tela de login do cliente
-    @FXML
-    public void onMenuItemLoginClienteAction() {
-        loadView("/gui/LoginCliente.fxml", x -> {}); // Certifique-se de que o caminho está correto
-    }
-
-    // Método para abrir a tela de login do funcionário
-    @FXML
-    public void onMenuItemLoginFuncionarioAction() {
-        loadView("/gui/LoginFuncionario.fxml", (LoginFuncionarioController controller) -> {
-            controller.setFuncionarioService(new FuncionarioService());
-        });
-    }
-
-
-    // Método para abrir a tela de login do veterinário
-    @FXML
-    public void onMenuItemLoginVeterinarioAction() {
-    	loadView("/gui/LoginVeterinario.fxml", (LoginVeterinarioController controller) -> {
-    	    controller.setVeterinarioService(new VeterinarioService());
-    	});
-    }
+    private MenuBar helpMenu;
 
     @Override
     public void initialize(URL uri, ResourceBundle rb) {
@@ -103,25 +52,74 @@ public class MainViewController implements Initializable {
         }
     }
 
-    private synchronized <T> void loadView(String absoluteName, Consumer<T> initializingAction) {
+    // Método para carregar diferentes views e injetar serviços
+    private synchronized <T> void loadView(String fxmlPath, Consumer<T> initializingAction) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource(absoluteName));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
             VBox newVBox = loader.load();
 
             Scene mainScene = Main.getMainScene();
             VBox mainVBox = (VBox) ((ScrollPane) mainScene.getRoot()).getContent();
 
+            // Mantém o menu fixo e troca apenas o conteúdo
             Node mainMenu = mainVBox.getChildren().get(0);
             mainVBox.getChildren().clear();
             mainVBox.getChildren().add(mainMenu);
             mainVBox.getChildren().addAll(newVBox.getChildren());
 
+            // Inicializa o controller da nova view
             T controller = loader.getController();
             initializingAction.accept(controller);
+
         } catch (IOException e) {
-        	e.printStackTrace();
+            e.printStackTrace();
             Alerts.showAlert("IO Exception", "Erro ao carregar a view", e.getMessage(), AlertType.ERROR);
         }
     }
-}
 
+    // Carregar tela de Funcionários
+    @FXML
+    public void onMenuItemFuncionarioAction() {
+        loadView("/gui/FuncionarioList.fxml", (FuncionarioListController controller) -> {
+            controller.setFuncionarioService(new FuncionarioService());
+            controller.updateTableView();
+        });
+    }
+
+    // Carregar tela Sobre
+    @FXML
+    public void onMenuItemAboutAction() {
+        loadView("/gui/About.fxml", x -> {});
+    }
+
+    // Carregar tela de Clientes
+    @FXML
+    public void onMenuItemClienteAction() {
+        loadView("/gui/ClienteList.fxml", (ClienteListController controller) -> {
+            controller.setClienteService(new ClienteService());
+            controller.updateTableView();
+        });
+    }
+
+    // Carregar tela de Login do Cliente
+    @FXML
+    public void onMenuItemLoginClienteAction() {
+        loadView("/gui/LoginCliente.fxml", x -> {});
+    }
+
+    // Carregar tela de Login do Funcionário
+    @FXML
+    public void onMenuItemLoginFuncionarioAction() {
+        loadView("/gui/LoginFuncionario.fxml", (LoginFuncionarioController controller) -> {
+            controller.setFuncionarioService(new FuncionarioService());
+        });
+    }
+
+    // Carregar tela de Login do Veterinário
+    @FXML
+    public void onMenuItemLoginVeterinarioAction() {
+        loadView("/gui/LoginVeterinario.fxml", (LoginVeterinarioController controller) -> {
+            controller.setVeterinarioService(new VeterinarioService());
+        });
+    }
+}

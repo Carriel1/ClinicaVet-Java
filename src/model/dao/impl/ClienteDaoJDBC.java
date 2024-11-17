@@ -24,21 +24,27 @@ public class ClienteDaoJDBC implements ClienteDao {
     public void insert(Cliente obj) {
         PreparedStatement st = null;
         try {
+            // Ajuste a instrução SQL para remover a referência ao birthDate
             st = conn.prepareStatement(
-                    "INSERT INTO Cliente (nome, email, telefone, senha) VALUES (?, ?, ?, ?)", 
+                    "INSERT INTO cliente "
+                    + "(nome, email, telefone, senha, endereco, cpf) "
+                    + "VALUES (?, ?, ?, ?, ?, ?)", 
                     PreparedStatement.RETURN_GENERATED_KEYS);
 
             st.setString(1, obj.getNome());
             st.setString(2, obj.getEmail());
             st.setString(3, obj.getTelefone());
             st.setString(4, obj.getSenha());
+            st.setString(5, obj.getEndereco());
+            st.setString(6, obj.getCpf()); // Alterei o índice para 6, pois o birthDate foi removido
 
             int rowsAffected = st.executeUpdate();
 
             if (rowsAffected > 0) {
                 ResultSet rs = st.getGeneratedKeys();
                 if (rs.next()) {
-                    obj.setId(rs.getInt(1));
+                    int id = rs.getInt(1);
+                    obj.setId(id);
                 }
                 DB.closeResultSet(rs);
             } else {
@@ -55,14 +61,19 @@ public class ClienteDaoJDBC implements ClienteDao {
     public void update(Cliente obj) {
         PreparedStatement st = null;
         try {
+            // Ajuste a instrução SQL para remover a referência ao birthDate
             st = conn.prepareStatement(
-                    "UPDATE Cliente SET nome = ?, email = ?, telefone = ?, senha = ? WHERE id = ?");
+                    "UPDATE cliente "
+                    + "SET nome = ?, email = ?, telefone = ?, senha = ?, endereco = ?, cpf = ? "
+                    + "WHERE id = ?");
 
             st.setString(1, obj.getNome());
             st.setString(2, obj.getEmail());
             st.setString(3, obj.getTelefone());
             st.setString(4, obj.getSenha());
-            st.setInt(5, obj.getId());
+            st.setString(5, obj.getEndereco());
+            st.setString(6, obj.getCpf()); // Alterei o índice para 6, pois o birthDate foi removido
+            st.setInt(7, obj.getId()); // Ajuste para o novo índice (7)
 
             st.executeUpdate();
         } catch (SQLException e) {
@@ -76,7 +87,7 @@ public class ClienteDaoJDBC implements ClienteDao {
     public void deleteById(Integer id) {
         PreparedStatement st = null;
         try {
-            st = conn.prepareStatement("DELETE FROM Cliente WHERE id = ?");
+            st = conn.prepareStatement("DELETE FROM cliente WHERE id = ?");
 
             st.setInt(1, id);
             st.executeUpdate();
@@ -92,7 +103,9 @@ public class ClienteDaoJDBC implements ClienteDao {
         PreparedStatement st = null;
         ResultSet rs = null;
         try {
-            st = conn.prepareStatement("SELECT * FROM Cliente WHERE id = ?");
+            st = conn.prepareStatement(
+                    "SELECT * FROM cliente WHERE id = ?");
+
             st.setInt(1, id);
             rs = st.executeQuery();
             if (rs.next()) {
@@ -108,12 +121,13 @@ public class ClienteDaoJDBC implements ClienteDao {
     }
 
     @Override
-    public Cliente findByEmail(String email) {
+    public Cliente findByUsername(String username) {
         PreparedStatement st = null;
         ResultSet rs = null;
         try {
-            st = conn.prepareStatement("SELECT * FROM Cliente WHERE email = ?");
-            st.setString(1, email);
+            st = conn.prepareStatement(
+                    "SELECT * FROM cliente WHERE nome = ?");
+            st.setString(1, username);
             rs = st.executeQuery();
             if (rs.next()) {
                 return instantiateCliente(rs);
@@ -134,6 +148,8 @@ public class ClienteDaoJDBC implements ClienteDao {
         obj.setEmail(rs.getString("email"));
         obj.setTelefone(rs.getString("telefone"));
         obj.setSenha(rs.getString("senha"));
+        obj.setEndereco(rs.getString("endereco"));
+        obj.setCpf(rs.getString("cpf"));
         return obj;
     }
 
@@ -142,7 +158,7 @@ public class ClienteDaoJDBC implements ClienteDao {
         PreparedStatement st = null;
         ResultSet rs = null;
         try {
-            st = conn.prepareStatement("SELECT * FROM Cliente ORDER BY nome");
+            st = conn.prepareStatement("SELECT * FROM cliente ORDER BY nome");
             rs = st.executeQuery();
 
             List<Cliente> list = new ArrayList<>();

@@ -1,55 +1,70 @@
 package model.services;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import model.entities.Cliente; 
+import model.dao.ClienteDao;
+import model.dao.DaoFactory;
+import model.entities.Cliente;
 
 public class ClienteService {
 
-    // Lista para armazenar os clientes
-    private List<Cliente> clientes;
-    private int idCounter; // Contador para gerar IDs únicos
+    private ClienteDao dao = DaoFactory.createClienteDao();
 
-    // Construtor
-    public ClienteService() {
-        this.clientes = new ArrayList<>();
-        this.idCounter = 1; // Começa a contagem de IDs a partir de 1
+    public List<Cliente> findAll() {
+        return dao.findAll();
     }
 
-    // Método para registrar um novo cliente
-    public boolean registrarCliente(String nome, String email, String telefone, String senha) {
-        if (nome == null || nome.isEmpty()) {
-            throw new IllegalArgumentException("Nome é obrigatório para o registro.");
+    public void saveOrUpdate(Cliente obj) {
+        if (obj.getId() == null) {
+            dao.insert(obj);
+        } else {
+            dao.update(obj);
         }
-        
-        // Cria um novo cliente com um ID único
-        Cliente novoCliente = new Cliente(idCounter++, nome, email, telefone, senha); // Incrementa o ID
-        return clientes.add(novoCliente); // Retorna true se o cliente for adicionado com sucesso
     }
 
-    // Método para autenticar o cliente
+    public void remove(Cliente obj) {
+        dao.deleteById(obj.getId());
+    }
+
     public boolean authenticate(String username, String password) {
-        for (Cliente cliente : clientes) {
-            if (cliente.getNome().equals(username) && cliente.getSenha().equals(password)) {
-                return true; // Retorna true se as credenciais forem válidas
-            }
+        Cliente cliente = dao.findByUsername(username);
+        if (cliente != null && cliente.getSenha().equals(password)) {
+            return true;
         }
-        return false; // Retorna false se as credenciais não forem válidas
+        return false;
     }
 
-    // Método para listar todos os clientes
-    public List<Cliente> listarClientes() {
-        return new ArrayList<>(clientes); // Retorna uma cópia da lista de clientes
-    }
-
-    // Método para encontrar um cliente pelo ID
-    public Cliente encontrarPorId(Integer id) {
-        for (Cliente cliente : clientes) {
-            if (cliente.getId().equals(id)) {
-                return cliente;
-            }
+    // Novo método registrarCliente com o campo 'cpf'
+    public void registrarCliente(String nome, String email, String telefone, String senha, String endereco, String cpf) {
+        // Validar os dados de entrada (pode adicionar mais validações conforme necessário)
+        if (nome == null || nome.trim().isEmpty()) {
+            throw new IllegalArgumentException("Nome não pode ser vazio");
         }
-        return null; // Retorna null se o cliente não for encontrado
+        if (email == null || email.trim().isEmpty()) {
+            throw new IllegalArgumentException("Email não pode ser vazio");
+        }
+        if (telefone == null || telefone.trim().isEmpty()) {
+            throw new IllegalArgumentException("Telefone não pode ser vazio");
+        }
+        if (senha == null || senha.trim().isEmpty()) {
+            throw new IllegalArgumentException("Senha não pode ser vazia");
+        }
+        if (endereco == null || endereco.trim().isEmpty()) {
+            throw new IllegalArgumentException("Endereço não pode ser vazio");
+        }
+        if (cpf == null || cpf.trim().isEmpty()) {
+            throw new IllegalArgumentException("CPF não pode ser vazio");
+        }
+        if (cpf.length() != 11 || !cpf.matches("[0-9]+")) {
+            throw new IllegalArgumentException("CPF inválido. Deve conter 11 números.");
+        }
+
+        // Criar novo cliente com CPF e outros dados
+        Cliente cliente = new Cliente(null, nome, email, telefone, senha, endereco, cpf);
+
+        // Inserir no banco de dados
+        dao.insert(cliente);
     }
 }
+
+
