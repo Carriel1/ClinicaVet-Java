@@ -1,17 +1,34 @@
-<ScrollPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.VeterinarioListController">
-    <content>
-        <VBox spacing="10">
-            <TableView fx:id="tableViewVeterinarios">
-                <columns>
-                    <TableColumn fx:id="tableColumnId" text="ID" />
-                    <TableColumn fx:id="tableColumnNome" text="Nome" />
-                    <TableColumn fx:id="tableColumnEmail" text="E-mail" />
-                    <TableColumn fx:id="tableColumnTelefone" text="Telefone" />
-                </columns>
-            </TableView>
-            <Button text="Novo Veterinário" onAction="#onBtNewVeterinarioAction"/>
-            <Button text="Editar Veterinário" onAction="#onBtEditVeterinarioAction"/>
-            <Button text="Excluir Veterinário" onAction="#onBtDeleteVeterinarioAction"/>
-        </VBox>
-    </content>
-</ScrollPane>
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<VBox xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.VeterinarioListController" spacing="10" alignment="CENTER" style="-fx-padding: 20;">
+    
+    <!-- Título da tela -->
+    <Label text="Lista de Veterinários" style="-fx-font-size: 20; -fx-font-weight: bold;" />
+
+    <!-- Tabela de Veterinários -->
+    <TableView fx:id="tableViewVeterinario" prefWidth="600">
+        <columns>
+            <!-- Coluna ID -->
+            <TableColumn fx:id="tableColumnId" text="ID" prefWidth="100" />
+            <!-- Coluna Nome -->
+            <TableColumn fx:id="tableColumnName" text="Nome" prefWidth="200" />
+            <!-- Coluna Email -->
+            <TableColumn fx:id="tableColumnEmail" text="Email" prefWidth="200" />
+            <!-- Coluna Telefone -->
+            <TableColumn fx:id="tableColumnTelefone" text="Telefone" prefWidth="100" />
+            <!-- Coluna Editar -->
+            <TableColumn fx:id="tableColumnEDIT" text="Editar" prefWidth="100" />
+            <!-- Coluna Remover -->
+            <TableColumn fx:id="tableColumnREMOVE" text="Remover" prefWidth="100" />
+        </columns>
+    </TableView>
+
+    <!-- Botões de Ação -->
+    <HBox spacing="10" alignment="CENTER">
+        <Button fx:id="btNew" text="Novo Veterinário" onAction="#onBtNewAction"/>
+    </HBox>
+</VBox>

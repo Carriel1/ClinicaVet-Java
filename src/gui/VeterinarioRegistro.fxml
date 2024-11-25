@@ -1,16 +1,50 @@
-<GridPane xmlns:fx="http://javafx.com/fxml" fx:controller="gui.VeterinarioRegistroController" hgap="10" vgap="10" padding="20">
-    <Label text="Nome:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
-    <TextField fx:id="txtNome" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
-    
-    <Label text="E-mail:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
-    <TextField fx:id="txtEmail" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
-    
-    <Label text="Telefone:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
-    <TextField fx:id="txtTelefone" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+<?xml version="1.0" encoding="UTF-8"?>
 
-    <Label text="Senha:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
-    <PasswordField fx:id="txtSenha" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
-    
-    <Button text="Registrar" onAction="#onBtRegistrarAction" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
-    <Button text="Cancelar" onAction="#onBtCancelarAction" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
-</GridPane>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/23.0.1" fx:controller="gui.VeterinarioRegistroController">
+    <children>
+        <!-- Título do Formulário -->
+        <Label alignment="CENTER" layoutY="20.0" prefHeight="27.0" prefWidth="347.0" style="-fx-font-size: 18; -fx-font-weight: bold;" text="Registro de Veterinário" />
+        
+        <!-- ID -->
+        <Label layoutX="30" layoutY="60" text="ID" />
+        <TextField fx:id="txtId" editable="false" layoutX="100" layoutY="55" prefWidth="200" />
+
+        <!-- Nome -->
+        <Label layoutX="30" layoutY="100" text="Nome" />
+        <TextField fx:id="txtName" layoutX="100" layoutY="95" prefWidth="200" />
+        <Label fx:id="labelErrorName" layoutX="100" layoutY="130" textFill="red" />
+
+        <!-- Email -->
+        <Label layoutX="30" layoutY="160" text="Email" />
+        <TextField fx:id="txtEmail" layoutX="100" layoutY="155" prefWidth="200" />
+        <Label fx:id="labelErrorEmail" layoutX="100" layoutY="190" textFill="red" />
+
+        <!-- Telefone -->
+        <Label layoutX="30" layoutY="220" text="Telefone" />
+        <TextField fx:id="txtTelefone" layoutX="100" layoutY="215" prefWidth="200" />
+        <Label fx:id="labelErrorTelefone" layoutX="100" layoutY="250" textFill="red" />
+
+        <!-- Senha -->
+        <Label layoutX="30" layoutY="340" text="Senha" />
+        <PasswordField fx:id="txtPassword" layoutX="100" layoutY="335" prefWidth="200" />
+        <Label fx:id="labelErrorPassword" layoutX="100" layoutY="370" textFill="red" />
+
+        <!-- CPF -->
+        <Label layoutX="30" layoutY="460" text="CPF" />
+        <TextField fx:id="txtCpf" layoutX="100" layoutY="455" prefWidth="200" />
+        <Label fx:id="labelErrorCpf" layoutX="100" layoutY="490" textFill="red" />
+
+        <!-- Botões -->
+        <HBox alignment="CENTER" layoutX="100" layoutY="520" spacing="20">
+            <Button fx:id="btSave" onAction="#onBtSaveAction" prefWidth="80" text="Salvar" />
+            <Button fx:id="btCancel" onAction="#onBtCancelAction" prefWidth="80" text="Cancelar" />
+        </HBox>
+    </children>
+</AnchorPane>

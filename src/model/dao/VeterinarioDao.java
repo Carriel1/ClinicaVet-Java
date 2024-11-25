@@ -1,6 +1,7 @@
 package model.dao;
 
 import java.util.List;
+
 import model.entities.Veterinario;
 
 public interface VeterinarioDao {
@@ -9,5 +10,7 @@ public interface VeterinarioDao {
     void deleteById(Integer id);
     Veterinario findById(Integer id);
     Veterinario findByEmail(String email);
+    Veterinario findByCpf(String cpf);
+    Veterinario findByUsername(String username);  // Adicionando o método findByUsername
     List<Veterinario> findAll();
 }

@@ -1,25 +1,26 @@
 package model.entities;
 
 import java.io.Serializable;
-import java.util.Objects;
 
 public class Veterinario implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private Integer id;
     private String nome;
+    private String cpf;
     private String email;
     private String telefone;
     private String senha;
 
-    // Construtor vazio
+    // Construtor padrão
     public Veterinario() {
     }
 
-    // Construtor com todos os atributos
-    public Veterinario(Integer id, String nome, String email, String telefone, String senha) {
+    // Construtor com parâmetros
+    public Veterinario(Integer id, String nome, String cpf, String email, String telefone, String senha) {
         this.id = id;
         this.nome = nome;
+        this.cpf = cpf;
         this.email = email;
         this.telefone = telefone;
         this.senha = senha;
@@ -40,6 +41,14 @@ public class Veterinario implements Serializable {
 
     public void setNome(String nome) {
         this.nome = nome;
+    }
+
+    public String getCpf() {
+        return cpf;
+    }
+
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
     }
 
     public String getEmail() {
@@ -66,17 +75,18 @@ public class Veterinario implements Serializable {
         this.senha = senha;
     }
 
-    // toString para facilitar a visualização
     @Override
     public String toString() {
-        return "Veterinario [id=" + id + ", nome=" + nome + ", email=" + email + 
-               ", telefone=" + telefone + ", senha=" + senha + "]";
+        return "Veterinario [id=" + id + ", nome=" + nome + ", cpf=" + cpf + ", email=" + email + ", telefone=" + telefone + "]";
     }
 
-    // equals e hashCode para comparações
+    // Métodos de comparação (equals e hashCode) para uso em coleções e validações
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((id == null) ? 0 : id.hashCode());
+        return result;
     }
 
     @Override
@@ -86,6 +96,6 @@ public class Veterinario implements Serializable {
         if (obj == null || getClass() != obj.getClass())
             return false;
         Veterinario other = (Veterinario) obj;
-        return Objects.equals(id, other.id);
+        return id != null && id.equals(other.id);
     }
 }
