@@ -21,28 +21,30 @@ public class AnimalDaoJDBC implements AnimalDao {
     }
 
     @Override
-    public void insert(Animal obj) {
-        try (PreparedStatement st = conn.prepareStatement(
-                "INSERT INTO animais (nome, idade, raca, especie, cliente_id) VALUES (?, ?, ?, ?, ?)",
-                Statement.RETURN_GENERATED_KEYS)) {
-            st.setString(1, obj.getNome());
-            st.setInt(2, obj.getIdade());
-            st.setString(3, obj.getRaca());
-            st.setString(4, obj.getEspecie());
-            st.setInt(5, obj.getCliente().getId());
+    public void insert(Animal animal) {
+        String sql = "INSERT INTO animais (nome, idade, raca, especie, cliente_id) VALUES (?, ?, ?, ?, ?)";
 
-            int rowsAffected = st.executeUpdate();
+        try (PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+            stmt.setString(1, animal.getNome());
+            stmt.setInt(2, animal.getIdade());
+            stmt.setString(3, animal.getRaca());
+            stmt.setString(4, animal.getEspecie());
+            stmt.setInt(5, animal.getCliente().getId());
+
+            int rowsAffected = stmt.executeUpdate();
+
             if (rowsAffected > 0) {
-                try (ResultSet rs = st.getGeneratedKeys()) {
+                try (ResultSet rs = stmt.getGeneratedKeys()) {
                     if (rs.next()) {
-                        obj.setId(rs.getInt(1));
+                        animal.setId(rs.getInt(1));  // Atribui o ID gerado
                     }
                 }
             }
         } catch (SQLException e) {
-            throw new DbException(e.getMessage());
+            e.printStackTrace();
         }
     }
+
 
     @Override
     public void update(Animal obj) {

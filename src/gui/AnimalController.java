@@ -8,7 +8,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import model.dao.impl.AnimalDaoJDBC;
 import model.entities.Animal;
-import model.entities.Cliente;
 
 public class AnimalController {
 
@@ -23,8 +22,6 @@ public class AnimalController {
     private TextField racaField;
     @FXML
     private TextField especieField;
-    @FXML
-    private TextField clienteIdField;
     @FXML
     private Button salvarButton;
     @FXML
@@ -47,32 +44,37 @@ public class AnimalController {
     @FXML
     public void salvarAnimal() {
         try {
-        	System.out.println("clienteId ao salvar: " + clienteId);
-        	String nome = nomeField.getText();
-            Integer idade = Integer.parseInt(idadeField.getText());
+            // Verifique se todos os campos foram preenchidos
+            String nome = nomeField.getText();
+            String idadeText = idadeField.getText();
             String raca = racaField.getText();
             String especie = especieField.getText();
 
-            // Obtenha o ID do cliente do campo clienteIdField
-            if (clienteIdField.getText().isEmpty()) {
-                throw new IllegalArgumentException("O ID do cliente não pode estar vazio.");
+            if (nome.isEmpty() || idadeText.isEmpty() || raca.isEmpty() || especie.isEmpty()) {
+                showAlert("Erro", "Todos os campos devem ser preenchidos!", Alert.AlertType.ERROR);
+                return;
             }
 
-            Integer clienteId = Integer.parseInt(clienteIdField.getText());
-            Cliente cliente = new Cliente();
-            cliente.setId(clienteId);
+            Integer idade = Integer.parseInt(idadeText);
 
             // Crie o animal e salve no banco de dados
-            Animal animal = new Animal(null, nome, idade, raca, especie, cliente);
+            Animal animal = new Animal();
+            animal.setNome(nome);
+            animal.setIdade(idade);
+            animal.setRaca(raca);
+            animal.setEspecie(especie);
+            animal.setClienteId(clienteId);  // Passa o clienteId diretamente
+
             animalDao.insert(animal);
 
             showAlert("Sucesso", "Animal cadastrado com sucesso!", Alert.AlertType.INFORMATION);
             limparCampos(); // Limpar campos após o salvamento
+        } catch (NumberFormatException e) {
+            showAlert("Erro", "Idade inválida. Por favor, insira um número válido.", Alert.AlertType.ERROR);
         } catch (Exception e) {
             showAlert("Erro", "Erro ao salvar animal: " + e.getMessage(), Alert.AlertType.ERROR);
         }
     }
-
 
     private void limparCampos() {
         nomeField.clear();
@@ -87,7 +89,6 @@ public class AnimalController {
         idadeField.setText(String.valueOf(animal.getIdade()));
         racaField.setText(animal.getRaca());
         especieField.setText(animal.getEspecie());
-        clienteIdField.setText(String.valueOf(animal.getCliente().getId()));
     }
 
     private void showAlert(String title, String message, Alert.AlertType type) {
@@ -98,3 +99,4 @@ public class AnimalController {
         alert.showAndWait();
     }
 }
+
