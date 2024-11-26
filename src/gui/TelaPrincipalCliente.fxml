@@ -10,5 +10,6 @@
     <Button fx:id="btnRequisitarConsulta" text="Requisitar Consulta" onAction="#onRequisitarConsulta"/>
     <Button fx:id="btnVerRelatorios" text="Ver Relatórios" onAction="#onVerRelatorios"/>
     <Button fx:id="btnVerAnimaisRegistrados" text="Ver Animais Registrados" onAction="#onVerAnimaisRegistrados"/>
+    <Button fx:id="btnRegistrarAnimal" text="Registrar Animal" onAction="#onRegistrarAnimal" />
     <Button fx:id="btnSair" text="Sair" onAction="#onSairAction"/>
 </VBox>

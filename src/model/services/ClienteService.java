@@ -26,14 +26,15 @@ public class ClienteService {
         dao.deleteById(obj.getId());
     }
 
-    public boolean authenticate(String username, String password) {
-        Cliente cliente = dao.findByUsername(username);
+    // Alteração no método authenticate
+    public Cliente authenticate(String username, String password) {
+        Cliente cliente = dao.findByUsername(username); // Supondo que findByUsername retorna um Cliente
         if (cliente != null && cliente.getSenha().equals(password)) {
-            return true;
+            return cliente; // Retorna o cliente autenticado
         }
-        return false;
+        return null; // Retorna null caso o cliente não seja encontrado ou a senha não corresponda
     }
-
+    
     // Novo método registrarCliente com o campo 'cpf'
     public void registrarCliente(String nome, String email, String telefone, String senha, String endereco, String cpf) {
         // Validar os dados de entrada (pode adicionar mais validações conforme necessário)
@@ -66,5 +67,4 @@ public class ClienteService {
         dao.insert(cliente);
     }
 }
-
 

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.AnimalController" spacing="10" alignment="CENTER">
+    <!-- Campos para o registro do animal -->
+    <TextField fx:id="nomeField" promptText="Nome do animal" />
+    <TextField fx:id="idadeField" promptText="Idade do animal" />
+    <TextField fx:id="racaField" promptText="Raça do animal" />
+    <TextField fx:id="especieField" promptText="Espécie do animal" />
+    <TextField fx:id="clienteIdField" promptText="ID do cliente" />
+
+    <!-- Botão para salvar o animal -->
+    <Button fx:id="salvarButton" text="Salvar Animal" onAction="#salvarAnimal" />
+
+    <!-- VBox para listar os animais -->
+    <VBox fx:id="listaAnimaisVBox" spacing="5">
+        <!-- Os botões serão adicionados dinamicamente -->
+    </VBox>
+</VBox>

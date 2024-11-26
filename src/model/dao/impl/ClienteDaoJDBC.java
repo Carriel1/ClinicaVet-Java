@@ -11,6 +11,7 @@ import db.DB;
 import db.DbException;
 import model.dao.ClienteDao;
 import model.entities.Cliente;
+import model.entities.Animal;
 
 public class ClienteDaoJDBC implements ClienteDao {
 
@@ -24,7 +25,6 @@ public class ClienteDaoJDBC implements ClienteDao {
     public void insert(Cliente obj) {
         PreparedStatement st = null;
         try {
-            // Ajuste a instrução SQL para remover a referência ao birthDate
             st = conn.prepareStatement(
                     "INSERT INTO cliente "
                     + "(nome, email, telefone, senha, endereco, cpf) "
@@ -36,7 +36,7 @@ public class ClienteDaoJDBC implements ClienteDao {
             st.setString(3, obj.getTelefone());
             st.setString(4, obj.getSenha());
             st.setString(5, obj.getEndereco());
-            st.setString(6, obj.getCpf()); // Alterei o índice para 6, pois o birthDate foi removido
+            st.setString(6, obj.getCpf());
 
             int rowsAffected = st.executeUpdate();
 
@@ -47,6 +47,12 @@ public class ClienteDaoJDBC implements ClienteDao {
                     obj.setId(id);
                 }
                 DB.closeResultSet(rs);
+
+                // Após inserir o cliente, insere seus animais
+                for (Animal animal : obj.getAnimais()) {
+                    animal.setClienteId(obj.getId()); // Setar o cliente id no animal
+                    new AnimalDaoJDBC(conn).insert(animal); // Inserir animal
+                }
             } else {
                 throw new DbException("Unexpected error! No rows affected!");
             }
@@ -61,7 +67,6 @@ public class ClienteDaoJDBC implements ClienteDao {
     public void update(Cliente obj) {
         PreparedStatement st = null;
         try {
-            // Ajuste a instrução SQL para remover a referência ao birthDate
             st = conn.prepareStatement(
                     "UPDATE cliente "
                     + "SET nome = ?, email = ?, telefone = ?, senha = ?, endereco = ?, cpf = ? "
@@ -72,10 +77,17 @@ public class ClienteDaoJDBC implements ClienteDao {
             st.setString(3, obj.getTelefone());
             st.setString(4, obj.getSenha());
             st.setString(5, obj.getEndereco());
-            st.setString(6, obj.getCpf()); // Alterei o índice para 6, pois o birthDate foi removido
-            st.setInt(7, obj.getId()); // Ajuste para o novo índice (7)
+            st.setString(6, obj.getCpf());
+            st.setInt(7, obj.getId());
 
             st.executeUpdate();
+
+            // Atualizar os animais do cliente
+            for (Animal animal : obj.getAnimais()) {
+                animal.setClienteId(obj.getId()); // Setar o cliente id no animal
+                new AnimalDaoJDBC(conn).update(animal); // Atualizar animal
+            }
+
         } catch (SQLException e) {
             throw new DbException(e.getMessage());
         } finally {
@@ -91,6 +103,10 @@ public class ClienteDaoJDBC implements ClienteDao {
 
             st.setInt(1, id);
             st.executeUpdate();
+
+            // Remover os animais do cliente
+            new AnimalDaoJDBC(conn).deleteByClienteId(id);
+
         } catch (SQLException e) {
             throw new DbException(e.getMessage());
         } finally {
@@ -109,7 +125,13 @@ public class ClienteDaoJDBC implements ClienteDao {
             st.setInt(1, id);
             rs = st.executeQuery();
             if (rs.next()) {
-                return instantiateCliente(rs);
+                Cliente cliente = instantiateCliente(rs);
+
+                // Carregar os animais associados ao cliente
+                List<Animal> animais = new AnimalDaoJDBC(conn).findByClienteId(id);
+                cliente.setAnimais(animais);
+
+                return cliente;
             }
             return null;
         } catch (SQLException e) {
@@ -127,10 +149,17 @@ public class ClienteDaoJDBC implements ClienteDao {
         try {
             st = conn.prepareStatement(
                     "SELECT * FROM cliente WHERE nome = ?");
+
             st.setString(1, username);
             rs = st.executeQuery();
             if (rs.next()) {
-                return instantiateCliente(rs);
+                Cliente cliente = instantiateCliente(rs);
+
+                // Carregar os animais associados ao cliente
+                List<Animal> animais = new AnimalDaoJDBC(conn).findByClienteId(cliente.getId());
+                cliente.setAnimais(animais);
+
+                return cliente;
             }
             return null;
         } catch (SQLException e) {

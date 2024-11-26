@@ -1,0 +1,7 @@
+#root {
+    -fx-background-image: url("/resources/images/Logo.jpg");
+    -fx-background-size: cover;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-color: rgba(255, 255, 255, 0.5); /* Fundo branco com 50% de opacidade */
+}

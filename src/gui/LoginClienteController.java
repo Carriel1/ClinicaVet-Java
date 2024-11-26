@@ -15,6 +15,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import model.entities.Cliente;
 import model.services.ClienteService;
 
 public class LoginClienteController {
@@ -57,15 +58,16 @@ public class LoginClienteController {
             return;
         }
 
-        if (service.authenticate(username, password)) {
+        Cliente cliente = service.authenticate(username, password); // Agora o método retorna um Cliente
+
+        if (cliente != null) {
             // Após o login bem-sucedido, carregar a tela principal do cliente
-            loadTelaPrincipalCliente(event);
+            loadTelaPrincipalCliente(event, cliente);
         } else {
             lblError.setText("Nome de usuário ou senha inválidos");
             Alerts.showAlert("Login Error", null, "Nome de usuário ou senha incorretos.", AlertType.ERROR);
         }
     }
-
 
     @FXML
     public void onBtCancelAction(ActionEvent event) {
@@ -73,7 +75,7 @@ public class LoginClienteController {
         stage.close();
     }
 
-    private void loadTelaPrincipalCliente(ActionEvent event) {
+    private void loadTelaPrincipalCliente(ActionEvent event, Cliente cliente) {
         try {
             // Passo 1: Carregar o arquivo FXML da TelaPrincipalCliente
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/TelaPrincipalCliente.fxml"));
@@ -84,8 +86,8 @@ public class LoginClienteController {
             TelaPrincipalClienteController controller = loader.getController();
 
             // Passo 3: Passar dados para o controlador
-            // Aqui, passamos a mensagem de boas-vindas, usando o nome de usuário
-            controller.setWelcomeMessage("Bem-vindo, " + txtUsername.getText() + "!");
+            controller.setWelcomeMessage("Bem-vindo, " + cliente.getNome() + "!");
+            controller.setClienteId(cliente.getId()); // Passa o ID do cliente para o controlador
 
             // Passo 4: Configurar a nova cena no Stage
             Stage stage = (Stage) btLogin.getScene().getWindow(); // Pega o Stage atual (a janela)
@@ -97,5 +99,5 @@ public class LoginClienteController {
             Alerts.showAlert("Erro", null, "Não foi possível carregar a tela principal do cliente.", AlertType.ERROR);
             e.printStackTrace(); // Exibe o erro no console para depuração
         }
-      }
     }
+}

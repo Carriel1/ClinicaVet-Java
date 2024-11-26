@@ -1,14 +1,19 @@
 package gui;
 
+import java.io.IOException;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public class TelaPrincipalClienteController {
 
-    // Declarando os elementos do FXML para usá-los diretamente no controlador
     @FXML
     private Label lblWelcomeMessage;
 
@@ -22,38 +27,71 @@ public class TelaPrincipalClienteController {
     private Button btnVerAnimaisRegistrados;
 
     @FXML
+    private Button btnRegistrarAnimal;
+
+    @FXML
     private Button btnSair;
 
-    // Método chamado quando o cliente requisita uma consulta
+    private Integer clienteId; // ID do cliente logado
+
+    public void setClienteId(Integer clienteId) {
+        System.out.println("Setando clienteId: " + clienteId);
+        this.clienteId = clienteId;
+    }
+
     @FXML
     public void onRequisitarConsulta(ActionEvent event) {
         System.out.println("Cliente requisitou consulta.");
-        // Lógica adicional pode ser implementada aqui para navegar para uma tela de requisição de consulta
+        // Lógica adicional pode ser implementada aqui
     }
 
-    // Método chamado quando o cliente decide ver os relatórios
     @FXML
     public void onVerRelatorios(ActionEvent event) {
         System.out.println("Cliente visualizou relatórios dos animais.");
-        // Lógica para abrir uma tela de relatórios ou gerar relatórios
+        // Lógica para abrir uma tela de relatórios
     }
 
-    // Método chamado quando o cliente decide ver os animais registrados
     @FXML
     public void onVerAnimaisRegistrados(ActionEvent event) {
         System.out.println("Cliente visualizou os animais registrados.");
         // Lógica para abrir uma tela com a lista de animais registrados
     }
 
-    // Método chamado para sair da tela principal do cliente
+    @FXML
+    public void onRegistrarAnimal(ActionEvent event) {
+        try {
+            if (clienteId == null) {
+                System.out.println("Erro: Cliente não identificado. Defina clienteId antes de abrir a tela.");
+                return;
+            }
+
+            // Carrega o FXML da tela de registro de animal
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/AnimalRegistro.fxml"));
+            Parent parent = loader.load();
+
+            // Obtém o controlador e passa o ID do cliente
+            AnimalController controller = loader.getController();
+            controller.setClienteId(clienteId);
+
+            // Configura a nova janela
+            Stage stage = new Stage();
+            stage.setTitle("Registrar Animal");
+            stage.setScene(new Scene(parent));
+            stage.initModality(Modality.WINDOW_MODAL); // Modal para bloquear a janela principal
+            stage.initOwner(((Button) event.getSource()).getScene().getWindow());
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Erro ao carregar a tela de registro de animais: " + e.getMessage());
+        }
+    }
+
     @FXML
     public void onSairAction(ActionEvent event) {
-        // Fecha a janela da tela principal do cliente
         Stage stage = (Stage) btnSair.getScene().getWindow();
         stage.close();
     }
 
-    // Esse método pode ser usado para atualizar a mensagem de boas-vindas, se necessário
     public void setWelcomeMessage(String message) {
         if (lblWelcomeMessage != null) {
             lblWelcomeMessage.setText(message);

@@ -1,6 +1,8 @@
-package model.entities; 
+package model.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Cliente implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -13,6 +15,8 @@ public class Cliente implements Serializable {
     private String endereco; // Atributo para endereço
     private String cpf; // Atributo para CPF
 
+    private List<Animal> animais = new ArrayList<>(); // Lista de animais registrados
+
     public Cliente() {
     }
 
@@ -24,7 +28,7 @@ public class Cliente implements Serializable {
         this.telefone = telefone;
         this.senha = senha;
         this.endereco = endereco;
-        this.cpf = cpf; // Inicializa o CPF
+        this.cpf = cpf;
     }
 
     // Getters e Setters
@@ -82,6 +86,23 @@ public class Cliente implements Serializable {
 
     public void setCpf(String cpf) { // Setter para o CPF
         this.cpf = cpf;
+    }
+
+    // Métodos para acessar e modificar a lista de animais
+    public List<Animal> getAnimais() {
+        return animais;
+    }
+
+    public void setAnimais(List<Animal> animais) {
+        this.animais = animais;
+    }
+
+    public void addAnimal(Animal animal) {
+        animais.add(animal);
+    }
+
+    public void removeAnimal(Animal animal) {
+        animais.remove(animal);
     }
 
     // Método toString - Ajustado para não incluir dados sensíveis como a senha
