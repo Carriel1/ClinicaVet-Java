@@ -8,7 +8,6 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import db.DB;
 import db.DbException;
 import model.dao.AnimalDao;
 import model.entities.Animal;

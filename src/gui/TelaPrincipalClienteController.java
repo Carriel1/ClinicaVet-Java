@@ -1,7 +1,9 @@
 package gui;
 
 import java.io.IOException;
+import java.util.List;
 
+import db.DB;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -9,8 +11,11 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import model.dao.impl.AnimalDaoJDBC;
+import model.entities.Animal;
 
 public class TelaPrincipalClienteController {
 
@@ -52,10 +57,43 @@ public class TelaPrincipalClienteController {
     }
 
     @FXML
+    private VBox listaAnimaisVBox;  // Associando o VBox com o id "listaAnimaisVBox" do FXML
+
+    @FXML
     public void onVerAnimaisRegistrados(ActionEvent event) {
         System.out.println("Cliente visualizou os animais registrados.");
-        // Lógica para abrir uma tela com a lista de animais registrados
+        if (clienteId == null) {
+            System.out.println("Erro: Cliente não identificado.");
+            return;
+        }
+
+        try {
+            // Buscar animais vinculados ao cliente
+            AnimalDaoJDBC animalDao = new AnimalDaoJDBC(DB.getConnection());
+            List<Animal> animais = animalDao.findAnimaisByClienteId(clienteId); // Chama o método correto
+
+            // Limpar a lista atual
+            listaAnimaisVBox.getChildren().clear();
+
+            // Adicionar os animais na interface
+            for (Animal animal : animais) {
+                // Aqui você pode criar um componente para exibir os dados de cada animal (ex: Label)
+                Label label = new Label("Nome: " + animal.getNome() + ", Idade: " + animal.getIdade() +
+                                        ", Raça: " + animal.getRaca() + ", Espécie: " + animal.getEspecie());
+                listaAnimaisVBox.getChildren().add(label);
+            }
+
+            if (animais.isEmpty()) {
+                listaAnimaisVBox.getChildren().add(new Label("Nenhum animal registrado."));
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Erro ao carregar os animais: " + e.getMessage());
+        }
     }
+
+
 
     @FXML
     public void onRegistrarAnimal(ActionEvent event) {

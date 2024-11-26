@@ -1,7 +1,5 @@
 package gui;
 
-import java.util.List;
-
 import db.DB;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -38,8 +36,6 @@ public class AnimalController {
 
     @FXML
     public void initialize() {
-        // Inicialize a tela, caso precise carregar algum dado inicial
-   //     carregarListaAnimais();
     }
 
     private Integer clienteId;
@@ -84,26 +80,6 @@ public class AnimalController {
         racaField.clear();
         especieField.clear();
     }
-
-/*
-    @FXML
-    public void carregarListaAnimais() {
-        listaAnimaisVBox.getChildren().clear(); // Limpa a lista atual
-
-        if (clienteId == null) {
-            showAlert("Aviso", "Cliente não identificado. Não foi possível carregar os animais.", Alert.AlertType.WARNING);
-            return;
-        }
-
-        List<Animal> animais = animalDao.findAnimaisByClienteId(clienteId);
-
-        for (Animal animal : animais) {
-            Button animalButton = new Button(animal.getNome());
-            animalButton.setOnAction(event -> mostrarAnimalDetalhes(animal));
-            listaAnimaisVBox.getChildren().add(animalButton);
-        }
-    }
-*/
 
     public void mostrarAnimalDetalhes(Animal animal) {
         // Lógica para mostrar os detalhes do animal (ex: preencher campos para edição)

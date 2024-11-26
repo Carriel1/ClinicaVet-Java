@@ -9,7 +9,13 @@
     
     <Button fx:id="btnRequisitarConsulta" text="Requisitar Consulta" onAction="#onRequisitarConsulta"/>
     <Button fx:id="btnVerRelatorios" text="Ver Relatórios" onAction="#onVerRelatorios"/>
+    
+    <!-- Botão para ver os animais cadastrados -->
     <Button fx:id="btnVerAnimaisRegistrados" text="Ver Animais Registrados" onAction="#onVerAnimaisRegistrados"/>
+    
+    <!-- VBox para exibir a lista de animais registrados -->
+    <VBox fx:id="listaAnimaisVBox" spacing="10" alignment="TOP_LEFT" style="-fx-padding: 10;" />
+    
     <Button fx:id="btnRegistrarAnimal" text="Registrar Animal" onAction="#onRegistrarAnimal" />
     <Button fx:id="btnSair" text="Sair" onAction="#onSairAction"/>
 </VBox>
