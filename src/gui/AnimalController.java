@@ -8,6 +8,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import model.dao.impl.AnimalDaoJDBC;
 import model.entities.Animal;
+import model.services.AnimalService;
 
 public class AnimalController {
 
@@ -27,10 +28,18 @@ public class AnimalController {
     @FXML
     private VBox listaAnimaisVBox; // VBox para exibir a lista de animais
 
+    private AnimalService animalService;
+
+    
     public AnimalController() {
         this.animalDao = new AnimalDaoJDBC(DB.getConnection());
     }
-
+    
+    // Injeção do serviço
+    public void setAnimalService(AnimalService animalService) {
+        this.animalService = animalService;
+    }
+    
     @FXML
     public void initialize() {
     }
@@ -75,7 +84,17 @@ public class AnimalController {
             showAlert("Erro", "Erro ao salvar animal: " + e.getMessage(), Alert.AlertType.ERROR);
         }
     }
-
+    
+    // Método para salvar o animal
+    public void salvarAnimal(Animal animal) {
+        try {
+            animalService.insert(animal);  // Chama o serviço para inserir o animal
+        } catch (Exception e) {
+            e.printStackTrace();  // Captura qualquer erro
+            throw new RuntimeException("Erro ao salvar animal", e);  // Lança exceção caso ocorra um erro
+        }
+    }
+    
     private void limparCampos() {
         nomeField.clear();
         idadeField.clear();

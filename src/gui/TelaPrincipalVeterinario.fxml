@@ -10,6 +10,6 @@
         <Button fx:id="btnRealizarConsulta" text="Realizar Consulta" layoutX="14.0" layoutY="54.0" prefWidth="200.0" onAction="#onRealizarConsulta"/>
         <Button fx:id="btnVerRelatorios" text="Ver Relatórios" layoutX="14.0" layoutY="104.0" prefWidth="200.0" onAction="#onVerRelatorios"/>
         <Button fx:id="btnCadastrarAnimal" text="Cadastrar Animal" layoutX="14.0" layoutY="154.0" prefWidth="200.0" onAction="#onCadastrarAnimal"/>
-        <Button fx:id="btnSair" text="Sair" layoutX="14.0" layoutY="204.0" prefWidth="200.0" onAction="#onSairAction"/>
+		<Button fx:id="btnSair" layoutX="100" layoutY="250" text="Sair" onAction="#onSair" />
     </children>
 </AnchorPane>

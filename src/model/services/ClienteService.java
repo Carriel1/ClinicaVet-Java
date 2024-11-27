@@ -1,70 +1,80 @@
 package model.services;
 
 import java.util.List;
-
 import model.dao.ClienteDao;
 import model.dao.DaoFactory;
 import model.entities.Cliente;
 
 public class ClienteService {
 
-    private ClienteDao dao = DaoFactory.createClienteDao();
+    private ClienteDao dao;
 
-    public List<Cliente> findAll() {
-        return dao.findAll();
+    // Construtor para injeção do DAO
+    public ClienteService() {
+        this.dao = DaoFactory.createClienteDao(); // Inicializa o DAO usando a fábrica
     }
 
+    // Método para buscar todos os clientes
+    public List<Cliente> findAll() {
+        // Busca todos os clientes disponíveis no banco
+        List<Cliente> clientes = dao.findAll();
+        if (clientes == null || clientes.isEmpty()) {
+            throw new IllegalStateException("Nenhum cliente encontrado no banco de dados.");
+        }
+        return clientes;
+    }
+
+    // Método para salvar ou atualizar um cliente
     public void saveOrUpdate(Cliente obj) {
         if (obj.getId() == null) {
-            dao.insert(obj);
+            dao.insert(obj); // Insere novo cliente se ID for nulo
         } else {
-            dao.update(obj);
+            dao.update(obj); // Atualiza cliente existente
         }
     }
 
+    // Método para remover cliente pelo ID
     public void remove(Cliente obj) {
-        dao.deleteById(obj.getId());
+        if (obj == null || obj.getId() == null) {
+            throw new IllegalArgumentException("Cliente ou ID não pode ser nulo.");
+        }
+        dao.deleteById(obj.getId()); // Deleta cliente
     }
 
-    // Alteração no método authenticate
+    // Método para autenticar um cliente por username e senha
     public Cliente authenticate(String username, String password) {
-        Cliente cliente = dao.findByUsername(username); // Supondo que findByUsername retorna um Cliente
+        Cliente cliente = dao.findByUsername(username); // Busca cliente pelo username
         if (cliente != null && cliente.getSenha().equals(password)) {
-            return cliente; // Retorna o cliente autenticado
+            return cliente; // Retorna cliente autenticado
         }
-        return null; // Retorna null caso o cliente não seja encontrado ou a senha não corresponda
+        return null; // Retorna null se autenticação falhar
     }
-    
-    // Novo método registrarCliente com o campo 'cpf'
+
+    // Método para registrar um cliente
     public void registrarCliente(String nome, String email, String telefone, String senha, String endereco, String cpf) {
-        // Validar os dados de entrada (pode adicionar mais validações conforme necessário)
+        // Validações básicas dos campos
         if (nome == null || nome.trim().isEmpty()) {
-            throw new IllegalArgumentException("Nome não pode ser vazio");
+            throw new IllegalArgumentException("Nome não pode ser vazio.");
         }
         if (email == null || email.trim().isEmpty()) {
-            throw new IllegalArgumentException("Email não pode ser vazio");
+            throw new IllegalArgumentException("Email não pode ser vazio.");
         }
         if (telefone == null || telefone.trim().isEmpty()) {
-            throw new IllegalArgumentException("Telefone não pode ser vazio");
+            throw new IllegalArgumentException("Telefone não pode ser vazio.");
         }
         if (senha == null || senha.trim().isEmpty()) {
-            throw new IllegalArgumentException("Senha não pode ser vazia");
+            throw new IllegalArgumentException("Senha não pode ser vazia.");
         }
         if (endereco == null || endereco.trim().isEmpty()) {
-            throw new IllegalArgumentException("Endereço não pode ser vazio");
+            throw new IllegalArgumentException("Endereço não pode ser vazio.");
         }
-        if (cpf == null || cpf.trim().isEmpty()) {
-            throw new IllegalArgumentException("CPF não pode ser vazio");
-        }
-        if (cpf.length() != 11 || !cpf.matches("[0-9]+")) {
+        if (cpf == null || cpf.trim().isEmpty() || cpf.length() != 11 || !cpf.matches("[0-9]+")) {
             throw new IllegalArgumentException("CPF inválido. Deve conter 11 números.");
         }
 
-        // Criar novo cliente com CPF e outros dados
+        // Cria novo cliente
         Cliente cliente = new Cliente(null, nome, email, telefone, senha, endereco, cpf);
-
-        // Inserir no banco de dados
-        dao.insert(cliente);
+        dao.insert(cliente); // Insere no banco
     }
 }
 

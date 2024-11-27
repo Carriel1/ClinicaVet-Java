@@ -137,13 +137,15 @@ public class AnimalDaoJDBC implements AnimalDao {
         return animal;
     }
 
-    // Método para excluir todos os animais de um cliente
+    @Override
     public void deleteByClienteId(Integer clienteId) {
-        try (PreparedStatement st = conn.prepareStatement("DELETE FROM animais WHERE cliente_id = ?")) {
+        String sql = "DELETE FROM animais WHERE cliente_id = ?";
+
+        try (PreparedStatement st = conn.prepareStatement(sql)) {
             st.setInt(1, clienteId);
             st.executeUpdate();
         } catch (SQLException e) {
-            throw new DbException(e.getMessage());
+            throw new DbException("Erro ao excluir os animais do cliente: " + e.getMessage());
         }
     }
 }

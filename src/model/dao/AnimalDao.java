@@ -1,7 +1,8 @@
 package model.dao;
 
-import model.entities.Animal;
 import java.util.List;
+
+import model.entities.Animal;
 
 public interface AnimalDao {
     void insert(Animal obj);
@@ -9,7 +10,7 @@ public interface AnimalDao {
     void deleteById(Integer id);
     Animal findById(Integer id);
     List<Animal> findAll();
-    List<Animal> findByClienteId(Integer clienteId);  // Método já implementado
-    // Caso a interface realmente tenha findAnimaisByClienteId, renomeie o método abaixo:
-    List<Animal> findAnimaisByClienteId(Integer clienteId); // Assumindo que esse é o nome correto
+    List<Animal> findByClienteId(Integer clienteId);
+    List<Animal> findAnimaisByClienteId(Integer clienteId);
+    void deleteByClienteId(Integer clienteId);  // Adiciona esse método
 }

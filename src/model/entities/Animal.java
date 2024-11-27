@@ -17,13 +17,18 @@ public class Animal {
     public Animal() {}
 
     public Animal(Integer id, String nome, Integer idade, String raca, String especie, Cliente cliente) {
-        this.id.set(id);
+        if (id != null) {
+            this.id.set(id);
+        } else {
+            this.id.set(0);  // Ou outra lógica para definir um valor padrão
+        }
         this.nome.set(nome);
         this.idade.set(idade);
         this.raca.set(raca);
         this.especie.set(especie);
         this.cliente = cliente;
     }
+
 
     // Propriedades observáveis para as colunas da tabela
     public Integer getId() {

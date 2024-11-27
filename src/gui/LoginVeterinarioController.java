@@ -1,6 +1,8 @@
 package gui;
 
 import java.io.IOException;
+
+import gui.util.Alerts;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -10,8 +12,9 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import model.services.AnimalService;
+import model.services.ClienteService;
 import model.services.VeterinarioService;
-import gui.util.Alerts;
 
 public class LoginVeterinarioController {
 
@@ -23,6 +26,7 @@ public class LoginVeterinarioController {
 
     private VeterinarioService veterinarioService;
 
+    // Método para injeção de dependência do VeterinarioService
     public void setVeterinarioService(VeterinarioService service) {
         this.veterinarioService = service;
     }
@@ -58,6 +62,9 @@ public class LoginVeterinarioController {
             // Obter o controlador da tela principal do veterinário
             TelaPrincipalVeterinarioController controller = loader.getController();
             controller.setWelcomeMessage("Bem-vindo, Veterinário!");
+
+            // Passar os serviços para o controlador
+            controller.setServices(new AnimalService(), new ClienteService());  // Ajuste conforme a lógica do seu projeto
 
             // Obter a janela atual e mudar a cena
             Stage stage = (Stage) txtNome.getScene().getWindow();

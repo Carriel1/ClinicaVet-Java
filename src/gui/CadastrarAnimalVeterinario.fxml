@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="gui.CadastrarAnimalVeterinarioController">
+    <children>
+        <!-- ComboBox para selecionar o cliente -->
+        <ComboBox fx:id="comboBoxClientes" layoutX="100" layoutY="50" prefWidth="200"/>
+
+        <!-- Campos de texto para informações do animal -->
+        <TextField fx:id="nomeTextField" layoutX="100" layoutY="100" promptText="Nome do Animal" />
+        <TextField fx:id="idadeTextField" layoutX="100" layoutY="150" promptText="Idade do Animal" />
+        <TextField fx:id="racaTextField" layoutX="100" layoutY="200" promptText="Raça do Animal" />
+        <TextField fx:id="especieTextField" layoutX="100" layoutY="250" promptText="Espécie do Animal" />
+        
+        <!-- Label para mostrar mensagens -->
+        <Label fx:id="lblMensagem" layoutX="100" layoutY="350" textFill="red"/>
+
+        <!-- Botão para salvar o animal -->
+        <Button fx:id="btnSalvar" layoutX="100" layoutY="300" text="Salvar" onAction="#onSalvarAnimal" />
+    </children>
+</AnchorPane>

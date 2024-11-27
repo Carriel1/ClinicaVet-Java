@@ -51,12 +51,13 @@ public class MainViewController implements Initializable {
         }
     }
 
-    // Método para carregar diferentes views e injetar serviços
+ // Método para carregar diferentes views e injetar serviços
     private synchronized <T> void loadView(String fxmlPath, Consumer<T> initializingAction) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
-            VBox newVBox = loader.load();
+            VBox newVBox = loader.load(); // Carrega o FXML e cria o conteúdo da tela
 
+            // Obtém a cena principal do aplicativo
             Scene mainScene = Main.getMainScene();
             VBox mainVBox = (VBox) ((ScrollPane) mainScene.getRoot()).getContent();
 
@@ -64,17 +65,18 @@ public class MainViewController implements Initializable {
             Node mainMenu = mainVBox.getChildren().get(0);
             mainVBox.getChildren().clear();
             mainVBox.getChildren().add(mainMenu);
-            mainVBox.getChildren().addAll(newVBox.getChildren());
+            mainVBox.getChildren().addAll(newVBox.getChildren()); // Adiciona a nova view
 
-            // Inicializa o controller da nova view
+            // Inicializa o controlador da nova view
             T controller = loader.getController();
-            initializingAction.accept(controller);
+            initializingAction.accept(controller); // Passa o serviço ou qualquer dependência
 
         } catch (IOException e) {
             e.printStackTrace();
             Alerts.showAlert("IO Exception", "Erro ao carregar a view", e.getMessage(), AlertType.ERROR);
         }
     }
+
 
     // Carregar tela de Funcionários
     @FXML
