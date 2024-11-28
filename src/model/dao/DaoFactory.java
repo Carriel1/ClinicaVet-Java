@@ -5,6 +5,7 @@ import model.dao.impl.AnimalDaoJDBC;
 import model.dao.impl.ClienteDaoJDBC;
 import model.dao.impl.FuncionarioDaoJDBC;
 import model.dao.impl.VeterinarioDaoJDBC;
+import model.dao.impl.ConsultaDaoJDBC;  
 
 public class DaoFactory {
 
@@ -19,9 +20,12 @@ public class DaoFactory {
     public static VeterinarioDao createVeterinarioDao() {
         return new VeterinarioDaoJDBC(DB.getConnection());
     }
-    
-    
+
     public static AnimalDao createAnimalDao() {
         return new AnimalDaoJDBC(DB.getConnection());
+    }
+
+    public static ConsultaDao createConsultaDao() {
+        return new ConsultaDaoJDBC(DB.getConnection());  
     }
 }

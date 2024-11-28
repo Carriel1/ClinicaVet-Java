@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+
+<GridPane fx:id="gridPane" xmlns:fx="http://javafx.com/fxml" fx:controller="gui.ConsultaRegistroController" alignment="CENTER" hgap="10" vgap="10">
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+
+    <!-- Título -->
+    <Label text="Registrar Consulta" style="-fx-font-size: 18px; -fx-font-weight: bold;" GridPane.columnSpan="2"/>
+
+    <!-- Cliente -->
+    <Label text="Cliente:" GridPane.rowIndex="1"/>
+    <ComboBox fx:id="comboBoxCliente" promptText="Selecione o Cliente" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+    <!-- Veterinário -->
+    <Label text="Veterinário:" GridPane.rowIndex="2"/>
+    <ComboBox fx:id="comboBoxVeterinario" promptText="Selecione o Veterinário" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+
+    <!-- Data -->
+    <Label text="Data:" GridPane.rowIndex="3"/>
+    <DatePicker fx:id="datePickerData" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+
+    <!-- Hora -->
+    <Label text="Hora:" GridPane.rowIndex="4"/>
+    <TextField fx:id="txtHora" promptText="Ex: 14:30" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+
+    <!-- Descrição -->
+    <Label text="Descrição:" GridPane.rowIndex="5"/>
+    <TextArea fx:id="textAreaDescricao" promptText="Insira a descrição da consulta" GridPane.rowIndex="5" GridPane.columnIndex="1"/>
+
+    <!-- Botões -->
+    <HBox spacing="10" GridPane.rowIndex="6" GridPane.columnSpan="2" alignment="CENTER">
+        <Button text="Salvar" onAction="#onSalvarConsulta"/>
+        <Button text="Cancelar" onAction="#onCancelar"/>
+    </HBox>
+</GridPane>

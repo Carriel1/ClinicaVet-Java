@@ -111,9 +111,6 @@ public class Animal {
         return this.id.get() == 0;  // Verifica se o ID é zero
     }
 
-
-
-
     @Override
     public String toString() {
         return "Animal [id=" + id.get() + ", nome=" + nome.get() + ", idade=" + idade.get() + 
