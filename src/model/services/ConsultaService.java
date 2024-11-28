@@ -6,50 +6,43 @@ import java.util.List;
 
 import model.dao.ConsultaDao;
 import model.dao.DaoFactory;
+import model.entities.Animal;
 import model.entities.Cliente;
 import model.entities.Consulta;
 import model.entities.Veterinario;
 
 public class ConsultaService {
+
 	private ConsultaDao dao;
 
-	// Construtor para injeção do DAO
 	public ConsultaService() {
 		this.dao = DaoFactory.createConsultaDao(); // Certifique-se de que o DAO está sendo inicializado corretamente.
 	}
 
-	public void salvarOuAtualizar(Cliente cliente, Veterinario veterinario, LocalDate data, LocalTime hora,
-			String descricao, String criadoPor) {
-		// Verifica se os parâmetros são válidos
-		if (cliente == null) {
-			throw new IllegalArgumentException("Cliente não pode ser nulo.");
-		}
-		if (veterinario == null) {
-			throw new IllegalArgumentException("Veterinário não pode ser nulo.");
-		}
-		if (data == null) {
-			throw new IllegalArgumentException("Data da consulta não pode ser nula.");
-		}
-		if (hora == null) {
-			throw new IllegalArgumentException("Hora da consulta não pode ser nula.");
-		}
-		if (descricao == null || descricao.trim().isEmpty()) {
-			throw new IllegalArgumentException("Descrição não pode ser vazia.");
-		}
+	public void salvarOuAtualizar(Consulta consulta) {
 
-		// Cria a consulta usando os parâmetros fornecidos
-		Consulta consulta = new Consulta(null, cliente, veterinario, data, hora, descricao, "Aprovada", criadoPor);
+	    if (consulta == null) {
+	        throw new IllegalArgumentException("Consulta não pode ser nula.");
+	    }
 
-// Se o ID da consulta for nulo, é uma nova consulta, então insere no banco
-		if (consulta.getId() == null) {
-			dao.insert(consulta);
-		} else {
-// Caso contrário, atualiza a consulta existente
-			dao.update(consulta);
-		}
+	    validarConsulta(consulta);
+
+	    if (consulta.getId() == null || consulta.getId() == 0) {
+	        dao.insert(consulta);  
+	    } else {
+	        dao.update(consulta);  
+	    }
 	}
 
-	// Validação básica para os campos da consulta
+
+	public void marcarConsultaComoRealizada(Consulta consulta) {
+		if (consulta == null) {
+			throw new IllegalArgumentException("Consulta não pode ser nula.");
+		}
+		consulta.setStatus("Realizada");
+		dao.update(consulta); // Atualiza o status no banco de dados
+	}
+
 	private void validarConsulta(Consulta consulta) {
 		if (consulta.getData() == null) {
 			throw new IllegalArgumentException("Data da consulta não pode ser nula.");
@@ -69,33 +62,40 @@ public class ConsultaService {
 		}
 	}
 
-	// Método para buscar todas as consultas
 	public List<Consulta> findAll() {
 		return dao.findAll();
 	}
 
-	// Método para deletar uma consulta pelo ID
 	public void deletar(Integer id) {
 		dao.deleteById(id);
 	}
 
-	// Método para buscar consulta por ID
 	public Consulta buscarPorId(Integer id) {
 		return dao.findById(id);
 	}
 
-	// Buscar consultas por cliente
 	public List<Consulta> buscarPorCliente(Integer clienteId) {
 		return dao.findByClienteId(clienteId);
 	}
 
-	// Buscar consultas por veterinário
 	public List<Consulta> buscarPorVeterinario(Integer veterinarioId) {
 		return dao.findByVeterinarioId(veterinarioId);
 	}
 
-	// Buscar consultas por status (ex: "pendente", "realizada")
 	public List<Consulta> buscarPorStatus(String status) {
 		return dao.findByStatus(status);
+	}
+
+	public List<Consulta> findConsultasPendentes() {
+		// Recupera todas as consultas com o status "Pendente"
+		List<Consulta> consultasPendentes = dao.findByStatus("Pendente");
+
+		for (Consulta consulta : consultasPendentes) {
+			if (consulta.getAnimal() == null) {
+				// Se o animal for null, podemos logar ou definir como "Sem animal"
+				System.out.println("Consulta sem animal: " + consulta.getId());
+			}
+		}
+		return consultasPendentes;
 	}
 }

@@ -14,6 +14,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import model.services.AnimalService;
 import model.services.ClienteService;
+import model.services.ConsultaService;
 import model.services.VeterinarioService;
 
 public class LoginVeterinarioController {
@@ -63,8 +64,14 @@ public class LoginVeterinarioController {
             TelaPrincipalVeterinarioController controller = loader.getController();
             controller.setWelcomeMessage("Bem-vindo, Veterinário!");
 
+            // Criar instâncias dos serviços
+            AnimalService animalService = new AnimalService();
+            ClienteService clienteService = new ClienteService();
+            ConsultaService consultaService = new ConsultaService();  // Adiciona o ConsultaService
+            VeterinarioService veterinarioService = new VeterinarioService();
+            
             // Passar os serviços para o controlador
-            controller.setServices(new AnimalService(), new ClienteService());  // Ajuste conforme a lógica do seu projeto
+            controller.setServices(animalService, clienteService, consultaService, veterinarioService);
 
             // Obter a janela atual e mudar a cena
             Stage stage = (Stage) txtNome.getScene().getWindow();

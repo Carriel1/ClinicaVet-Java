@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Button?>
+
+<VBox xmlns:fx="http://javafx.com/fxml" fx:controller="gui.ConsultasPendentesController">
+    <TableView fx:id="tblConsultas" prefHeight="400" prefWidth="600">
+        <TableColumn fx:id="colCliente" text="Cliente" />
+        <TableColumn fx:id="colAnimal" text="Animal" />
+        <TableColumn fx:id="colData" text="Data" />
+    </TableView>
+    <Button text="Realizar Consulta" onAction="#onRealizarConsulta" />
+</VBox>

@@ -12,6 +12,8 @@ import javafx.scene.control.Label;
 import javafx.stage.Stage;
 import model.services.AnimalService;
 import model.services.ClienteService;
+import model.services.ConsultaService;
+import model.services.VeterinarioService;
 
 public class TelaPrincipalVeterinarioController {
 
@@ -32,14 +34,71 @@ public class TelaPrincipalVeterinarioController {
 
     private AnimalService animalService;
     private ClienteService clienteService;
-
+    private ConsultaService consultaService;
+    private VeterinarioService veterinarioService;
+    
+    public TelaPrincipalVeterinarioController(ClienteService clienteService, AnimalService animalService, ConsultaService consultaService, VeterinarioService veterinarioService) {
+        this.clienteService = clienteService;
+        this.consultaService = consultaService;
+        this.animalService = animalService;
+        this.veterinarioService = veterinarioService;
+    }
+    
+    public TelaPrincipalVeterinarioController () {
+    	
+    }
+    
     // Método para injeção dos serviços
-    public void setServices(AnimalService animalService, ClienteService clienteService) {
-        if (animalService == null || clienteService == null) {
+    public void setServices(AnimalService animalService, ClienteService clienteService, ConsultaService consultaService, VeterinarioService veterinarioService) {
+        if (animalService == null || clienteService == null || consultaService == null || veterinarioService == null) {
             throw new IllegalStateException("Os serviços não foram configurados corretamente.");
         }
         this.animalService = animalService;
         this.clienteService = clienteService;
+        this.consultaService = consultaService; 
+        this.veterinarioService = veterinarioService;
+    }
+
+    // Método para o evento do botão "Realizar Consulta"
+    @FXML
+    public void onRealizarConsulta(ActionEvent event) {
+        try {
+            // Carrega o FXML para a tela de consultas pendentes
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/ConsultasPendentes.fxml"));
+            Parent root = loader.load();
+
+            // Obtém o controlador da tela de consultas pendentes
+            ConsultasPendentesController consultasController = loader.getController();
+                        
+            // Passa os serviços para o controlador de ConsultasPendentes
+            consultasController.setServices(clienteService, animalService, consultaService);  // Passa também o ConsultaService
+
+            // Exibe a nova tela
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+            Alerts.showAlert("Erro", null, "Falha ao abrir a tela de consultas pendentes.", Alert.AlertType.ERROR);
+        }
+    }
+
+    // Método para o evento do botão "Ver Relatórios"
+    @FXML
+    public void onVerRelatorios(ActionEvent event) {
+        try {
+            // Carrega o FXML para a tela de relatórios
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/VerRelatorios.fxml"));
+            Parent root = loader.load();
+
+            // Exibe a nova tela de relatórios
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+            Alerts.showAlert("Erro", null, "Falha ao abrir a tela de relatórios.", Alert.AlertType.ERROR);
+        }
     }
 
     // Método para o evento do botão "Cadastrar Animal"
@@ -70,42 +129,6 @@ public class TelaPrincipalVeterinarioController {
         }
     }
 
-    // Método para o evento do botão "Realizar Consulta"
-    @FXML
-    public void onRealizarConsulta(ActionEvent event) {
-        try {
-            // Carrega o FXML para a tela de realização de consulta
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/RealizarConsulta.fxml"));
-            Parent root = loader.load();
-
-            // Exibe a nova tela de consulta
-            Stage stage = new Stage();
-            stage.setScene(new Scene(root));
-            stage.show();
-        } catch (Exception e) {
-            e.printStackTrace();
-            Alerts.showAlert("Erro", null, "Falha ao abrir a tela de realizar consulta.", Alert.AlertType.ERROR);
-        }
-    }
-
-    // Método para o evento do botão "Ver Relatórios"
-    @FXML
-    public void onVerRelatorios(ActionEvent event) {
-        try {
-            // Carrega o FXML para a tela de relatórios
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/VerRelatorios.fxml"));
-            Parent root = loader.load();
-
-            // Exibe a nova tela de relatórios
-            Stage stage = new Stage();
-            stage.setScene(new Scene(root));
-            stage.show();
-        } catch (Exception e) {
-            e.printStackTrace();
-            Alerts.showAlert("Erro", null, "Falha ao abrir a tela de relatórios.", Alert.AlertType.ERROR);
-        }
-    }
-
     // Método para o evento do botão "Sair"
     @FXML
     public void onSair(ActionEvent event) {
@@ -128,5 +151,3 @@ public class TelaPrincipalVeterinarioController {
         }
     }
 }
-
-

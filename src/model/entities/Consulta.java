@@ -4,7 +4,6 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 public class Consulta {
-
     private Integer id;
     private Cliente cliente;
     private Veterinario veterinario;
@@ -12,14 +11,16 @@ public class Consulta {
     private LocalTime hora;
     private String descricao;
     private String status;
-    private String criadoPor; // Novo campo
+    private String criadoPor;
+    private Animal animal;
 
-    public Consulta () {
-    	
-    }
+   public Consulta () {
+	   
+   }
     
-    // Construtor com todos os parâmetros, incluindo o novo campo 'criadoPor'
-    public Consulta(Integer id, Cliente cliente, Veterinario veterinario, LocalDate data, LocalTime hora, String descricao, String status, String criadoPor) {
+    // Construtor com parâmetros
+    public Consulta(Integer id, Cliente cliente, Veterinario veterinario, LocalDate data, 
+                    LocalTime hora, String descricao, String status, String criadoPor, Animal animal) {
         this.id = id;
         this.cliente = cliente;
         this.veterinario = veterinario;
@@ -27,10 +28,11 @@ public class Consulta {
         this.hora = hora;
         this.descricao = descricao;
         this.status = status;
-        this.criadoPor = criadoPor; // Inicializando o campo 'criadoPor'
+        this.criadoPor = criadoPor;
+        this.animal = animal;
     }
 
-    // Getters e Setters
+    // Getters e setters
     public Integer getId() {
         return id;
     }
@@ -94,5 +96,12 @@ public class Consulta {
     public void setCriadoPor(String criadoPor) {
         this.criadoPor = criadoPor;
     }
-}
 
+    public Animal getAnimal() {
+        return animal;
+    }
+
+    public void setAnimal(Animal animal) {
+        this.animal = animal;
+    }
+}

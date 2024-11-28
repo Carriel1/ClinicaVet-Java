@@ -26,21 +26,26 @@
     <Label text="Veterinário:" GridPane.rowIndex="2"/>
     <ComboBox fx:id="comboBoxVeterinario" promptText="Selecione o Veterinário" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
 
+    <!-- Animal -->
+    <Label text="Animal:" GridPane.rowIndex="3"/>
+    <ComboBox fx:id="comboBoxAnimal" promptText="Selecione o Animal" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+
     <!-- Data -->
-    <Label text="Data:" GridPane.rowIndex="3"/>
-    <DatePicker fx:id="datePickerData" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+    <Label text="Data:" GridPane.rowIndex="4"/>
+    <DatePicker fx:id="datePickerData" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
 
     <!-- Hora -->
-    <Label text="Hora:" GridPane.rowIndex="4"/>
-    <TextField fx:id="txtHora" promptText="Ex: 14:30" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+    <Label text="Hora:" GridPane.rowIndex="5"/>
+    <TextField fx:id="txtHora" promptText="Ex: 14:30" GridPane.rowIndex="5" GridPane.columnIndex="1"/>
 
     <!-- Descrição -->
-    <Label text="Descrição:" GridPane.rowIndex="5"/>
-    <TextArea fx:id="textAreaDescricao" promptText="Insira a descrição da consulta" GridPane.rowIndex="5" GridPane.columnIndex="1"/>
+    <Label text="Descrição:" GridPane.rowIndex="6"/>
+    <TextArea fx:id="textAreaDescricao" promptText="Insira a descrição da consulta" GridPane.rowIndex="6" GridPane.columnIndex="1"/>
 
     <!-- Botões -->
-    <HBox spacing="10" GridPane.rowIndex="6" GridPane.columnSpan="2" alignment="CENTER">
+    <HBox spacing="10" GridPane.rowIndex="7" GridPane.columnSpan="2" alignment="CENTER">
         <Button text="Salvar" onAction="#onSalvarConsulta"/>
         <Button text="Cancelar" onAction="#onCancelar"/>
     </HBox>
 </GridPane>
+
