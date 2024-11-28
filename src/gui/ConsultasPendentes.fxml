@@ -5,10 +5,12 @@
 <?import javafx.scene.control.Button?>
 
 <VBox xmlns:fx="http://javafx.com/fxml" fx:controller="gui.ConsultasPendentesController">
-    <TableView fx:id="tblConsultas" prefHeight="400" prefWidth="600">
+    <TableView fx:id="tblConsultas">
+    <columns>
         <TableColumn fx:id="colCliente" text="Cliente" />
         <TableColumn fx:id="colAnimal" text="Animal" />
         <TableColumn fx:id="colData" text="Data" />
-    </TableView>
+    </columns>
+</TableView>
     <Button text="Realizar Consulta" onAction="#onRealizarConsulta" />
 </VBox>

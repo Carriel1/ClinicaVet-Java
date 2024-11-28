@@ -1,15 +1,10 @@
 package model.services;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.List;
 
 import model.dao.ConsultaDao;
 import model.dao.DaoFactory;
-import model.entities.Animal;
-import model.entities.Cliente;
 import model.entities.Consulta;
-import model.entities.Veterinario;
 
 public class ConsultaService {
 

@@ -87,7 +87,7 @@ public class ConsultasPendentesController {
                 new SimpleStringProperty(cellData.getValue().getAnimal() != null ? cellData.getValue().getAnimal().getNome() : "Sem animal"));
             colData.setCellValueFactory(cellData -> 
                 new SimpleStringProperty(cellData.getValue().getData().toString())); // Converte a data para String
-
+            
             // Limpa a tabela e adiciona as consultas pendentes
             tblConsultas.getItems().clear();
             tblConsultas.getItems().addAll(consultasPendentes);
