@@ -66,7 +66,7 @@ public class ConsultaRegistroController {
     	
     }
     
-    public ConsultaRegistroController(ClienteService clienteService, VeterinarioService veterinarioService ) {
+    public ConsultaRegistroController(ClienteService clienteService, VeterinarioService veterinarioService, ConsultaService consultaService ) {
         this.clienteService = clienteService;
         this.veterinarioService = veterinarioService;
     }
@@ -80,6 +80,10 @@ public class ConsultaRegistroController {
     	  if (veterinarioService == null) {
               veterinarioService = new VeterinarioService();
           }
+    	  
+    	  if (consultaService == null) {
+              consultaService = new ConsultaService();
+          }
     	 
     	// Carregar os clientes e veterinários nos ComboBoxes
         List<Cliente> clientes = clienteService.findAll();
@@ -92,44 +96,51 @@ public class ConsultaRegistroController {
     @FXML
     private void onSalvarConsulta() {
         try {
-        	if (!validateFields()) {
-            Cliente cliente = comboBoxCliente.getValue();
-            Veterinario veterinario = comboBoxVeterinario.getValue();
-            LocalDate data = datePickerData.getValue();
-            String descricao = textAreaDescricao.getText();
-            
-            // Validação para garantir que a hora não esteja vazia
-            if (cliente == null || veterinario == null || data == null || descricao.isEmpty()) {
-                Alerts.showAlert("Erro", "Campos obrigatórios", "Todos os campos devem ser preenchidos!", AlertType.WARNING);
-                return;
-            }
+           // if (!validateFields()) {
+                Cliente cliente = comboBoxCliente.getValue();
+                Veterinario veterinario = comboBoxVeterinario.getValue();
+                LocalDate data = datePickerData.getValue();
+                String descricao = textAreaDescricao.getText();
 
-            // Validar se o campo de hora foi preenchido corretamente
-            LocalTime hora = null;
-            String horaTexto = txtHora.getText();
-            if (!horaTexto.isEmpty()) {
-                hora = parseHora(horaTexto);
-                if (hora == null) {
-                    return; // Retorna se a hora for inválida
+                // Validação para garantir que todos os campos obrigatórios estão preenchidos
+                if (cliente == null || veterinario == null || data == null || descricao.isEmpty()) {
+                    Alerts.showAlert("Erro", "Campos obrigatórios", "Todos os campos devem ser preenchidos!", AlertType.WARNING);
+                    return;
                 }
-            } else {
-                Alerts.showAlert("Erro", "Hora obrigatória", "Informe a hora para a consulta!", AlertType.WARNING);
-                return;
-            }
 
-            // Criação da consulta, usando status como 'Aprovada' por padrão e o campo criadoPor preenchido
-            Consulta consulta = new Consulta(null, cliente, veterinario, data, hora, descricao, "Aprovada", criadoPor);
-            consultaService.salvarOuAtualizar(consulta);
+                // Validação da hora: Verifique se o campo 'hora' não está vazio
+                LocalTime hora = null;
+                String horaTexto = txtHora.getText();
+                if (horaTexto.isEmpty()) {
+                    Alerts.showAlert("Erro", "Hora obrigatória", "Informe a hora para a consulta!", AlertType.WARNING);
+                    return; // Retorna para não continuar o processo de salvamento
+                } else {
+                    hora = parseHora(horaTexto); // Parse da hora
+                    if (hora == null) {
+                        Alerts.showAlert("Erro", "Formato inválido", "A hora informada não é válida!", AlertType.WARNING);
+                        return;
+                    }
+                }
 
-            Alerts.showAlert("Sucesso", null, "Consulta salva com sucesso!", AlertType.INFORMATION);
+                // Criação da consulta com todos os dados validados
+                Consulta consulta = new Consulta(null, cliente, veterinario, data, hora, descricao, "Aprovada", criadoPor);
 
-            Stage stage = (Stage) comboBoxCliente.getScene().getWindow();
-            stage.close(); // Fecha a janela após salvar
-            
-        }} catch (Exception e) {
+                // Salvar ou atualizar a consulta
+                consultaService.salvarOuAtualizar(cliente, veterinario, data, hora, descricao, criadoPor);
+
+                // Mostrar mensagem de sucesso
+                Alerts.showAlert("Sucesso", null, "Consulta salva com sucesso!", AlertType.INFORMATION);
+
+                // Fechar a tela de cadastro
+                Stage stage = (Stage) comboBoxCliente.getScene().getWindow();
+                stage.close();
+              //  return;
+         //   }
+        } catch (Exception e) {
             Alerts.showAlert("Erro", "Erro ao salvar consulta", e.getMessage(), AlertType.ERROR);
         }
     }
+
 
     private boolean validateFields() {
         if (comboBoxCliente.getValue() == null) {

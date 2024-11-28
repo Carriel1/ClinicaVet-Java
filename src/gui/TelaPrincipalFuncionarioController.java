@@ -57,7 +57,7 @@ public class TelaPrincipalFuncionarioController {
             veterinarioService = new VeterinarioService();
         }
         if (consultaService == null) {
-            consultaService = new ConsultaService(new ConsultaDaoJDBC(DB.getConnection()));
+            consultaService = new ConsultaService();
         }
         
         List<Cliente> clientes = clienteService.findAll(); // Isso agora deve funcionar
