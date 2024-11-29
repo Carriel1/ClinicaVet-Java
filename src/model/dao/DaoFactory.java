@@ -3,9 +3,10 @@ package model.dao;
 import db.DB;
 import model.dao.impl.AnimalDaoJDBC;
 import model.dao.impl.ClienteDaoJDBC;
+import model.dao.impl.ConsultaDaoJDBC;
 import model.dao.impl.FuncionarioDaoJDBC;
-import model.dao.impl.VeterinarioDaoJDBC;
-import model.dao.impl.ConsultaDaoJDBC;  
+import model.dao.impl.RelatorioDaoJDBC;
+import model.dao.impl.VeterinarioDaoJDBC;  
 
 public class DaoFactory {
 
@@ -26,6 +27,10 @@ public class DaoFactory {
     }
 
     public static ConsultaDao createConsultaDao() {
-        return new ConsultaDaoJDBC(DB.getConnection());  
+        return new ConsultaDaoJDBC(DB.getConnection()); 
+    }
+    
+    public static RelatorioDao createRelatorioDao() {
+        return new RelatorioDaoJDBC(DB.getConnection()); 
     }
 }

@@ -14,18 +14,20 @@ public class DB {
 	private static Connection conn = null;
 	
 	public static Connection getConnection() {
-		if (conn == null) {
-			try {
-				Properties props = loadProperties();
-				String url = props.getProperty("dburl");
-				conn = DriverManager.getConnection(url, props);
-			}
-			catch (SQLException e) {
-				throw new DbException(e.getMessage());
-			}
-		}
-		return conn;
+	    try {
+	        if (conn == null || conn.isClosed()) {  // Verifica se a conexão está fechada
+	            Properties props = loadProperties();
+	            String url = props.getProperty("dburl");
+	            conn = DriverManager.getConnection(url, props);
+	        }
+	    } catch (SQLException e) {
+	        throw new DbException("Erro ao abrir conexão: " + e.getMessage());
+	    }
+	    return conn;
 	}
+
+
+
 	
 	public static void closeConnection() {
 		if (conn != null) {

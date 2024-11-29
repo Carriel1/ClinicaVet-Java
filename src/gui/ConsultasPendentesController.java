@@ -1,13 +1,19 @@
 package gui;
 
+import java.io.IOException;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import gui.util.Alerts;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.stage.Stage;
 import model.entities.Consulta;
 import model.services.AnimalService;
 import model.services.ClienteService;
@@ -15,109 +21,99 @@ import model.services.ConsultaService;
 
 public class ConsultasPendentesController {
 
-	@FXML
-	private TableView<Consulta> tblConsultas;
+    @FXML
+    private TableView<Consulta> tblConsultas;
 
-	@FXML
-	private TableColumn<Consulta, String> colCliente;
+    @FXML
+    private TableColumn<Consulta, String> colCliente;
 
-	@FXML
-	private TableColumn<Consulta, String> colAnimal;
+    @FXML
+    private TableColumn<Consulta, String> colAnimal;
 
-	@FXML
-	private TableColumn<Consulta, String> colData;
+    @FXML
+    private TableColumn<Consulta, String> colData;
 
-	private ClienteService clienteService;
-	private AnimalService animalService;
-	private ConsultaService consultaService;
+    private ClienteService clienteService;
+    private AnimalService animalService;
+    private ConsultaService consultaService;
+
+    public ConsultasPendentesController() {
+    }
     
-    
-
-	public void setServices(ClienteService clienteService, AnimalService animalService, ConsultaService consultaService) {
-	    if (clienteService == null || animalService == null || consultaService == null) {
-	        throw new IllegalStateException("Os serviços não foram configurados corretamente.");
-	    }
-	    this.clienteService = clienteService;
-	    this.animalService = animalService;
-	    this.consultaService = consultaService;
-	    loadConsultasPendentes();
-	}
-    
-    public ConsultasPendentesController(ClienteService clienteService, AnimalService animalService, ConsultaService consultaService ) {
+    public ConsultasPendentesController(ClienteService clienteService, AnimalService animalService, ConsultaService consultaService) {
         this.clienteService = clienteService;
-        this.consultaService = consultaService;
         this.animalService = animalService;
+        this.consultaService = consultaService;
     }
-    
-    public ConsultasPendentesController () {
 
+    public void setServices(ClienteService clienteService, AnimalService animalService, ConsultaService consultaService) {
+        if (clienteService == null || animalService == null || consultaService == null) {
+            throw new IllegalStateException("Os serviços não foram configurados corretamente.");
+        }
+        this.clienteService = clienteService;
+        this.animalService = animalService;
+        this.consultaService = consultaService;
+        loadConsultasPendentes();
     }
-    
 
     private void loadConsultasPendentes() {
         try {
             List<Consulta> consultasPendentes = consultaService.findConsultasPendentes();
-            System.out.println("Consultas pendentes: " + consultasPendentes);
 
             if (consultasPendentes.isEmpty()) {
-                System.out.println("Nenhuma consulta pendente encontrada.");
-            } else {
-                System.out.println("Consultas pendentes carregadas: " + consultasPendentes.size());
+                showErrorAlert("Nenhuma consulta pendente encontrada.");
             }
 
-            // Depuração para checar os dados
-            for (Consulta consulta : consultasPendentes) {
-                System.out.println("Consulta ID: " + consulta.getId());
-                System.out.println("Cliente: " + consulta.getCliente().getNome());
-                if (consulta.getAnimal() != null) {
-                    System.out.println("Animal: " + consulta.getAnimal().getNome());
-                } else {
-                    System.out.println("Animal: Não informado");
-                }
-                System.out.println("Data: " + consulta.getData());
-                System.out.println("Hora: " + consulta.getHora());
-                System.out.println("Descrição: " + consulta.getDescricao());
-                System.out.println("------------------------");
-            }
+            colCliente.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getCliente().getNome()));
+            colAnimal.setCellValueFactory(cellData -> new SimpleStringProperty(
+                cellData.getValue().getAnimal() != null ? cellData.getValue().getAnimal().getNome() : "Sem animal"));
+            colData.setCellValueFactory(cellData -> new SimpleStringProperty(
+                cellData.getValue().getData().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))));
 
-            // Definindo como exibir os dados nas colunas
-            colCliente.setCellValueFactory(cellData -> 
-                new SimpleStringProperty(cellData.getValue().getCliente().getNome()));
-            colAnimal.setCellValueFactory(cellData -> 
-                new SimpleStringProperty(cellData.getValue().getAnimal() != null ? cellData.getValue().getAnimal().getNome() : "Sem animal"));
-            colData.setCellValueFactory(cellData -> 
-                new SimpleStringProperty(cellData.getValue().getData().toString())); // Converte a data para String
-            
-            // Limpa a tabela e adiciona as consultas pendentes
             tblConsultas.getItems().clear();
             tblConsultas.getItems().addAll(consultasPendentes);
         } catch (Exception e) {
             e.printStackTrace();
-            Alerts.showAlert("Erro", null, "Falha ao carregar as consultas pendentes.", Alert.AlertType.ERROR);
+            showErrorAlert("Falha ao carregar as consultas pendentes.");
         }
     }
 
+    private void showErrorAlert(String message) {
+        Alerts.showAlert("Erro", null, message, Alert.AlertType.ERROR);
+    }
 
-
-
-    // Método para selecionar uma consulta e marcar como realizada
     @FXML
     public void onRealizarConsulta() {
         try {
             Consulta consultaSelecionada = tblConsultas.getSelectionModel().getSelectedItem();
             if (consultaSelecionada == null) {
-                Alerts.showAlert("Erro", null, "Selecione uma consulta para realizar.", Alert.AlertType.ERROR);
+                showErrorAlert("Selecione uma consulta para realizar.");
                 return;
             }
 
-            // Marque a consulta como realizada (você precisa implementar isso no seu serviço)
             consultaService.marcarConsultaComoRealizada(consultaSelecionada);
-
             Alerts.showAlert("Sucesso", null, "Consulta realizada com sucesso.", Alert.AlertType.INFORMATION);
-            loadConsultasPendentes();  // Atualiza a tabela com as consultas restantes
+            loadConsultasPendentes();
         } catch (Exception e) {
             e.printStackTrace();
-            Alerts.showAlert("Erro", null, "Falha ao realizar a consulta.", Alert.AlertType.ERROR);
+            showErrorAlert("Falha ao realizar a consulta.");
         }
     }
+    
+    public void abrirTelaRelatorio() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/relatorio.fxml"));
+            loader.setController(new RelatorioController(new ConsultaService())); // Injeção do serviço ConsultaService
+            Parent root = loader.load();
+            
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Relatório de Consultas");
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            Alerts.showAlert("Erro", "Falha ao carregar tela de relatório", "Não foi possível carregar a tela de relatório.", Alert.AlertType.ERROR);
+        }
+    }
+
 }

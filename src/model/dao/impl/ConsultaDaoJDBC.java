@@ -62,23 +62,16 @@ public class ConsultaDaoJDBC implements ConsultaDao {
 
 
     @Override
-    public void update(Consulta consulta) {
-        String sql = "UPDATE Consulta SET data = ?, hora = ?, descricao = ?, status = ?, clienteId = ?, veterinarioId = ?, criadoPor = ? WHERE id = ?";
+    public void update(Consulta consulta)  {
+        String sql = "UPDATE consulta SET ..."; // Sua query aqui
         try (PreparedStatement st = conn.prepareStatement(sql)) {
-            st.setDate(1, Date.valueOf(consulta.getData()));  // Converting LocalDate to Date
-            st.setTime(2, Time.valueOf(consulta.getHora()));  // Converting LocalTime to Time
-            st.setString(3, consulta.getDescricao());
-            st.setString(4, consulta.getStatus());
-            st.setInt(5, consulta.getCliente().getId()); // Usando o método getId() do Cliente
-            st.setInt(6, consulta.getVeterinario() != null ? consulta.getVeterinario().getId() : null); 
-            st.setString(7, consulta.getCriadoPor());
-            st.setInt(8, consulta.getId());
-
+            st.setInt(1, consulta.getId());
             st.executeUpdate();
         } catch (SQLException e) {
-            throw new DbException(e.getMessage());
+            throw new DbException("Erro ao atualizar consulta: " + e.getMessage());
         }
     }
+
 
     @Override
     public void deleteById(Integer id) {
