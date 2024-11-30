@@ -9,6 +9,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import db.DB;
 import db.DbException;
 import model.dao.RelatorioDao;
 import model.dao.VeterinarioDao;
@@ -18,11 +19,27 @@ import model.entities.Veterinario;
 
 public class RelatorioDaoJDBC implements RelatorioDao {
     private Connection conn;
-
+    
+    public RelatorioDaoJDBC () {
+    	
+    }
+    
     public RelatorioDaoJDBC(Connection conn) {
         this.conn = conn;
     }
-
+    
+    public void verificarConexao() {
+        try {
+            if (conn == null || conn.isClosed()) {
+                System.out.println("Conexão fechada ou nula, reabrindo...");
+                conn = DB.getConnection();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Erro ao verificar ou reabrir a conexão", e);
+        }
+    }
+    
     @Override
     public void insert(Relatorio relatorio) {
         // Verificar se o veterinário está presente antes de tentar inseri-lo no banco

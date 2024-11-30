@@ -15,6 +15,7 @@
         <Button fx:id="btnExcluirVeterinario" text="Excluir Veterinário" onAction="#onExcluirVeterinario" />
         <Button fx:id="btnAprovarConsulta" text="Aprovar Consulta" onAction="#onAprovarConsulta" />
         <Button fx:id="btnEstoque" text="Controle de Estoque" onAction="#onControleEstoque" />
+        <Button fx:id="btnRelatorioCTodosDadosDS" text="Gerar Relatório de Todos os Dados" onAction="#ongerarRelatorio" />
         <Button fx:id="btnSair" text="Sair" onAction="#onSairAction" />
     </VBox>
 </AnchorPane>

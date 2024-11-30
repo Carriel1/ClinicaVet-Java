@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Time;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,7 +27,24 @@ public class ConsultaDaoJDBC implements ConsultaDao {
     public ConsultaDaoJDBC(Connection conn) {
         this.conn = conn;
     }
-
+    
+    public ConsultaDaoJDBC () {
+    	
+    }
+    
+    // Método para verificar e reabrir a conexão, se necessário
+    public void verificarConexao() {
+        try {
+            if (conn == null || conn.isClosed()) {
+                System.out.println("Conexão fechada ou nula, reabrindo...");
+                conn = DB.getConnection();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Erro ao verificar ou reabrir a conexão", e);
+        }
+    }
+    
     @Override
     public void insert(Consulta consulta) {
     	if (consulta.getCliente() == null || consulta.getCliente().getId() == null) {
@@ -158,19 +176,88 @@ public class ConsultaDaoJDBC implements ConsultaDao {
 
 
 
-    @Override
     public List<Consulta> findAll() {
-        String sql = "SELECT * FROM Consulta";
-        try (PreparedStatement st = conn.prepareStatement(sql); ResultSet rs = st.executeQuery()) {
+        verificarConexao();  // Verifica e reabre a conexão se necessário
+        try {
+            // Atualizando a consulta para buscar todos os dados necessários
+            String sql = "SELECT c.id, c.descricao, c.data, c.hora, c.status, c.criadoPor, " + 
+                         "a.id AS animal_id, a.nome AS animal_nome, a.idade AS animal_idade, a.raca AS animal_raca, a.especie AS animal_especie, " +
+                         "cl.id AS clienteid, cl.nome AS cliente_nome, cl.email AS cliente_email, cl.telefone AS cliente_telefone, cl.senha AS cliente_senha, cl.endereco AS cliente_endereco, cl.cpf AS cliente_cpf, " +
+                         "v.id AS veterinarioid, v.nome AS veterinario_nome, v.cpf AS veterinario_cpf, v.email AS veterinario_email, v.telefone AS veterinario_telefone, v.senha AS veterinario_senha " + 
+                         "FROM consulta c " +
+                         "LEFT JOIN animais a ON c.animal_id = a.id " +
+                         "LEFT JOIN cliente cl ON c.clienteid = cl.id " +
+                         "LEFT JOIN veterinario v ON c.veterinarioid = v.id";
+            
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
             List<Consulta> consultas = new ArrayList<>();
+            
             while (rs.next()) {
-                consultas.add(instantiateConsulta(rs));
+                // Criando Cliente
+                Cliente cliente = new Cliente(
+                    rs.getInt("clienteid"), 
+                    rs.getString("cliente_nome"),
+                    rs.getString("cliente_email"),
+                    rs.getString("cliente_telefone"),
+                    rs.getString("cliente_senha"),
+                    rs.getString("cliente_endereco"),
+                    rs.getString("cliente_cpf")
+                );
+                
+                // Criando Veterinário
+                Veterinario veterinario = new Veterinario(
+                    rs.getInt("veterinarioid"), 
+                    rs.getString("veterinario_nome"),
+                    rs.getString("veterinario_cpf"),
+                    rs.getString("veterinario_email"),
+                    rs.getString("veterinario_telefone"),
+                    rs.getString("veterinario_senha")
+                );
+                
+                // Criando Animal, se existir
+                Animal animal = null;
+                int animalId = rs.getInt("animal_id");
+                if (animalId != 0) {
+                    animal = new Animal(
+                        animalId, 
+                        rs.getString("animal_nome"),
+                        rs.getInt("animal_idade"),
+                        rs.getString("animal_raca"),
+                        rs.getString("animal_especie"),
+                        cliente  // Associando o cliente ao animal
+                    );
+                }
+                
+                // Criando a data e hora
+                LocalDate data = rs.getDate("data").toLocalDate();
+                LocalTime hora = rs.getTime("hora").toLocalTime();
+                
+                // Criando a consulta
+                Consulta consulta = new Consulta(
+                    rs.getInt("id"), 
+                    cliente, 
+                    veterinario, 
+                    data, 
+                    hora, 
+                    rs.getString("descricao"), 
+                    rs.getString("status"), 
+                    rs.getString("criadoPor"), 
+                    animal
+                );
+                
+                // Adicionando a consulta à lista
+                consultas.add(consulta);
             }
             return consultas;
         } catch (SQLException e) {
-            throw new DbException(e.getMessage());
+            e.printStackTrace();
+            throw new RuntimeException("Erro ao consultar o banco de dados", e);
         }
     }
+
+
+
 
     @Override
     public List<Consulta> findByClienteId(Integer clienteId) {

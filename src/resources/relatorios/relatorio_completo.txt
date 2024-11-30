@@ -1,0 +1,43 @@
+Relatório Completo de Dados
+
+Consultas:
+Consulta ID: 1, Descrição: vomitando, Animal: Nome: pipi, Idade: 3 anos, Raça: golden, Espécie: cachorro
+Consulta ID: 2, Descrição: mal, Animal: Nome: Fluffy, Idade: 2 anos, Raça: Shitzu, Espécie: cachorro
+Consulta ID: 3, Descrição: rotina, Animal: Nome: Dudu, Idade: 3 anos, Raça: Golden, Espécie: cachorro
+Consulta ID: 4, Descrição: rotina, Animal: Nome: Fluffy, Idade: 2 anos, Raça: Shitzu, Espécie: cachorro
+Consulta ID: 5, Descrição: precisa ser medicado, Animal: Nome: Greg, Idade: 20 anos, Raça: yorkshire, Espécie: cachorro
+Consulta ID: 6, Descrição: Vomitando, Animal: Nome: Fluffy, Idade: 2 anos, Raça: Shitzu, Espécie: cachorro
+Consulta ID: 7, Descrição: vomito, Animal: Nome: Fluffy, Idade: 2 anos, Raça: Shitzu, Espécie: cachorro
+
+Clientes:
+Cliente [id=3, nome=Ana, email=ana@usp.br, telefone=15998227898, endereco=rua1, cpf=65598875998]
+Cliente [id=2, nome=Caio, email=caio@usp.br, telefone=12997653456, endereco=rua3, cpf=54423454343]
+Cliente [id=4, nome=Gui, email=gui@usp.br, telefone=15998225456, endereco=rua2, cpf=65589965586]
+Cliente [id=8, nome=Joao, email=joao@usp.br, telefone=15998003965, endereco=rua4, cpf=67887643220]
+Cliente [id=6, nome=Maria, email=maria123, telefone=15998004708, endereco=rua6, cpf=58996558778]
+Cliente [id=1, nome=Mateus, email=mateuscarriel@usp.br, telefone=15998004708, endereco=rua3, cpf=54429924880]
+Cliente [id=5, nome=Murilo, email=murilo1@usp.br, telefone=15998255998, endereco=rua1, cpf=54496698775]
+Cliente [id=7, nome=rogerio, email=rogerio@usp.br, telefone=15997857832, endereco=rua8, cpf=47785234670]
+
+Relatórios:
+model.entities.Relatorio@3dad9655
+model.entities.Relatorio@7abe3fac
+
+Veterinários:
+Veterinario [id=1, nome=Mateus, cpf=54429924880, email=mateus@usp.br, telefone=15998004708]
+
+Funcionários:
+Funcionario [id=2, name=Alex, email=alex@usp.br, birthDate=2002-11-07, baseSalary=3000.0]
+Funcionario [id=5, name=Caio, email=caio123@usp.br, birthDate=2001-10-31, baseSalary=5000.0]
+Funcionario [id=4, name=Henrique, email=Henrique@usp.br, birthDate=2004-11-24, baseSalary=3333.0]
+Funcionario [id=3, name=Isa, email=Isa@usp.br, birthDate=2005-11-28, baseSalary=3000.0]
+Funcionario [id=1, name=Mateus, email=mateuscarriel@usp.br, birthDate=2005-10-31, baseSalary=3000.0]
+Funcionario [id=6, name=Murilo, email=murilo@usp.br, birthDate=2006-06-01, baseSalary=3000.0]
+
+Animais:
+Animal [id=1, nome=Fluffy, idade=2, raca=Shitzu, especie=cachorro]
+Animal [id=2, nome=Didi, idade=3, raca=Golden, especie=Cachorro]
+Animal [id=9, nome=Zeus, idade=3, raca=Golden, especie=cachorro]
+Animal [id=10, nome=Dudu, idade=3, raca=Golden, especie=cachorro]
+Animal [id=11, nome=Greg, idade=20, raca=yorkshire, especie=cachorro]
+Animal [id=12, nome=pipi, idade=3, raca=golden, especie=cachorro]

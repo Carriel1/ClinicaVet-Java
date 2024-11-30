@@ -14,10 +14,26 @@ import model.entities.Funcionario;
 
 public class FuncionarioDaoJDBC implements FuncionarioDao {
 
+	public FuncionarioDaoJDBC () {
+		
+	}
+	
     private Connection conn;
 
     public FuncionarioDaoJDBC(Connection conn) {
         this.conn = conn;
+    }
+    
+    public void verificarConexao() {
+        try {
+            if (conn == null || conn.isClosed()) {
+                System.out.println("Conexão fechada ou nula, reabrindo...");
+                conn = DB.getConnection();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Erro ao verificar ou reabrir a conexão", e);
+        }
     }
 
     @Override

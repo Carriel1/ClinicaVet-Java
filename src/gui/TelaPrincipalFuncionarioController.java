@@ -11,6 +11,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.stage.Modality;
@@ -240,9 +241,21 @@ public class TelaPrincipalFuncionarioController {
         }
     }
 
+    @FXML
+    private void ongerarRelatorio() {
+        // Instanciando a classe RelatorioCTodosDadosDS
+        RelatorioCTodosDadosDS relatorioCTodosDadosDS = new RelatorioCTodosDadosDS();
 
+        // Chamando o método para salvar o relatório
+        relatorioCTodosDadosDS.salvarRelatorio();
 
-
+        // Exibindo um alerta de confirmação
+        Alert alert = new Alert(AlertType.INFORMATION);
+        alert.setTitle("Relatório Gerado");
+        alert.setHeaderText(null);
+        alert.setContentText("O relatório foi gerado e salvo com sucesso!");
+        alert.showAndWait();
+    }
 
 
     // Método chamado para o controle de estoque

@@ -20,7 +20,23 @@ public class ClienteDaoJDBC implements ClienteDao {
     public ClienteDaoJDBC(Connection conn) {
         this.conn = conn;
     }
-
+    
+    public ClienteDaoJDBC () {
+    	
+    }
+    
+    public void verificarConexao() {
+        try {
+            if (conn == null || conn.isClosed()) {
+                System.out.println("Conexão fechada ou nula, reabrindo...");
+                conn = DB.getConnection();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Erro ao verificar ou reabrir a conexão", e);
+        }
+    }
+    
     @Override
     public void insert(Cliente obj) {
         PreparedStatement st = null;

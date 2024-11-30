@@ -29,7 +29,6 @@ public class Animal {
         this.cliente = cliente;
     }
 
-
     // Propriedades observáveis para as colunas da tabela
     public Integer getId() {
         return id.get();
@@ -116,5 +115,9 @@ public class Animal {
         return "Animal [id=" + id.get() + ", nome=" + nome.get() + ", idade=" + idade.get() + 
                ", raca=" + raca.get() + ", especie=" + especie.get() + "]";
     }
-}
 
+    // Novo método animalInfo
+    public String animalInfo() {
+        return "Nome: " + getNome() + ", Idade: " + getIdade() + " anos, Raça: " + getRaca() + ", Espécie: " + getEspecie();
+    }
+}

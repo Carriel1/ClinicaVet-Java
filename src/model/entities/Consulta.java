@@ -20,10 +20,8 @@ public class Consulta {
     private Integer clienteId;
 
 
-   public Consulta () {
-	   
-   }
-    
+    public Consulta() {}
+
     // Construtor com parâmetros
     public Consulta(Integer id, Cliente cliente, Veterinario veterinario, LocalDate data, 
                     LocalTime hora, String descricao, String status, String criadoPor, Animal animal) {
@@ -37,9 +35,8 @@ public class Consulta {
         this.criadoPor = criadoPor;
         this.animal = animal;
     }
-    
+
     // Getters e setters
-    
     public Integer getClienteId() {
         return clienteId;
     }
@@ -146,9 +143,15 @@ public class Consulta {
     public void setAnimal(Animal animal) {
         this.animal = animal;
     }
-    
+
+    // Método toString ajustado
     @Override
     public String toString() {
-        return animal != null ? animal.getNome() : "Sem animal";
+        if (animal != null) {
+            return "Consulta ID: " + id + ", Descrição: " + descricao + ", Animal: " + animal.animalInfo();
+        } else {
+            return "Consulta ID: " + id + ", Descrição: " + descricao + ", Animal: Sem animal associado";
+        }
     }
 }
+
