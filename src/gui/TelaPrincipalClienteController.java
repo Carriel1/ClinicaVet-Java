@@ -60,8 +60,30 @@ public class TelaPrincipalClienteController {
 
     @FXML
     public void onRequisitarConsulta(ActionEvent event) {
-        System.out.println("Cliente requisitou consulta.");
+        try {
+            // Carregar a tela de requisitar consulta
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/RequisitarConsulta.fxml"));
+            Parent parent = loader.load();
+
+            // Obter o controlador da tela de requisitar consulta
+            RequisitarConsultaController controller = loader.getController();
+            controller.setClienteId(clienteId); // Passar o ID do cliente para o controlador
+
+            // Exibir a tela como uma janela modal
+            Stage stage = new Stage();
+            stage.setTitle("Requisitar Consulta");
+            stage.setScene(new Scene(parent));
+            stage.initModality(Modality.WINDOW_MODAL);
+            stage.initOwner(((Button) event.getSource()).getScene().getWindow());
+            stage.showAndWait();  // Espera a janela ser fechada
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Erro ao carregar a tela de requisitar consulta: " + e.getMessage());
+        }
     }
+
+
 
     @FXML
     public void onVerRelatorios(ActionEvent event) {

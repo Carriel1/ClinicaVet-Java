@@ -2,6 +2,7 @@ package model.entities;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Date;
 
 public class Consulta {
     private Integer id;
@@ -13,6 +14,11 @@ public class Consulta {
     private String status;
     private String criadoPor;
     private Animal animal;
+    private String clienteNome;
+    private String animalNome;
+    private Date dataSolicitacao;
+    private Integer clienteId;
+
 
    public Consulta () {
 	   
@@ -31,8 +37,44 @@ public class Consulta {
         this.criadoPor = criadoPor;
         this.animal = animal;
     }
-
+    
     // Getters e setters
+    
+    public Integer getClienteId() {
+        return clienteId;
+    }
+
+    public void setClienteId(Integer clienteId) {
+        if (clienteId == null) {
+            throw new IllegalArgumentException("clienteId não pode ser null");
+        }
+        this.clienteId = clienteId;
+    }
+    
+    public String getClienteNome() {
+        return clienteNome;
+    }
+
+    public void setClienteNome(String clienteNome) {
+        this.clienteNome = clienteNome;
+    }
+
+    public String getAnimalNome() {
+        return animalNome;
+    }
+
+    public void setAnimalNome(String animalNome) {
+        this.animalNome = animalNome;
+    }
+
+    public Date getDataSolicitacao() {
+        return dataSolicitacao;
+    }
+
+    public void setDataSolicitacao(Date dataSolicitacao) {
+        this.dataSolicitacao = dataSolicitacao;
+    }
+    
     public Integer getId() {
         return id;
     }

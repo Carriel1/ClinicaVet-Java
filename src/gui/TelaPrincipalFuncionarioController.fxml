@@ -13,6 +13,7 @@
         <Button fx:id="btnModificarConsulta" text="Modificar Consulta" onAction="#onModificarConsulta" />
         <Button fx:id="btnCancelarConsulta" text="Cancelar Consulta" onAction="#onCancelarConsulta" />
         <Button fx:id="btnExcluirVeterinario" text="Excluir Veterinário" onAction="#onExcluirVeterinario" />
+        <Button fx:id="btnAprovarConsulta" text="Aprovar Consulta" onAction="#onAprovarConsulta" />
         <Button fx:id="btnEstoque" text="Controle de Estoque" onAction="#onControleEstoque" />
         <Button fx:id="btnSair" text="Sair" onAction="#onSairAction" />
     </VBox>

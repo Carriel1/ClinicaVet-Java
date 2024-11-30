@@ -29,7 +29,11 @@ public class ConsultaDaoJDBC implements ConsultaDao {
 
     @Override
     public void insert(Consulta consulta) {
-        String sql = """
+    	if (consulta.getCliente() == null || consulta.getCliente().getId() == null) {
+    	    throw new IllegalArgumentException("Cliente inválido ou sem ID configurado na consulta.");
+    	}
+
+    	String sql = """
             INSERT INTO Consulta (data, hora, descricao, status, clienteId, veterinarioId, criadoPor, animal_id) 
             VALUES (?, ?, ?, ?, ?, ?, ?, ?)
         """;
@@ -288,6 +292,39 @@ public class ConsultaDaoJDBC implements ConsultaDao {
         return consultas;
     }
 
+    @Override
+    public List<Consulta> findAllPendentes() {
+        List<Consulta> consultas = new ArrayList<>();
+        String sql = "SELECT * FROM consulta WHERE status = 'pendente'";
+
+        try (PreparedStatement pst = conn.prepareStatement(sql)) {
+            ResultSet rs = pst.executeQuery();
+            while (rs.next()) {
+                Consulta consulta = new Consulta();
+                consulta.setId(rs.getInt("id"));
+           //     consulta.setClienteNome(rs.getString("cliente_nome"));
+              //  consulta.setAnimalNome(rs.getString("animal_nome"));
+                consulta.setDataSolicitacao(rs.getDate("data"));
+                consulta.setStatus(rs.getString("status"));
+                consultas.add(consulta);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return consultas;
+    }
+
+    @Override
+    public void updateStatus(Consulta consulta, String status) {
+        String sql = "UPDATE consulta SET status = ? WHERE id = ?";
+        try (PreparedStatement pst = conn.prepareStatement(sql)) {
+            pst.setString(1, status);  // 'aceita' ou 'negada'
+            pst.setInt(2, consulta.getId());
+            pst.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
     private Consulta instantiateConsulta(ResultSet rs) throws SQLException {
         Consulta consulta = new Consulta();
@@ -308,6 +345,36 @@ public class ConsultaDaoJDBC implements ConsultaDao {
 
         return consulta;
     }
+    
+    @Override
+    public List<Consulta> findAllRequisitadas() {
+        List<Consulta> consultas = new ArrayList<>();
+        // SQL com JOIN para trazer o nome do cliente e do animal
+        String sql = "SELECT c.id, a.nome AS animal_nome, cl.nome AS cliente_nome, c.status, c.data " +
+                     "FROM consulta c " +
+                     "JOIN animais a ON c.animal_id = a.id " +  // Relacionando consulta com animal
+                     "JOIN cliente cl ON c.clienteid = cl.id " +  // Relacionando consulta com cliente
+                     "WHERE c.status = 'Requisitada'";  // Alterando o status para "Requisitada"
+
+        try (PreparedStatement pst = conn.prepareStatement(sql)) {
+            ResultSet rs = pst.executeQuery();
+            while (rs.next()) {
+                Consulta consulta = new Consulta();
+                consulta.setId(rs.getInt("id"));
+                consulta.setAnimalNome(rs.getString("animal_nome"));  // Nome do animal
+                consulta.setClienteNome(rs.getString("cliente_nome"));  // Nome do cliente
+                consulta.setDataSolicitacao(rs.getDate("data"));
+                consulta.setStatus(rs.getString("status"));
+                consultas.add(consulta);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return consultas;
+    }
+
+
+
 
     private List<Consulta> findByForeignKey(String sql, Object param) {
         try (PreparedStatement st = conn.prepareStatement(sql)) {

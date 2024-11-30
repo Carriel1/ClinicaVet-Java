@@ -18,6 +18,25 @@ public class ConsultaService {
     public ConsultaService() {
         this.dao = DaoFactory.createConsultaDao(); // Certifique-se de que o DAO está sendo inicializado corretamente.
     }
+    
+    // Buscar todas as consultas pendentes
+    public List<Consulta> buscarConsultasPendentes() {
+        return dao.findAllPendentes();
+    }
+
+    // Aceitar a consulta
+    public void aceitarConsulta(Consulta consulta) {
+        dao.updateStatus(consulta, "Pendente");  // Altera status para "aceita"
+    }
+    
+    public List<Consulta> buscarConsultasRequisitadas() {
+        return dao.findAllRequisitadas();  // Chama o método do DAO para buscar as consultas com status "Requisitada"
+    }
+
+    // Negar a consulta
+    public void negarConsulta(Consulta consulta) {
+        dao.updateStatus(consulta, "negada");  // Altera status para "negada"
+    }
 
     // Método para salvar ou atualizar a consulta
     public void salvarOuAtualizar(Consulta consulta) {
@@ -58,11 +77,24 @@ public class ConsultaService {
             // A conexão não é fechada aqui, ela será fechada em outro ponto do sistema
         }
     }
-
-
-
-    // Valida os campos obrigatórios da consulta
-    private void validarConsulta(Consulta consulta) {
+    
+    public void validarConsulta(Consulta consulta) {
+        if (consulta == null) {
+            throw new IllegalArgumentException("Consulta não pode ser nula.");
+        }
+        if (consulta.getCliente() == null) {
+            throw new IllegalArgumentException("Cliente não pode ser nulo.");
+        }
+        if (consulta.getAnimal() == null) {
+            throw new IllegalArgumentException("Animal não pode ser nulo.");
+        }
+        // Permitir Veterinário nulo se a consulta for criada pelo cliente
+        if ("Funcionário".equals(consulta.getCriadoPor()) && consulta.getVeterinario() == null) {
+            throw new IllegalArgumentException("Veterinário não pode ser nulo quando criado por um funcionário.");
+        }
+        if (consulta.getDescricao() == null || consulta.getDescricao().trim().isEmpty()) {
+            throw new IllegalArgumentException("Descrição não pode ser nula ou vazia.");
+        }
         if (consulta.getData() == null) {
             throw new IllegalArgumentException("Data da consulta não pode ser nula.");
         }
@@ -70,19 +102,8 @@ public class ConsultaService {
         if (consulta.getHora() == null) {
             throw new IllegalArgumentException("Hora da consulta não pode ser nula.");
         }
-
-        if (consulta.getVeterinario() == null) {
-            throw new IllegalArgumentException("Veterinário não pode ser nulo.");
-        }
-
-        if (consulta.getCliente() == null) {
-            throw new IllegalArgumentException("Cliente não pode ser nulo.");
-        }
-
-        if (consulta.getDescricao() == null || consulta.getDescricao().trim().isEmpty()) {
-            throw new IllegalArgumentException("Descrição da consulta não pode ser vazia.");
-        }
     }
+
 
     // Método para buscar todas as consultas
     public List<Consulta> findAll() {

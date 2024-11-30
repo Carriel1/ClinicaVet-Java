@@ -211,6 +211,38 @@ public class TelaPrincipalFuncionarioController {
             Alerts.showAlert("Erro", "Erro ao carregar tela", e.getMessage(), Alert.AlertType.ERROR);
         }
     }
+    
+    @FXML
+    public void onAprovarConsulta(ActionEvent event) {
+        try {
+            // Carrega o arquivo FXML da tela de aprovação de consulta
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/ConsultaAprovacao.fxml"));
+            Parent parent = loader.load();
+
+            // Configura o controlador da nova tela
+            ConsultaAprovacaoController controller = loader.getController();
+            controller.setConsultaService(consultaService); // Passando o serviço de consulta
+
+            // Passando o clienteId para o novo controlador
+            controller.setClienteId(clienteService.getLoggedClienteId());  // Assumindo que você tenha um método para obter o ID do cliente logado
+
+            // Criação e exibição da nova janela de aprovação
+            Stage stage = new Stage();
+            stage.setTitle("Aprovação de Consulta");
+            stage.setScene(new Scene(parent));
+            stage.initOwner(Utils.currentStage(event)); // Configura o stage pai
+            stage.initModality(Modality.WINDOW_MODAL);  // Define a modalidade
+            stage.showAndWait(); // Espera a tela ser fechada antes de continuar
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            Alerts.showAlert("Erro", "Erro ao carregar tela", e.getMessage(), Alert.AlertType.ERROR);
+        }
+    }
+
+
+
+
 
 
     // Método chamado para o controle de estoque

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="gui.RequisitarConsultaController">
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+    <children>
+        <TextArea fx:id="descricaoConsulta" promptText="Descreva a consulta desejada..." />
+        <Button fx:id="btnRequisitarConsulta" text="Requisitar Consulta" onAction="#onRequisitarConsulta" />
+    </children>
+</VBox>

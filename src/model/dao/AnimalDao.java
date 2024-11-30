@@ -12,5 +12,6 @@ public interface AnimalDao {
     List<Animal> findAll();
     List<Animal> findByClienteId(Integer clienteId);
     List<Animal> findAnimaisByClienteId(Integer clienteId);
-    void deleteByClienteId(Integer clienteId);  // Adiciona esse método
+    void deleteByClienteId(Integer clienteId);  
+    List<Animal> buscarPorClienteId(int clienteId); 
 }

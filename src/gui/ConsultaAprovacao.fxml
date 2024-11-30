@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.ConsultaAprovacaoController">
+    <TableView fx:id="tableConsultas">
+        <columns>
+            <TableColumn fx:id="colCliente" text="Cliente" />
+            <TableColumn fx:id="colAnimal" text="Animal" />
+            <TableColumn fx:id="colDataSolicitacao" text="Data Solicitação" />
+        </columns>
+    </TableView>
+    <Button fx:id="btnAceitar" text="Aceitar" onAction="#onAprovarConsulta" />
+    <Button fx:id="btnNegar" text="Negar" onAction="#onNegarConsulta" />
+    <Button text="Fechar" onAction="#onFecharTela" />
+</VBox>

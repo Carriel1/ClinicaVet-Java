@@ -103,7 +103,11 @@ public class AnimalService {
     public List<Animal> findAnimaisByClienteId(Integer clienteId) {
         return findByClienteId(clienteId);  // Chama o método já implementado
     }
-
+    
+    public List<Animal> buscarPorClienteId(int clienteId) {
+        return dao.buscarPorClienteId(clienteId); // Delega ao DAO
+    }
+    
     // Excluir todos os animais de um cliente
     public void deleteByClienteId(Integer clienteId) {
         if (clienteId == null) {

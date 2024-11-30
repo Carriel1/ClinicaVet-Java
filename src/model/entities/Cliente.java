@@ -14,7 +14,7 @@ public class Cliente implements Serializable {
     private String senha;
     private String endereco; // Atributo para endereço
     private String cpf; // Atributo para CPF
-
+    
     private List<Animal> animais = new ArrayList<>(); // Lista de animais registrados
 
     public Cliente() {

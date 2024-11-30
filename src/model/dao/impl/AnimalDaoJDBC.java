@@ -136,7 +136,31 @@ public class AnimalDaoJDBC implements AnimalDao {
         animal.setCliente(cliente);
         return animal;
     }
+    
+    @Override
+    public List<Animal> buscarPorClienteId(int clienteId) {
+        List<Animal> lista = new ArrayList<>();
+        String sql = "SELECT * FROM animais WHERE cliente_id = ?";
+        
+        try (PreparedStatement st = conn.prepareStatement(sql)) {
+            st.setInt(1, clienteId);
+            try (ResultSet rs = st.executeQuery()) {
+                while (rs.next()) {
+                    Animal animal = new Animal();
+                    animal.setId(rs.getInt("id"));
+                    animal.setNome(rs.getString("nome"));
+                    animal.setEspecie(rs.getString("especie"));
+                    animal.setRaca(rs.getString("raca"));
+                    lista.add(animal);
+                }
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("Erro ao buscar animais: " + e.getMessage());
+        }
 
+        return lista;
+    }
+    
     @Override
     public void deleteByClienteId(Integer clienteId) {
         String sql = "DELETE FROM animais WHERE cliente_id = ?";

@@ -1,6 +1,7 @@
 package model.services;
 
 import java.util.List;
+
 import model.dao.ClienteDao;
 import model.dao.DaoFactory;
 import model.entities.Cliente;
@@ -8,6 +9,7 @@ import model.entities.Cliente;
 public class ClienteService {
 
     private ClienteDao dao;
+    private static Cliente loggedCliente;  // Variável estática para armazenar o cliente logado
 
     // Construtor para injeção do DAO
     public ClienteService() {
@@ -45,9 +47,18 @@ public class ClienteService {
     public Cliente authenticate(String username, String password) {
         Cliente cliente = dao.findByUsername(username); // Busca cliente pelo username
         if (cliente != null && cliente.getSenha().equals(password)) {
+            loggedCliente = cliente; // Armazena o cliente logado
             return cliente; // Retorna cliente autenticado
         }
         return null; // Retorna null se autenticação falhar
+    }
+
+    // Método para obter o ID do cliente logado
+    public static Integer getLoggedClienteId() {
+        if (loggedCliente != null) {
+            return loggedCliente.getId(); // Retorna o ID do cliente logado
+        }
+        return null; // Se não houver cliente logado, retorna null
     }
 
     // Método para registrar um cliente
