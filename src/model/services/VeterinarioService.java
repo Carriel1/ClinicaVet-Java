@@ -22,9 +22,13 @@ public class VeterinarioService {
         }
     }
 
-    public void remove(Veterinario obj) {
-        dao.deleteById(obj.getId());
+    public void remove(Veterinario veterinario) {
+        if (veterinario == null || veterinario.getId() == null) {
+            throw new IllegalArgumentException("Veterinário inválido");
+        }
+        dao.deleteById(veterinario.getId());
     }
+
 
     public boolean authenticate(String username, String password) {
         Veterinario veterinario = dao.findByUsername(username);

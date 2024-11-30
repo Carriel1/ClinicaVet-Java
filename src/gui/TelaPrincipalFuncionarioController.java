@@ -185,6 +185,32 @@ public class TelaPrincipalFuncionarioController {
             Alerts.showAlert("Erro", null, "Falha ao abrir a tela de modificação de consulta.", Alert.AlertType.ERROR);
         }
     }
+    
+    @FXML
+    public void onExcluirVeterinario(ActionEvent event) {
+        try {
+            // Carrega o FXML para a tela de exclusão de veterinário
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/ExcluirVeterinario.fxml"));
+            Parent root = loader.load();
+
+            // Obtém o controlador da tela de exclusão de veterinário
+            ExcluirVeterinarioController excluirVeterinarioController = loader.getController();
+            
+            // Passa o serviço necessário para o controlador de exclusão
+            excluirVeterinarioController.setVeterinarioService(veterinarioService);
+
+            // Exibe a nova tela
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Excluir Veterinário");
+            stage.initOwner(Utils.currentStage(event)); // Configura o stage pai
+            stage.initModality(Modality.WINDOW_MODAL);  // Define a modalidade
+            stage.showAndWait();
+        } catch (IOException e) {
+            e.printStackTrace();
+            Alerts.showAlert("Erro", "Erro ao carregar tela", e.getMessage(), Alert.AlertType.ERROR);
+        }
+    }
 
 
     // Método chamado para o controle de estoque
