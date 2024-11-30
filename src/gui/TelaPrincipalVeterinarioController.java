@@ -1,5 +1,13 @@
 package gui;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+import db.DB;
 import gui.util.Alerts;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -10,6 +18,8 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
+import model.entities.Relatorio;
+import model.entities.Veterinario;
 import model.services.AnimalService;
 import model.services.ClienteService;
 import model.services.ConsultaService;
@@ -88,9 +98,12 @@ public class TelaPrincipalVeterinarioController {
     public void onVerRelatorios(ActionEvent event) {
         try {
             // Carrega o FXML para a tela de relatórios
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/VerRelatorios.fxml"));
+        	FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/VerRelatorios.fxml"));
             Parent root = loader.load();
 
+            // Obtém o controlador da tela de relatórios
+            VerRelatoriosController controller = loader.getController();
+            
             // Exibe a nova tela de relatórios
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
@@ -100,6 +113,7 @@ public class TelaPrincipalVeterinarioController {
             Alerts.showAlert("Erro", null, "Falha ao abrir a tela de relatórios.", Alert.AlertType.ERROR);
         }
     }
+
 
     // Método para o evento do botão "Cadastrar Animal"
     @FXML
@@ -128,6 +142,35 @@ public class TelaPrincipalVeterinarioController {
             Alerts.showAlert("Erro", null, "Falha ao abrir a tela de cadastro de animal.", Alert.AlertType.ERROR);
         }
     }
+    
+    public class RelatorioService {
+
+        public static List<Relatorio> findAllRelatoriosComVeterinario() {
+            // Exemplo de consulta no banco para pegar todos os relatórios e seus veterinários responsáveis
+            List<Relatorio> relatorios = new ArrayList<>();
+            
+            String query = "SELECT r.*, v.nome FROM relatorio r INNER JOIN veterinario v ON r.veterinario_id = v.id";
+            
+            try (Connection conn = DB.getConnection();
+                 PreparedStatement pst = conn.prepareStatement(query);
+                 ResultSet rs = pst.executeQuery()) {
+
+                while (rs.next()) {
+                    Relatorio relatorio = new Relatorio();
+                    relatorio.setDescricao(rs.getString("descricao"));
+                    Veterinario veterinario = new Veterinario();
+                    veterinario.setNome(rs.getString("nome"));
+                    relatorio.setVeterinarioResponsavel(veterinario);
+                    relatorios.add(relatorio);
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            
+            return relatorios;
+        }
+    }
+
 
     // Método para o evento do botão "Sair"
     @FXML

@@ -2,6 +2,9 @@ package model.entities;
 
 import java.time.LocalDate;
 
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+
 public class Relatorio {
     private Integer id;
     private Consulta consulta;  
@@ -10,6 +13,7 @@ public class Relatorio {
     private String diagnostico;  
     private String recomendacao;  
     private LocalDate dataCriacao;  
+    private Veterinario veterinarioResponsavel;
 
     // Construtores
     public Relatorio() {}
@@ -26,6 +30,23 @@ public class Relatorio {
     }
 
     // Getters e Setters
+    
+    public Veterinario getVeterinarioResponsavel() {
+        return veterinarioResponsavel;
+    }
+
+    public void setVeterinarioResponsavel(Veterinario veterinarioResponsavel) {
+        this.veterinarioResponsavel = veterinarioResponsavel;
+    }
+
+    public StringProperty getRelatorioProperty() {
+        return new SimpleStringProperty(descricao);
+    }
+
+    public StringProperty getVeterinarioResponsavelProperty() {
+        return new SimpleStringProperty(veterinarioResponsavel.getNome());
+    }
+    
     public Integer getId() {
         return id;
     }

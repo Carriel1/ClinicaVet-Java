@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.Alert?>
+
+<VBox xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.VerRelatoriosController">
+    <TableView fx:id="tableViewRelatorios">
+        <columns>
+        <TableColumn fx:id="colRelatorio" text="Relatório"/>
+        <TableColumn fx:id="colVeterinario" text="Veterinário Responsável"/>
+        <!-- Outras colunas, se necessário -->
+        </columns>
+        
+    </TableView>
+</VBox>

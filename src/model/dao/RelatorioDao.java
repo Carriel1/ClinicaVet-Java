@@ -12,4 +12,5 @@ public interface RelatorioDao {
     List<Relatorio> findAll();
     List<Relatorio> findByConsultaId(Integer consultaId);
     List<Relatorio> findByVeterinarioId(Integer veterinarioId);
+    List<Relatorio> findAllComVeterinario();
 }

@@ -25,6 +25,16 @@ public class Veterinario implements Serializable {
         this.telefone = telefone;
         this.senha = senha;
     }
+    
+    // Novo construtor apenas com o nome
+    public Veterinario(String nome) {
+        this.nome = nome;
+        this.id = null;
+        this.cpf = null;
+        this.email = null;
+        this.telefone = null;
+        this.senha = null;
+    }
 
     // Getters e Setters
     public Integer getId() {
