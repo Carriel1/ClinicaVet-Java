@@ -161,6 +161,31 @@ public class TelaPrincipalFuncionarioController {
         }
     }
 
+    @FXML
+    public void onModificarConsulta(ActionEvent event) {
+        try {
+            // Carrega o FXML para a tela de modificação de consulta
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/ModificarConsulta.fxml"));
+            Parent root = loader.load();
+
+            // Obtém o controlador da tela de modificação de consulta
+            ModificarConsultaController modificarConsultaController = loader.getController();
+            
+            // Passa os serviços necessários para o controlador de ModificarConsulta
+            modificarConsultaController.setServices(consultaService); // Passa o ConsultaService
+            modificarConsultaController.setClienteService(clienteService); // Passa o ClienteService
+            modificarConsultaController.setVeterinarioService(veterinarioService); // Passa o VeterinarioService
+
+            // Exibe a nova tela
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            Alerts.showAlert("Erro", null, "Falha ao abrir a tela de modificação de consulta.", Alert.AlertType.ERROR);
+        }
+    }
+
 
     // Método chamado para o controle de estoque
     @FXML

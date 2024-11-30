@@ -66,17 +66,40 @@ public class ConsultaDaoJDBC implements ConsultaDao {
         }
     }
 
-
     @Override
-    public void update(Consulta consulta)  {
-        String sql = "UPDATE consulta SET ..."; // Sua query aqui
-        try (PreparedStatement st = conn.prepareStatement(sql)) {
-            st.setInt(1, consulta.getId());
-            st.executeUpdate();
+    public void update(Consulta consulta) {
+        String sql = "UPDATE consulta SET descricao = ?, hora = ?, data = ? WHERE id = ?";
+
+        try {
+            // Verifica se a conexão está fechada e reabre, se necessário
+            if (conn == null || conn.isClosed()) {
+                conn = getConnection(); // Método para obter conexão
+            }
+
+            try (PreparedStatement st = conn.prepareStatement(sql)) {
+                // Define os parâmetros na ordem correta
+                st.setString(1, consulta.getDescricao());             // descricao
+                st.setTime(2, Time.valueOf(consulta.getHora()));      // hora
+                st.setDate(3, Date.valueOf(consulta.getData()));      // data
+                st.setInt(4, consulta.getId());                       // id
+
+                // Executa a atualização
+                st.executeUpdate();
+            }
         } catch (SQLException e) {
             throw new DbException("Erro ao atualizar consulta: " + e.getMessage());
         }
     }
+
+
+    private Connection getConnection() throws SQLException {
+        // Verifica se a conexão já foi estabelecida, caso contrário, cria uma nova conexão.
+        if (conn == null || conn.isClosed()) {
+            conn = DB.getConnection();  // Supondo que o método DB.getConnection() seja utilizado para obter a conexão
+        }
+        return conn;
+    }
+
 
 
     @Override

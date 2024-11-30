@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="gui.ModificarConsultaController">
+    <VBox spacing="15" alignment="CENTER" prefWidth="600" prefHeight="400">
+        <ComboBox fx:id="comboConsulta" prefWidth="300" promptText="Selecione a Consulta" />
+        <TextField fx:id="txtDescricao" promptText="Descrição" />
+        <TextField fx:id="txtData" promptText="Data" />
+        <TextField fx:id="txtHora" promptText="Hora" />
+        
+        <Button fx:id="btnSalvar" text="Salvar Alterações" onAction="#onSalvar" />
+    </VBox>
+</AnchorPane>
