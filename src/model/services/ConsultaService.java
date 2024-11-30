@@ -131,4 +131,35 @@ public class ConsultaService {
         }
         return consultasPendentes;
     }
+    
+    public void cancelarConsulta(Consulta consulta) {
+        if (consulta == null || consulta.getId() == null) {
+            throw new IllegalArgumentException("Consulta inválida. Verifique o ID.");
+        }
+
+        Connection conn = null;
+        PreparedStatement st = null;
+        try {
+            conn = DB.getConnection();  // Abre a conexão
+            if (conn.isClosed()) {
+                throw new DbException("A conexão está fechada.");
+            }
+            
+            // Atualiza o status da consulta para 'Cancelada'
+            String sql = "UPDATE consulta SET status = 'Cancelada' WHERE id = ?";
+            st = conn.prepareStatement(sql);
+            st.setInt(1, consulta.getId());
+            
+            int rowsAffected = st.executeUpdate();  // Executa a atualização
+            if (rowsAffected == 0) {
+                throw new DbException("Consulta não encontrada ou já cancelada.");
+            }
+        } catch (SQLException e) {
+            throw new DbException("Erro ao cancelar consulta: " + e.getMessage());
+        } finally {
+            DB.closeStatement(st);
+            // A conexão não é fechada aqui, ela será fechada em outro ponto do sistema
+        }
+    }
+
 }

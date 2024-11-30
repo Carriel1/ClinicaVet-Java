@@ -137,6 +137,30 @@ public class TelaPrincipalFuncionarioController {
             Alerts.showAlert("Erro", "Erro ao carregar tela", e.getMessage(), Alert.AlertType.ERROR);
         }
     }
+    
+    @FXML
+    public void onCancelarConsulta(ActionEvent event) {
+        try {
+            // Carrega o FXML para a tela de cancelamento de consulta
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/CancelarConsulta.fxml"));
+            Parent root = loader.load();
+
+            // Obtém o controlador da tela de cancelamento de consulta
+            CancelarConsultaController cancelarConsultaController = loader.getController();
+            
+            // Passa os serviços necessários para o controlador de CancelarConsulta
+            cancelarConsultaController.setServices(consultaService); // Passa o ConsultaService
+
+            // Exibe a nova tela
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+            Alerts.showAlert("Erro", null, "Falha ao abrir a tela de cancelamento de consulta.", Alert.AlertType.ERROR);
+        }
+    }
+
 
     // Método chamado para o controle de estoque
     @FXML

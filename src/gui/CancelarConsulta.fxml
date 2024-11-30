@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="gui.CancelarConsultaController">
+    <VBox spacing="15" alignment="CENTER" prefWidth="600" prefHeight="400">
+        <Label text="Cancelar Consulta" style="-fx-font-size: 18px; -fx-font-weight: bold;" />
+        
+        <ComboBox fx:id="comboConsulta" promptText="Selecione a consulta" />
+        
+        <Button text="Cancelar" onAction="#onCancelar" />
+        <Button text="Fechar" onAction="#onFechar" />
+    </VBox>
+</AnchorPane>

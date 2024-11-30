@@ -11,6 +11,7 @@
         <Button fx:id="btnCadastrarCliente" text="Fazer cadastro de um Cliente" onAction="#onCadastrarCliente" />
         <Button fx:id="btnConsulta" text="Aceitar ou Marcar uma Consulta" onAction="#onMarcarConsulta" />
         <Button fx:id="btnEstoque" text="Controle de Estoque" onAction="#onControleEstoque" />
+        <Button fx:id="btnCancelarConsulta" text="Cancelar Consulta" onAction="#onCancelarConsulta" />
         <Button fx:id="btnSair" text="Sair" onAction="#onSairAction" />
     </VBox>
 </AnchorPane>
