@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?import javafx.scene.control.Alert?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -7,12 +6,15 @@
 
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.RelatorioController">
     <children>
-        <Text text="Relatório de Consultas" layoutX="14.0" layoutY="14.0" style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
+        <Text text="Relatório de Consultas" layoutX="14.0" layoutY="14.0" style="-fx-font-size: 18px; -fx-font-weight: bold;" />
         
         <!-- TextArea para exibir o relatório -->
-        <TextArea fx:id="txtRelatorio" layoutX="14.0" layoutY="50.0" prefWidth="500.0" prefHeight="300.0" wrapText="true" editable="false" />
+        <TextArea fx:id="txtRelatorio" layoutX="14.0" layoutY="50.0" prefWidth="500.0" prefHeight="300.0" wrapText="true" />
+        
+        <!-- Botão para salvar o relatório -->
+        <Button text="Salvar" layoutX="430.0" layoutY="370.0" onAction="#onSalvar" />
 
         <!-- Botão para voltar -->
-        <Button text="Voltar" layoutX="14.0" layoutY="370.0" onAction="#onVoltar"/>
+        <Button text="Voltar" layoutX="14.0" layoutY="370.0" onAction="#onVoltar" />
     </children>
 </AnchorPane>

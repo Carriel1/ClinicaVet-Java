@@ -3,7 +3,6 @@ package gui;
 import java.io.IOException;
 import java.util.List;
 
-import db.DB;
 import gui.util.Alerts;
 import gui.util.Utils;
 import javafx.event.ActionEvent;
@@ -16,7 +15,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import model.dao.impl.ConsultaDaoJDBC;
 import model.entities.Cliente;
 import model.entities.Veterinario;
 import model.services.ClienteService;

@@ -124,6 +124,10 @@ public class ConsultaService {
                 // Se o animal for null, podemos logar ou definir como "Sem animal"
                 System.out.println("Consulta sem animal: " + consulta.getId());
             }
+            if (consulta.getVeterinario() == null) {
+                // Se o veterinário não foi atribuído, podemos logar ou tratar
+                System.out.println("Consulta sem veterinário: " + consulta.getId());
+            }
         }
         return consultasPendentes;
     }

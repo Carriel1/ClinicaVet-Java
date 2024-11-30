@@ -7,12 +7,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Time;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 import db.DB;
 import db.DbException;
 import model.dao.ConsultaDao;
+import model.dao.VeterinarioDao;
 import model.entities.Animal;
 import model.entities.Cliente;
 import model.entities.Consulta;
@@ -39,7 +41,11 @@ public class ConsultaDaoJDBC implements ConsultaDao {
             st.setString(3, consulta.getDescricao());
             st.setString(4, consulta.getStatus());
             st.setInt(5, consulta.getCliente().getId()); // Garantindo que cliente tenha ID válido
-            st.setInt(6, consulta.getVeterinario() != null ? consulta.getVeterinario().getId() : null); // Pode ser null
+            if (consulta.getVeterinario() != null) {
+                st.setInt(6, consulta.getVeterinario().getId());
+            } else {
+                st.setNull(6, java.sql.Types.INTEGER);  // Utiliza o tipo correto de dados para null
+            }
             st.setString(7, consulta.getCriadoPor());
             st.setInt(8, consulta.getAnimal().getId()); // Animal sempre será necessário devido à restrição NOT NULL
 
@@ -83,22 +89,47 @@ public class ConsultaDaoJDBC implements ConsultaDao {
             throw new DbException(e.getMessage());
         }
     }
-
+    
     @Override
     public Consulta findById(Integer id) {
-        String sql = "SELECT * FROM Consulta WHERE id = ?";
-        try (PreparedStatement st = conn.prepareStatement(sql)) {
+        PreparedStatement st = null;
+        ResultSet rs = null;
+        try {
+            st = conn.prepareStatement("SELECT * FROM consulta WHERE id = ?");
             st.setInt(1, id);
-            try (ResultSet rs = st.executeQuery()) {
-                if (rs.next()) {
-                    return instantiateConsulta(rs);
+            rs = st.executeQuery();
+
+            if (rs.next()) {
+                Consulta consulta = new Consulta();
+                consulta.setId(rs.getInt("id"));
+                
+                // Verificação de null para a data
+                LocalDate data = rs.getDate("data") != null ? rs.getDate("data").toLocalDate() : null;
+                consulta.setData(data);
+
+                // Atribuindo Veterinário à consulta
+                VeterinarioDao veterinarioDao = new VeterinarioDaoJDBC(conn);
+                Veterinario veterinario = veterinarioDao.findById(rs.getInt("veterinario_id"));
+
+                // Verificando se o veterinário é null antes de atribuir
+                if (veterinario != null) {
+                    consulta.setVeterinario(veterinario);
+                } else {
+                    consulta.setVeterinario(null);  // Ou lançar uma exceção, dependendo da lógica do sistema
                 }
+
+                return consulta;
             }
             return null;
         } catch (SQLException e) {
-            throw new DbException(e.getMessage());
+            throw new DbException("Erro ao buscar consulta com id " + id + ": " + e.getMessage(), e);
+        } finally {
+            DB.closeStatement(st);
+            DB.closeResultSet(rs);
         }
     }
+
+
 
     @Override
     public List<Consulta> findAll() {
@@ -125,16 +156,21 @@ public class ConsultaDaoJDBC implements ConsultaDao {
         String sql = "SELECT * FROM Consulta WHERE veterinarioId = ?";
         return findByForeignKey(sql, veterinarioId);
     }
+    
+    
+
 
     public List<Consulta> findByStatus(String status) {
         String sql = """
             SELECT 
                 c.id AS consulta_id, c.data, c.hora, c.descricao, c.status, c.criadoPor, 
                 cl.id AS cliente_id, cl.nome AS cliente_nome, 
-                a.id AS animal_id, a.nome AS animal_nome
+                a.id AS animal_id, a.nome AS animal_nome,
+                v.id AS veterinario_id, v.nome AS veterinario_nome
             FROM consulta c 
             JOIN cliente cl ON c.clienteid = cl.id 
             JOIN animais a ON c.animal_id = a.id 
+            LEFT JOIN veterinario v ON c.veterinarioid = v.id  -- Adiciona a junção com veterinários
             WHERE c.status = ?
         """;
 
@@ -156,6 +192,15 @@ public class ConsultaDaoJDBC implements ConsultaDao {
                 animal.setId(rs.getInt("animal_id"));
                 animal.setNome(rs.getString("animal_nome"));
 
+                // Veterinário
+                Veterinario veterinario = null;
+                int veterinarioId = rs.getInt("veterinario_id");
+                if (veterinarioId > 0) {
+                    veterinario = new Veterinario();
+                    veterinario.setId(veterinarioId);
+                    veterinario.setNome(rs.getString("veterinario_nome"));
+                }
+
                 // Consulta
                 Consulta consulta = new Consulta();
                 consulta.setId(rs.getInt("consulta_id"));
@@ -166,14 +211,16 @@ public class ConsultaDaoJDBC implements ConsultaDao {
                 consulta.setCriadoPor(rs.getString("criadoPor"));
                 consulta.setCliente(cliente);
                 consulta.setAnimal(animal);
+                consulta.setVeterinario(veterinario); // Atribuindo o veterinário, se presente
 
                 consultas.add(consulta);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return consultas;
+        return consultas;  
     }
+
 
 
     public List<Consulta> findConsultasPendentesByVeterinarioId(Integer veterinarioId) {

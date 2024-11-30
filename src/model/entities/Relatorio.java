@@ -4,12 +4,12 @@ import java.time.LocalDate;
 
 public class Relatorio {
     private Integer id;
-    private Consulta consulta;  // Consulta relacionada ao relatório
-    private Veterinario veterinario;  // Veterinário que preenche o relatório
-    private String descricao;  // Descrição do que foi realizado no atendimento
-    private String diagnostico;  // Diagnóstico do animal
-    private String recomendacao;  // Recomendação de tratamento ou cuidados
-    private LocalDate dataCriacao;  // Data de criação do relatório
+    private Consulta consulta;  
+    private Veterinario veterinario;  
+    private String descricao;   
+    private String diagnostico;  
+    private String recomendacao;  
+    private LocalDate dataCriacao;  
 
     // Construtores
     public Relatorio() {}

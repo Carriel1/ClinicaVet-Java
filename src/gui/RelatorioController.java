@@ -1,43 +1,99 @@
 package gui;
 
+import java.sql.SQLException;
+
+import db.DB;
+import db.DbException;
 import gui.util.Alerts;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.control.TextArea;
+import javafx.stage.Stage;
+import model.dao.RelatorioDao;
+import model.dao.impl.RelatorioDaoJDBC;
 import model.entities.Consulta;
-import model.services.ConsultaService;
-
-import java.util.List;
+import model.entities.Relatorio;
 
 public class RelatorioController {
 
-    private ConsultaService consultaService;
+    private Consulta consulta;
 
-    // Construtor do controlador com injeção do ConsultaService
-    public RelatorioController(ConsultaService consultaService) {
-        this.consultaService = consultaService;
+    @FXML
+    private TextArea txtRelatorio;
+
+    public RelatorioController() {
     }
 
-    // Método para gerar relatório de consultas
-    @FXML
-    public void gerarRelatorio() {
-        try {
-            // Buscar as consultas pendentes utilizando o ConsultaService
-            List<Consulta> consultasPendentes = consultaService.findConsultasPendentes();
+    public void setConsulta(Consulta consulta) {
+        this.consulta = consulta;
+        carregarRelatorio();
+    }
 
-            if (consultasPendentes.isEmpty()) {
-                Alerts.showAlert("Aviso", null, "Nenhuma consulta pendente para gerar o relatório.", Alert.AlertType.INFORMATION);
-            } else {
-                // Lógica para gerar o relatório
-                for (Consulta consulta : consultasPendentes) {
-                    // Aqui, você pode gerar um relatório ou processar a lista de consultas pendentes
-                    System.out.println("Consulta Pendente: " + consulta);
-                }
-                Alerts.showAlert("Sucesso", null, "Relatório gerado com sucesso!", Alert.AlertType.INFORMATION);
+    private void carregarRelatorio() {
+        if (consulta != null) {
+            // Preencher o relatório com informações da consulta
+            String relatorio = "Relatório da Consulta\n"
+                    + "Cliente: " + consulta.getCliente().getNome() + "\n"
+                    + "Animal: " + (consulta.getAnimal() != null ? consulta.getAnimal().getNome() : "Não informado") + "\n"
+                    + "Data: " + consulta.getData().toString() + "\n"
+                    + "Descrição: " + consulta.getDescricao() + "\n";
+            txtRelatorio.setText(relatorio);
+        }
+    }
+
+    @FXML
+    public void onSalvar() {
+        try {
+            String conteudoRelatorio = txtRelatorio.getText();
+
+            if (conteudoRelatorio.isBlank()) {
+                Alerts.showAlert("Erro", null, "O relatório está vazio. Preencha-o antes de salvar.", Alert.AlertType.ERROR);
+                return;
             }
+
+            // Verificar se o veterinário não é null
+            if (consulta.getVeterinario() == null) {
+                Alerts.showAlert("Erro", null, "Não há veterinário atribuído à consulta.", Alert.AlertType.ERROR);
+                return;
+            }
+
+            // Criar objeto Relatorio
+            Relatorio relatorio = new Relatorio();
+            relatorio.setConsulta(consulta);
+            relatorio.setVeterinario(consulta.getVeterinario());
+            relatorio.setDescricao(conteudoRelatorio);
+            relatorio.setDiagnostico("Diagnóstico placeholder"); // Substitua por lógica real
+            relatorio.setRecomendacao("Recomendação placeholder"); // Substitua por lógica real
+            relatorio.setDataCriacao(java.time.LocalDate.now());
+
+            // Salvar no banco de dados
+            RelatorioDao relatorioDao = new RelatorioDaoJDBC(DB.getConnection());
+            relatorioDao.insert(relatorio);
+
+            Alerts.showAlert("Sucesso", null, "Relatório salvo com sucesso!", Alert.AlertType.INFORMATION);
+
+            fecharTela();
+        } /*catch (SQLException e) {
+            e.printStackTrace();
+            Alerts.showAlert("Erro", null, "Erro de banco de dados ao salvar o relatório.", Alert.AlertType.ERROR);
+        }*/ catch (DbException e) {
+            e.printStackTrace();
+            Alerts.showAlert("Erro", null, e.getMessage(), Alert.AlertType.ERROR);
         } catch (Exception e) {
             e.printStackTrace();
-            Alerts.showAlert("Erro", null, "Erro ao gerar o relatório.", Alert.AlertType.ERROR);
+            Alerts.showAlert("Erro", null, "Falha inesperada ao salvar o relatório.", Alert.AlertType.ERROR);
         }
+    }
+
+
+    @FXML
+    public void onVoltar() {
+        fecharTela();
+    }
+
+    private void fecharTela() {
+        Stage stage = (Stage) txtRelatorio.getScene().getWindow();
+        stage.close();
     }
 }
 

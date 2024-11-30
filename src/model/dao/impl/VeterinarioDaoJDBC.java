@@ -89,11 +89,17 @@ public class VeterinarioDaoJDBC implements VeterinarioDao {
         PreparedStatement st = null;
         ResultSet rs = null;
         try {
-            st = conn.prepareStatement("SELECT * FROM Veterinario WHERE id = ?");
-            st.setInt(1, id);
+            st = conn.prepareStatement("SELECT * FROM veterinario WHERE id = ?");
+            st.setInt(1, id);  // Você ainda usa `setInt` para passar o valor de `Integer`
             rs = st.executeQuery();
+
             if (rs.next()) {
-                return instantiateVeterinario(rs);
+                Veterinario veterinario = new Veterinario();
+                veterinario.setId(rs.getInt("id"));
+                veterinario.setNome(rs.getString("nome"));
+                veterinario.setTelefone(rs.getString("telefone"));
+                // Atribua outros campos necessários
+                return veterinario;
             }
             return null;
         } catch (SQLException e) {

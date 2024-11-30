@@ -91,7 +91,12 @@ public class ConsultasPendentesController {
                 return;
             }
 
+            // Marcar a consulta como realizada
             consultaService.marcarConsultaComoRealizada(consultaSelecionada);
+
+            // Abrir a tela de relatório vinculada à consulta selecionada
+            abrirTelaRelatorio(consultaSelecionada);
+
             Alerts.showAlert("Sucesso", null, "Consulta realizada com sucesso.", Alert.AlertType.INFORMATION);
             loadConsultasPendentes();
         } catch (Exception e) {
@@ -99,13 +104,17 @@ public class ConsultasPendentesController {
             showErrorAlert("Falha ao realizar a consulta.");
         }
     }
+
     
-    public void abrirTelaRelatorio() {
+    public void abrirTelaRelatorio(Consulta consulta) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/relatorio.fxml"));
-            loader.setController(new RelatorioController(new ConsultaService())); // Injeção do serviço ConsultaService
             Parent root = loader.load();
-            
+
+            // Obter o controlador e passar a consulta
+            RelatorioController relatorioController = loader.getController();
+            relatorioController.setConsulta(consulta);
+
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
             stage.setTitle("Relatório de Consultas");
@@ -115,5 +124,6 @@ public class ConsultasPendentesController {
             Alerts.showAlert("Erro", "Falha ao carregar tela de relatório", "Não foi possível carregar a tela de relatório.", Alert.AlertType.ERROR);
         }
     }
+
 
 }

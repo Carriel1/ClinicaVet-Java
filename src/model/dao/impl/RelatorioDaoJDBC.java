@@ -1,15 +1,20 @@
 package model.dao.impl;
 
-import model.dao.RelatorioDao;
-import model.entities.Relatorio;
-import model.entities.Consulta;
-import model.entities.Veterinario;
-import db.DB;
-import db.DbException;
-
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+
+import db.DbException;
+import model.dao.RelatorioDao;
+import model.dao.VeterinarioDao;
+import model.entities.Consulta;
+import model.entities.Relatorio;
+import model.entities.Veterinario;
 
 public class RelatorioDaoJDBC implements RelatorioDao {
     private Connection conn;
@@ -20,6 +25,11 @@ public class RelatorioDaoJDBC implements RelatorioDao {
 
     @Override
     public void insert(Relatorio relatorio) {
+        // Verificar se o veterinário está presente antes de tentar inseri-lo no banco
+        if (relatorio.getVeterinario() == null) {
+            throw new DbException("Veterinário não atribuído ao relatório.");
+        }
+
         String sql = """
             INSERT INTO Relatorio (consulta_id, veterinario_id, descricao, diagnostico, recomendacao, dataCriacao) 
             VALUES (?, ?, ?, ?, ?, ?)
@@ -27,7 +37,7 @@ public class RelatorioDaoJDBC implements RelatorioDao {
 
         try (PreparedStatement st = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             st.setInt(1, relatorio.getConsulta().getId());
-            st.setInt(2, relatorio.getVeterinario().getId());
+            st.setInt(2, relatorio.getVeterinario().getId()); // Agora, você pode acessar o veterinário sem problemas
             st.setString(3, relatorio.getDescricao());
             st.setString(4, relatorio.getDiagnostico());
             st.setString(5, relatorio.getRecomendacao());
@@ -47,6 +57,7 @@ public class RelatorioDaoJDBC implements RelatorioDao {
             throw new DbException(e.getMessage());
         }
     }
+
 
     @Override
     public void update(Relatorio relatorio) {
@@ -151,8 +162,9 @@ public class RelatorioDaoJDBC implements RelatorioDao {
         consulta.setId(rs.getInt("consulta_id"));
         relatorio.setConsulta(consulta);
         
-        Veterinario veterinario = new Veterinario();
-        veterinario.setId(rs.getInt("veterinario_id"));
+        // Carrega o Veterinário completo ao invés de apenas setar o ID
+        VeterinarioDao veterinarioDao = new VeterinarioDaoJDBC(conn);
+        Veterinario veterinario = veterinarioDao.findById(rs.getInt("veterinario_id"));
         relatorio.setVeterinario(veterinario);
         
         relatorio.setDescricao(rs.getString("descricao"));
@@ -162,4 +174,5 @@ public class RelatorioDaoJDBC implements RelatorioDao {
         
         return relatorio;
     }
+
 }
