@@ -15,5 +15,5 @@
     <PasswordField fx:id="txtSenha"/>
 
     <Button text="Login" onAction="#onBtLoginAction"/>
-    <Button text="Cancelar" onAction="#onBtCancelarAction"/>
+    <Button fx:id="btCancel" text="Cancelar" onAction="#onBtCancelAction"/>
 </VBox>

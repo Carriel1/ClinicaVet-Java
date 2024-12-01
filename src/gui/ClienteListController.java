@@ -5,26 +5,24 @@ import java.net.URL;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.function.Consumer;
 
 import application.Main;
 import db.DbIntegrityException;
 import gui.listeners.DataChangeListener;
 import gui.util.Alerts;
 import gui.util.Utils;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.TableCell;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -36,30 +34,7 @@ public class ClienteListController implements Initializable, DataChangeListener 
     private ClienteService service;
 
     @FXML
-    private TableView<Cliente> tableViewCliente;
-
-    @FXML
-    private TableColumn<Cliente, Integer> tableColumnId;
-
-    @FXML
-    private TableColumn<Cliente, String> tableColumnName;
-
-    @FXML
-    private TableColumn<Cliente, String> tableColumnEmail;
-
-    @FXML
-    private TableColumn<Cliente, String> tableColumnPhone;
-
-    @FXML
-    private TableColumn<Cliente, Cliente> tableColumnEDIT;
-
-    @FXML
-    private TableColumn<Cliente, Cliente> tableColumnREMOVE;
-
-    @FXML
     private Button btNew;
-
-    private ObservableList<Cliente> obsList;
 
     // Método para criar um novo cliente
     @FXML
@@ -76,30 +51,13 @@ public class ClienteListController implements Initializable, DataChangeListener 
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        initializeNodes();
     }
 
-    // Inicializa as colunas da tabela
-    private void initializeNodes() {
-        tableColumnId.setCellValueFactory(new PropertyValueFactory<>("id"));
-        tableColumnName.setCellValueFactory(new PropertyValueFactory<>("nome"));
-        tableColumnEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
-        tableColumnPhone.setCellValueFactory(new PropertyValueFactory<>("telefone"));
-
-        // Ajustar a altura da tabela com base no tamanho da janela
-        Stage stage = (Stage) Main.getMainScene().getWindow();
-        tableViewCliente.prefHeightProperty().bind(stage.heightProperty());
-    }
-
-    // Atualizar os dados na tabela
+    // Atualizar os dados na tela
     public void updateTableView() {
         if (service == null) throw new IllegalStateException("Service was null");
 
         List<Cliente> list = service.findAll();
-        obsList = FXCollections.observableArrayList(list);
-        tableViewCliente.setItems(obsList);
-        initEditButtons();
-        initRemoveButtons();
     }
 
     // Método para criar o diálogo de formulário
@@ -126,42 +84,6 @@ public class ClienteListController implements Initializable, DataChangeListener 
         }
     }
 
-    // Inicializa os botões de edição
-    private void initEditButtons() {
-        tableColumnEDIT.setCellFactory(param -> new TableCell<Cliente, Cliente>() {
-            private final Button button = new Button("Edit");
-
-            @Override
-            protected void updateItem(Cliente obj, boolean empty) {
-                super.updateItem(obj, empty);
-                if (obj == null) {
-                    setGraphic(null);
-                    return;
-                }
-                setGraphic(button);
-                button.setOnAction(event -> createDialogForm(obj, "/gui/ClienteRegistro.fxml", Utils.currentStage(event)));
-            }
-        });
-    }
-
-    // Inicializa os botões de remoção
-    private void initRemoveButtons() {
-        tableColumnREMOVE.setCellFactory(param -> new TableCell<Cliente, Cliente>() {
-            private final Button button = new Button("Remove");
-
-            @Override
-            protected void updateItem(Cliente obj, boolean empty) {
-                super.updateItem(obj, empty);
-                if (obj == null) {
-                    setGraphic(null);
-                    return;
-                }
-                setGraphic(button);
-                button.setOnAction(event -> removeEntity(obj));
-            }
-        });
-    }
-
     // Método para remover um cliente
     private void removeEntity(Cliente obj) {
         Optional<ButtonType> result = Alerts.showConfirmation("Confirmation", "Are you sure you want to delete?");
@@ -182,4 +104,32 @@ public class ClienteListController implements Initializable, DataChangeListener 
     public void onDataChanged() {
         updateTableView();
     }
+
+    // Método para cancelar a operação
+    @FXML
+    public void onBtCancelAction() {
+    	loadView("/gui/MainView.fxml", controller -> {});
+    }
+    
+    private synchronized <T> void loadView(String fxmlPath, Consumer<T> initializingAction) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
+            Parent newView = loader.load(); // Parent é genérico e funciona para qualquer root
+
+            Scene mainScene = Main.getMainScene();
+            ScrollPane mainScrollPane = (ScrollPane) mainScene.getRoot(); // Supondo que o root principal seja um ScrollPane
+
+            // Substituir o conteúdo do ScrollPane pela nova view carregada
+            mainScrollPane.setContent(newView);
+
+            // Inicializar o controlador
+            T controller = loader.getController();
+            initializingAction.accept(controller);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            Alerts.showAlert("IO Exception", "Erro ao carregar a view", e.getMessage(), Alert.AlertType.ERROR);
+        }
+    }
 }
+

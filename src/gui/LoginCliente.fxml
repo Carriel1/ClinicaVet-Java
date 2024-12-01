@@ -15,5 +15,5 @@
     <Label fx:id="lblError" text="" style="-fx-text-fill: red;"/>
     
     <Button fx:id="btLogin" text="Entrar" onAction="#onBtLoginAction"/>
-    <Button text="Cancelar" onAction="#onBtCancelAction"/>
+    <Button fx:id="btCancel" text="Cancelar" onAction="#onBtCancelAction"/>
 </VBox>

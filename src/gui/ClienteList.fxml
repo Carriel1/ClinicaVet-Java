@@ -7,28 +7,10 @@
 <VBox xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.ClienteListController" spacing="10" alignment="CENTER" style="-fx-padding: 20;">
     
     <!-- Título da tela -->
-    <Label text="Lista de Clientes" style="-fx-font-size: 20; -fx-font-weight: bold;" />
+    <Label text="Registro de Clientes" style="-fx-font-size: 20; -fx-font-weight: bold;" />
 
-    <!-- Tabela de Clientes -->
-    <TableView fx:id="tableViewCliente" prefWidth="600">
-        <columns>
-            <!-- Coluna ID -->
-            <TableColumn fx:id="tableColumnId" text="ID" prefWidth="100" />
-            <!-- Coluna Nome -->
-            <TableColumn fx:id="tableColumnName" text="Nome" prefWidth="200" />
-            <!-- Coluna Email -->
-            <TableColumn fx:id="tableColumnEmail" text="Email" prefWidth="200" />
-            <!-- Coluna Telefone -->
-            <TableColumn fx:id="tableColumnPhone" text="Telefone" prefWidth="100" />
-            <!-- Coluna Editar -->
-            <TableColumn fx:id="tableColumnEDIT" text="Editar" prefWidth="100" />
-            <!-- Coluna Remover -->
-            <TableColumn fx:id="tableColumnREMOVE" text="Remover" prefWidth="100" />
-        </columns>
-    </TableView>
-
-    <!-- Botões de Ação -->
-    <HBox spacing="10" alignment="CENTER">
-        <Button fx:id="btNew" text="Novo Cliente" onAction="#onBtNewAction"/>
-    </HBox>
+   <HBox spacing="10" alignment="CENTER">
+    <Button fx:id="btNew" text="Novo Cliente" onAction="#onBtNewAction"/>
+    <Button fx:id="btCancel" text="Cancelar" onAction="#onBtCancelAction"/>
+</HBox>
 </VBox>

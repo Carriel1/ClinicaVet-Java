@@ -11,9 +11,9 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
-import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Alert;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
@@ -55,27 +55,24 @@ public class MainViewController implements Initializable {
     private synchronized <T> void loadView(String fxmlPath, Consumer<T> initializingAction) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
-            VBox newVBox = loader.load(); // Carrega o FXML e cria o conteúdo da tela
+            Parent newView = loader.load(); // Parent é genérico e funciona para qualquer root
 
-            // Obtém a cena principal do aplicativo
             Scene mainScene = Main.getMainScene();
-            VBox mainVBox = (VBox) ((ScrollPane) mainScene.getRoot()).getContent();
+            ScrollPane mainScrollPane = (ScrollPane) mainScene.getRoot(); // Supondo que o root principal seja um ScrollPane
 
-            // Mantém o menu fixo e troca apenas o conteúdo
-            Node mainMenu = mainVBox.getChildren().get(0);
-            mainVBox.getChildren().clear();
-            mainVBox.getChildren().add(mainMenu);
-            mainVBox.getChildren().addAll(newVBox.getChildren()); // Adiciona a nova view
+            // Substituir o conteúdo do ScrollPane pela nova view carregada
+            mainScrollPane.setContent(newView);
 
-            // Inicializa o controlador da nova view
+            // Inicializar o controlador
             T controller = loader.getController();
-            initializingAction.accept(controller); // Passa o serviço ou qualquer dependência
+            initializingAction.accept(controller);
 
         } catch (IOException e) {
             e.printStackTrace();
-            Alerts.showAlert("IO Exception", "Erro ao carregar a view", e.getMessage(), AlertType.ERROR);
+            Alerts.showAlert("IO Exception", "Erro ao carregar a view", e.getMessage(), Alert.AlertType.ERROR);
         }
     }
+
 
 
     // Carregar tela de Funcionários
@@ -83,7 +80,6 @@ public class MainViewController implements Initializable {
     public void onMenuItemFuncionarioAction() {
         loadView("/gui/FuncionarioList.fxml", (FuncionarioListController controller) -> {
             controller.setFuncionarioService(new FuncionarioService());
-            controller.updateTableView();
         });
     }
 
