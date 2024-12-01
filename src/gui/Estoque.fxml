@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.text.Font?>
+
+<ScrollPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.EstoqueController" style="-fx-padding: 20;">
+    <VBox spacing="10" alignment="CENTER" style="-fx-padding: 20;">
+        <Label text="Controle de Estoque" style="-fx-font-size: 24px;"/>
+
+        <!-- Remédios -->
+        <Label text="1. Analgésicos e Anti-inflamatórios"/>
+        <Label fx:id="meloxicamLabel" text="10"/>
+        <Button text="Adicionar Meloxicam" onAction="#adicionarMeloxicam"/>
+        <Button text="Remover Meloxicam" onAction="#removerMeloxicam"/>
+
+        <Label fx:id="tramadolLabel" text="8"/>
+        <Button text="Adicionar Tramadol" onAction="#adicionarTramadol"/>
+        <Button text="Remover Tramadol" onAction="#removerTramadol"/>
+
+        <Label text="2. Anestésicos e Sedativos"/>
+        <Label fx:id="propofolLabel" text="5"/>
+        <Button text="Adicionar Propofol" onAction="#adicionarPropofol"/>
+        <Button text="Remover Propofol" onAction="#removerPropofol"/>
+
+        <Label fx:id="isofluranoLabel" text="6"/>
+        <Button text="Adicionar Isoflurano" onAction="#adicionarIsoflurano"/>
+        <Button text="Remover Isoflurano" onAction="#removerIsoflurano"/>
+
+        <Label text="3. Antibióticos de Amplo Espectro"/>
+        <Label fx:id="amoxicilinaLabel" text="15"/>
+        <Button text="Adicionar Amoxicilina" onAction="#adicionarAmoxicilina"/>
+        <Button text="Remover Amoxicilina" onAction="#removerAmoxicilina"/>
+
+        <Label fx:id="cefalexinaLabel" text="12"/>
+        <Button text="Adicionar Cefalexina" onAction="#adicionarCefalexina"/>
+        <Button text="Remover Cefalexina" onAction="#removerCefalexina"/>
+
+        <Label text="4. Corticosteroides"/>
+        <Label fx:id="prednisonaLabel" text="10"/>
+        <Button text="Adicionar Prednisona" onAction="#adicionarPrednisona"/>
+        <Button text="Remover Prednisona" onAction="#removerPrednisona"/>
+
+        <Label text="5. Antieméticos"/>
+        <Label fx:id="metoclopramidaLabel" text="14"/>
+        <Button text="Adicionar Metoclopramida" onAction="#adicionarMetoclopramida"/>
+        <Button text="Remover Metoclopramida" onAction="#removerMetoclopramida"/>
+
+        <Label fx:id="ondansetronaLabel" text="13"/>
+        <Button text="Adicionar Ondansetrona" onAction="#adicionarOndansetrona"/>
+        <Button text="Remover Ondansetrona" onAction="#removerOndansetrona"/>
+
+        <Label text="6. Soluções Eletrolíticas e Reidratantes"/>
+        <Label fx:id="ringerLabel" text="20"/>
+        <Button text="Adicionar Ringer" onAction="#adicionarRinger"/>
+        <Button text="Remover Ringer" onAction="#removerRinger"/>
+
+        <Label fx:id="soroFisiologicoLabel" text="18"/>
+        <Button text="Adicionar Soro Fisiológico" onAction="#adicionarSoroFisiologico"/>
+        <Button text="Remover Soro Fisiológico" onAction="#removerSoroFisiologico"/>
+
+        <Label text="7. Antiparasitários Internos e Externos"/>
+        <Label fx:id="ivermectinaLabel" text="25"/>
+        <Button text="Adicionar Ivermectina" onAction="#adicionarIvermectina"/>
+        <Button text="Remover Ivermectina" onAction="#removerIvermectina"/>
+
+        <Label fx:id="pipetasLabel" text="30"/>
+        <Button text="Adicionar Pipetas" onAction="#adicionarPipetas"/>
+        <Button text="Remover Pipetas" onAction="#removerPipetas"/>
+
+        <Label text="8. Broncodilatadores"/>
+        <Label fx:id="aminofilinaLabel" text="7"/>
+        <Button text="Adicionar Aminofilina" onAction="#adicionarAminofilina"/>
+        <Button text="Remover Aminofilina" onAction="#removerAminofilina"/>
+
+        <Label text="9. Anticoagulantes e Hemostáticos"/>
+        <Label fx:id="vitaminaK1Label" text="9"/>
+        <Button text="Adicionar Vitamina K1" onAction="#adicionarVitaminaK1"/>
+        <Button text="Remover Vitamina K1" onAction="#removerVitaminaK1"/>
+
+        <Label fx:id="esterFibrinaLabel" text="8"/>
+        <Button text="Adicionar Ésteres de Fibrina" onAction="#adicionarEsterFibrina"/>
+        <Button text="Remover Ésteres de Fibrina" onAction="#removerEsterFibrina"/>
+
+        <Label text="10. Agentes Anticonvulsivantes"/>
+        <Label fx:id="diazepamLabel" text="12"/>
+        <Button text="Adicionar Diazepam" onAction="#adicionarDiazepam"/>
+        <Button text="Remover Diazepam" onAction="#removerDiazepam"/>
+
+        <Label fx:id="fenobarbitalLabel" text="10"/>
+        <Button text="Adicionar Fenobarbital" onAction="#adicionarFenobarbital"/>
+        <Button text="Remover Fenobarbital" onAction="#removerFenobarbital"/>
+    </VBox>
+</ScrollPane>

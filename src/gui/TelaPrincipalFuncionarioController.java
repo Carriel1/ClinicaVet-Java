@@ -254,7 +254,27 @@ public class TelaPrincipalFuncionarioController {
     // Método chamado para o controle de estoque
     @FXML
     public void onControleEstoque(ActionEvent event) {
-        System.out.println("Controle de Estoque.");
+        try {
+            // Carregar o FXML da tela de estoque
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/Estoque.fxml"));
+            Parent estoqueView = loader.load();
+
+            // Criar uma nova cena com a tela de estoque
+            Scene estoqueScene = new Scene(estoqueView);
+
+            // Criar um novo palco (janela)
+            Stage estoqueStage = new Stage();
+            estoqueStage.setTitle("Controle de Estoque");
+            estoqueStage.setScene(estoqueScene);
+            estoqueStage.show();
+
+            // Se você quiser fechar a janela atual após abrir a nova:
+            // ((Node)(event.getSource())).getScene().getWindow().hide();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Erro ao carregar a tela de estoque.");
+        }
     }
 
     // Método chamado para sair da tela principal
