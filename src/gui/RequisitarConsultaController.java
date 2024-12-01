@@ -20,12 +20,12 @@ import model.services.ConsultaService;
 
 public class RequisitarConsultaController {
 
-    private ConsultaService consultaService; // Acesso ao serviço de consultas
-    private int clienteId;  // ID do cliente que requisitou a consulta
+    private ConsultaService consultaService; 
+    private int clienteId;  
     private AnimalService animalService;
     
     @FXML
-    private TextArea descricaoConsulta;  // Área para o cliente descrever a consulta
+    private TextArea descricaoConsulta;  
 
     @FXML
     private Button btnRequisitarConsulta;
@@ -36,7 +36,6 @@ public class RequisitarConsultaController {
     	  animalService = new AnimalService();
     }
     
-    // Método para setar o ID do cliente
     public void setClienteId(int clienteId) {
         this.clienteId = clienteId;
     }
@@ -46,17 +45,14 @@ public class RequisitarConsultaController {
         List<Animal> animais = animalService.buscarPorClienteId(clienteId);
         
         if (animais.isEmpty()) {
-            return null; // Nenhum animal associado ao cliente
+            return null; 
         }
-        // Aqui, você pode retornar o primeiro animal ou mostrar uma lista para o usuário escolher
-        return animais.get(0); // Exemplo: retorna o primeiro animal
+        return animais.get(0); 
     }
 
-    // Método chamado ao clicar em "Requisitar Consulta"
     @FXML
     public void onRequisitarConsulta(ActionEvent event) {
         try {
-            // Obter a descrição da consulta fornecida pelo cliente
             String descricao = descricaoConsulta.getText();
             
             if (descricao == null || descricao.trim().isEmpty()) {
@@ -66,23 +62,21 @@ public class RequisitarConsultaController {
 
             // Configurando cliente com ID válido
             Cliente cliente = new Cliente();
-            cliente.setId(clienteId); // O ID foi atribuído anteriormente pelo método setClienteId
+            cliente.setId(clienteId); 
 
             // Buscando animal associado ao cliente
-            Animal animal = obterAnimalAssociadoAoCliente(clienteId); // Crie este método para retornar o animal correto
+            Animal animal = obterAnimalAssociadoAoCliente(clienteId); 
             if (animal == null) {
                 Alerts.showAlert("Erro", "Animal não selecionado", "Por favor, selecione um animal para a consulta.", AlertType.WARNING);
                 return;
             }
 
-            // Veterinário pode ser nulo neste momento
             Veterinario veterinario = null;
 
-            // Configurando outros atributos da consulta
-            LocalDate dataConsulta = LocalDate.now(); // Ajuste conforme sua lógica
-            LocalTime horaConsulta = LocalTime.now(); // Ajuste conforme sua lógica
-            String criadoPor = "Cliente"; // Marcado como cliente
-            String status = "Requisitada"; // Status inicial
+            LocalDate dataConsulta = LocalDate.now(); 
+            LocalTime horaConsulta = LocalTime.now(); 
+            String criadoPor = "Cliente"; 
+            String status = "Requisitada"; 
 
             // Criar a consulta
             Consulta consulta = new Consulta(null, cliente, veterinario, dataConsulta, horaConsulta, descricao, status, criadoPor, animal);

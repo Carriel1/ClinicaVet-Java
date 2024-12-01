@@ -45,7 +45,7 @@ public class VeterinarioDaoJDBC implements VeterinarioDao {
                     PreparedStatement.RETURN_GENERATED_KEYS);
 
             st.setString(1, obj.getNome());
-            st.setString(2, obj.getCpf());  // Adicionando o CPF
+            st.setString(2, obj.getCpf());  
             st.setString(3, obj.getEmail());
             st.setString(4, obj.getTelefone());
             st.setString(5, obj.getSenha());
@@ -106,7 +106,7 @@ public class VeterinarioDaoJDBC implements VeterinarioDao {
         ResultSet rs = null;
         try {
             st = conn.prepareStatement("SELECT * FROM veterinario WHERE id = ?");
-            st.setInt(1, id);  // Você ainda usa `setInt` para passar o valor de `Integer`
+            st.setInt(1, id);  
             rs = st.executeQuery();
 
             if (rs.next()) {
@@ -114,7 +114,6 @@ public class VeterinarioDaoJDBC implements VeterinarioDao {
                 veterinario.setId(rs.getInt("id"));
                 veterinario.setNome(rs.getString("nome"));
                 veterinario.setTelefone(rs.getString("telefone"));
-                // Atribua outros campos necessários
                 return veterinario;
             }
             return null;
@@ -172,7 +171,6 @@ public class VeterinarioDaoJDBC implements VeterinarioDao {
         PreparedStatement st = null;
         ResultSet rs = null;
         try {
-            // Supondo que o campo de username seja o nome do veterinário
             st = conn.prepareStatement("SELECT * FROM Veterinario WHERE nome = ?"); // ou qualquer outro campo que represente o username
             st.setString(1, username);
             rs = st.executeQuery();

@@ -14,14 +14,13 @@ public class AnimalService {
     private AnimalDao dao;
 
     public AnimalService(Connection conn) {
-        dao = new AnimalDaoJDBC(conn);  // Inicializa o DAO com a conexão fornecida
+        dao = new AnimalDaoJDBC(conn);  
     }
     
     public AnimalService() {
-        this.dao = DaoFactory.createAnimalDao(); // Cria o DAO para operações de banco
+        this.dao = DaoFactory.createAnimalDao(); 
     }
     
-    // Inserir um novo animal
     public void insert(Animal animal) {
         if (animal == null || animal.getCliente() == null) {
             throw new IllegalArgumentException("Animal e Cliente não podem ser nulos.");
@@ -36,9 +35,9 @@ public class AnimalService {
     
     public void saveOrUpdate(Animal animal) {
         if (animal.getId() == null) {
-            dao.insert(animal); // Insere se o ID for nulo
+            dao.insert(animal); 
         } else {
-            dao.update(animal); // Atualiza se já tiver um ID
+            dao.update(animal); 
         }
     }
     

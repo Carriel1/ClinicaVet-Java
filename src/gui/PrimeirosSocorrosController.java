@@ -26,10 +26,10 @@ public class PrimeirosSocorrosController {
     private synchronized <T> void loadView(String fxmlPath, Consumer<T> initializingAction) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
-            Parent newView = loader.load(); // Parent é genérico e funciona para qualquer root
+            Parent newView = loader.load(); 
 
             Scene mainScene = Main.getMainScene();
-            ScrollPane mainScrollPane = (ScrollPane) mainScene.getRoot(); // Supondo que o root principal seja um ScrollPane
+            ScrollPane mainScrollPane = (ScrollPane) mainScene.getRoot(); 
 
             // Substituir o conteúdo do ScrollPane pela nova view carregada
             mainScrollPane.setContent(newView);

@@ -27,16 +27,15 @@ public class RelatorioCTodosDadosDS {
     private RelatorioDaoJDBC relatorioDao;
     private VeterinarioDaoJDBC veterinarioDao;
     private FuncionarioDaoJDBC funcionarioDao;
-    private AnimalDaoJDBC animalDao;  // Declarando o DAO do Animal
+    private AnimalDaoJDBC animalDao;  
 
     public RelatorioCTodosDadosDS() {
-        // Inicializando os DAOs concretos
         this.consultaDao = new ConsultaDaoJDBC();
         this.clienteDao = new ClienteDaoJDBC();
         this.relatorioDao = new RelatorioDaoJDBC();
         this.veterinarioDao = new VeterinarioDaoJDBC();
         this.funcionarioDao = new FuncionarioDaoJDBC();
-        this.animalDao = new AnimalDaoJDBC();  // Inicializando o DAO do Animal
+        this.animalDao = new AnimalDaoJDBC();  
     }
 
     // Método que coleta todos os dados e gera o relatório
@@ -107,10 +106,10 @@ public class RelatorioCTodosDadosDS {
     public void salvarRelatorioEmArquivo(String caminhoArquivo) {
         try {
             String dadosRelatorio = gerarRelatorio();  // Gera o conteúdo do relatório
-            System.out.println("Conteúdo do relatório gerado:\n" + dadosRelatorio);  // Verifique o conteúdo
+            System.out.println("Conteúdo do relatório gerado:\n" + dadosRelatorio);  
             // Verificar e criar o diretório, se necessário
             File diretorio = new File(caminhoArquivo).getParentFile();
-            System.out.println("Relatório salvo em: " + caminhoArquivo); // Mensagem de confirmação
+            System.out.println("Relatório salvo em: " + caminhoArquivo); 
             if (!diretorio.exists()) {
                 diretorio.mkdirs();
             }

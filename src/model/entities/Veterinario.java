@@ -12,11 +12,9 @@ public class Veterinario implements Serializable {
     private String telefone;
     private String senha;
 
-    // Construtor padrão
     public Veterinario() {
     }
 
-    // Construtor com parâmetros
     public Veterinario(Integer id, String nome, String cpf, String email, String telefone, String senha) {
         this.id = id;
         this.nome = nome;
@@ -26,7 +24,6 @@ public class Veterinario implements Serializable {
         this.senha = senha;
     }
     
-    // Novo construtor apenas com o nome
     public Veterinario(String nome) {
         this.nome = nome;
         this.id = null;
@@ -90,7 +87,6 @@ public class Veterinario implements Serializable {
         return "Veterinario [id=" + id + ", nome=" + nome + ", cpf=" + cpf + ", email=" + email + ", telefone=" + telefone + "]";
     }
 
-    // Métodos de comparação (equals e hashCode) para uso em coleções e validações
     @Override
     public int hashCode() {
         final int prime = 31;

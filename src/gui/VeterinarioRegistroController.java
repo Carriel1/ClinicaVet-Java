@@ -44,7 +44,7 @@ public class VeterinarioRegistroController implements Initializable {
     private TextField txtTelefone;
 
     @FXML
-    private TextField txtCpf;  // Novo campo para o CPF
+    private TextField txtCpf;  
 
     @FXML
     private Button btSave;
@@ -65,7 +65,7 @@ public class VeterinarioRegistroController implements Initializable {
     private Label labelErrorTelefone;
 
     @FXML
-    private Label labelErrorCpf;  // Label de erro para o CPF
+    private Label labelErrorCpf;  
 
     public void setVeterinario(Veterinario entity) {
         this.entity = entity;
@@ -85,12 +85,12 @@ public class VeterinarioRegistroController implements Initializable {
             throw new IllegalStateException("Entity or Service is null");
         }
         try {
-            entity = getFormData(); // Obtém os dados do formulário
-            service.saveOrUpdate(entity); // Chama o método genérico de salvar/atualizar
-            notifyDataChangeListeners(); // Notifica mudanças na tabela
-            Utils.currentStage(event).close(); // Fecha o formulário
+            entity = getFormData(); 
+            service.saveOrUpdate(entity);  
+            notifyDataChangeListeners(); 
+            Utils.currentStage(event).close(); 
         } catch (ValidationException e) {
-            setErrorMessages(e.getErrors()); // Define mensagens de erro no formulário
+            setErrorMessages(e.getErrors()); 
         } catch (DbException e) {
             Alerts.showAlert("Error saving object", null, e.getMessage(), AlertType.ERROR); // Mostra alertas de erros de banco de dados
         }

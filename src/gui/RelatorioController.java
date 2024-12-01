@@ -62,8 +62,8 @@ public class RelatorioController {
             relatorio.setConsulta(consulta);
             relatorio.setVeterinario(consulta.getVeterinario());
             relatorio.setDescricao(conteudoRelatorio);
-            relatorio.setDiagnostico("Diagnóstico placeholder"); // Substitua por lógica real
-            relatorio.setRecomendacao("Recomendação placeholder"); // Substitua por lógica real
+            relatorio.setDiagnostico("Diagnóstico placeholder"); 
+            relatorio.setRecomendacao("Recomendação placeholder"); 
             relatorio.setDataCriacao(java.time.LocalDate.now());
 
             // Salvar no banco de dados
@@ -73,10 +73,7 @@ public class RelatorioController {
             Alerts.showAlert("Sucesso", null, "Relatório salvo com sucesso!", Alert.AlertType.INFORMATION);
 
             fecharTela();
-        } /*catch (SQLException e) {
-            e.printStackTrace();
-            Alerts.showAlert("Erro", null, "Erro de banco de dados ao salvar o relatório.", Alert.AlertType.ERROR);
-        }*/ catch (DbException e) {
+        }  catch (DbException e) {
             e.printStackTrace();
             Alerts.showAlert("Erro", null, e.getMessage(), Alert.AlertType.ERROR);
         } catch (Exception e) {

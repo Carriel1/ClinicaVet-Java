@@ -53,7 +53,7 @@ public class AnimalDaoJDBC implements AnimalDao {
             if (rowsAffected > 0) {
                 try (ResultSet rs = stmt.getGeneratedKeys()) {
                     if (rs.next()) {
-                        animal.setId(rs.getInt(1));  // Atribui o ID gerado
+                        animal.setId(rs.getInt(1));  
                     }
                 }
             }
@@ -135,10 +135,9 @@ public class AnimalDaoJDBC implements AnimalDao {
         return list;
     }
 
-    // Renomeie este método para implementar corretamente a interface
     @Override
     public List<Animal> findAnimaisByClienteId(Integer clienteId) {
-        return findByClienteId(clienteId);  // Chama o método já implementado
+        return findByClienteId(clienteId);  
     }
 
     private Animal instantiateAnimal(ResultSet rs) throws SQLException {
@@ -148,7 +147,7 @@ public class AnimalDaoJDBC implements AnimalDao {
         animal.setIdade(rs.getInt("idade"));
         animal.setRaca(rs.getString("raca"));
         animal.setEspecie(rs.getString("especie"));
-        Cliente cliente = new Cliente(); // Instancia o cliente associado
+        Cliente cliente = new Cliente(); 
         cliente.setId(rs.getInt("cliente_id"));
         animal.setCliente(cliente);
         return animal;

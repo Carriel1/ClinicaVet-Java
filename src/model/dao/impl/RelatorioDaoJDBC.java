@@ -42,7 +42,6 @@ public class RelatorioDaoJDBC implements RelatorioDao {
     
     @Override
     public void insert(Relatorio relatorio) {
-        // Verificar se o veterinário está presente antes de tentar inseri-lo no banco
         if (relatorio.getVeterinario() == null) {
             throw new DbException("Veterinário não atribuído ao relatório.");
         }
@@ -54,7 +53,7 @@ public class RelatorioDaoJDBC implements RelatorioDao {
 
         try (PreparedStatement st = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             st.setInt(1, relatorio.getConsulta().getId());
-            st.setInt(2, relatorio.getVeterinario().getId()); // Agora, você pode acessar o veterinário sem problemas
+            st.setInt(2, relatorio.getVeterinario().getId()); 
             st.setString(3, relatorio.getDescricao());
             st.setString(4, relatorio.getDiagnostico());
             st.setString(5, relatorio.getRecomendacao());
@@ -195,7 +194,6 @@ public class RelatorioDaoJDBC implements RelatorioDao {
         public List<Relatorio> findAllComVeterinario() {
             List<Relatorio> relatorios = new ArrayList<>();
 
-            // Exemplo de código para consultar os relatórios e incluir os veterinários
             String sql = "SELECT r.*, v.nome AS veterinario_nome FROM relatorio r "
                        + "JOIN veterinario v ON r.veterinario_id = v.id";
 
@@ -207,13 +205,11 @@ public class RelatorioDaoJDBC implements RelatorioDao {
                     Relatorio relatorio = new Relatorio();
                     relatorio.setId(rs.getInt("id"));
                     relatorio.setDescricao(rs.getString("descricao"));
-                    // Adicione outros campos do relatório conforme necessário
 
                     Veterinario veterinario = new Veterinario();
                     veterinario.setNome(rs.getString("veterinario_nome"));
-                    // Preencha outros dados do veterinário
 
-                    relatorio.setVeterinario(veterinario);  // Supondo que Relatorio tenha um veterinario
+                    relatorio.setVeterinario(veterinario);  
                     relatorios.add(relatorio);
                 }
 

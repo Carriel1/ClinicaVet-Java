@@ -42,7 +42,7 @@ public class TelaPrincipalVeterinarioController {
     private Button btnSair;
 
     @FXML
-    private Label lblWelcomeMessage; // Este Label é para exibir a mensagem de boas-vindas
+    private Label lblWelcomeMessage; 
 
     private AnimalService animalService;
     private ClienteService clienteService;
@@ -181,20 +181,17 @@ public class TelaPrincipalVeterinarioController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/MainView.fxml"));
             Parent mainViewParent = loader.load();
 
-            // Obter a cena principal da aplicação
             Scene mainScene = Main.getMainScene();
 
-            // Substituir o conteúdo da cena principal com o novo FXML (MainView)
             mainScene.setRoot(mainViewParent);
 
             // Atualizar a cena e exibir a janela
             Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
-            stage.setScene(mainScene);  // Atualiza a cena
-            stage.show();  // Exibe a cena novamente
+            stage.setScene(mainScene);  
+            stage.show();  
 
-            // Ajustar o tamanho da janela após a troca de cenas
-            stage.sizeToScene();  // Ajusta a janela automaticamente ao conteúdo
-            stage.centerOnScreen();  // Centraliza a janela na tela
+            stage.sizeToScene();  
+            stage.centerOnScreen();  
 
         } catch (IOException e) {
             e.printStackTrace();

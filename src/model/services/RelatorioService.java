@@ -33,12 +33,10 @@ public class RelatorioService {
     }
 
     public List<Relatorio> findAllRelatoriosComVeterinario() {
-        List<Relatorio> relatorios = relatorioDao.findAll(); // Supondo que você tenha um DAO
+        List<Relatorio> relatorios = relatorioDao.findAll(); 
 
-        // Asegure-se de que cada relatorio tenha seu veterinarioResponsavel preenchido
         for (Relatorio relatorio : relatorios) {
             if (relatorio.getVeterinarioResponsavel() == null) {
-                // Atribuir o veterinário responsável aqui, se necessário
                 Veterinario veterinario = veterinarioDao.findById(relatorio.getVeterinario().getId()); // Usando veterinarioDao
                 relatorio.setVeterinarioResponsavel(veterinario);
             }

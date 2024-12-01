@@ -66,10 +66,10 @@ public class ConsultaDaoJDBC implements ConsultaDao {
             if (consulta.getVeterinario() != null) {
                 st.setInt(6, consulta.getVeterinario().getId());
             } else {
-                st.setNull(6, java.sql.Types.INTEGER);  // Utiliza o tipo correto de dados para null
+                st.setNull(6, java.sql.Types.INTEGER);  
             }
             st.setString(7, consulta.getCriadoPor());
-            st.setInt(8, consulta.getAnimal().getId()); // Animal sempre será necessário devido à restrição NOT NULL
+            st.setInt(8, consulta.getAnimal().getId()); 
 
             // Executando a inserção
             int rowsAffected = st.executeUpdate();
@@ -117,7 +117,7 @@ public class ConsultaDaoJDBC implements ConsultaDao {
     private Connection getConnection() throws SQLException {
         // Verifica se a conexão já foi estabelecida, caso contrário, cria uma nova conexão.
         if (conn == null || conn.isClosed()) {
-            conn = DB.getConnection();  // Supondo que o método DB.getConnection() seja utilizado para obter a conexão
+            conn = DB.getConnection();  
         }
         return conn;
     }
@@ -160,7 +160,7 @@ public class ConsultaDaoJDBC implements ConsultaDao {
                 if (veterinario != null) {
                     consulta.setVeterinario(veterinario);
                 } else {
-                    consulta.setVeterinario(null);  // Ou lançar uma exceção, dependendo da lógica do sistema
+                    consulta.setVeterinario(null);  
                 }
 
                 return consulta;
@@ -246,7 +246,6 @@ public class ConsultaDaoJDBC implements ConsultaDao {
                     animal
                 );
                 
-                // Adicionando a consulta à lista
                 consultas.add(consulta);
             }
             return consultas;
@@ -325,7 +324,7 @@ public class ConsultaDaoJDBC implements ConsultaDao {
                 consulta.setCriadoPor(rs.getString("criadoPor"));
                 consulta.setCliente(cliente);
                 consulta.setAnimal(animal);
-                consulta.setVeterinario(veterinario); // Atribuindo o veterinário, se presente
+                consulta.setVeterinario(veterinario); 
 
                 consultas.add(consulta);
             }
@@ -339,7 +338,7 @@ public class ConsultaDaoJDBC implements ConsultaDao {
 
     public List<Consulta> findConsultasPendentesByVeterinarioId(Integer veterinarioId) {
         List<Consulta> consultas = new ArrayList<>();
-        String sql = "SELECT * FROM consulta WHERE veterinarioId = ? AND status = 'Pendente'"; // Exemplo de SQL
+        String sql = "SELECT * FROM consulta WHERE veterinarioId = ? AND status = 'Pendente'"; 
         try (PreparedStatement st = conn.prepareStatement(sql)) {
             st.setInt(1, veterinarioId);
             ResultSet rs = st.executeQuery();
@@ -348,7 +347,7 @@ public class ConsultaDaoJDBC implements ConsultaDao {
                 Consulta consulta = new Consulta();
                 consulta.setId(rs.getInt("id"));
                 consulta.setVeterinario(new Veterinario(
-                	    rs.getInt("veterinarioId"), // Preencher o veterinário com os dados do banco
+                	    rs.getInt("veterinarioId"), 
                 	    rs.getString("nome_veterinario"),
                 	    rs.getString("cpf_veterinario"),
                 	    rs.getString("email_veterinario"),
@@ -369,7 +368,6 @@ public class ConsultaDaoJDBC implements ConsultaDao {
                 consulta.setData(rs.getDate("data").toLocalDate());
                 consulta.setHora(rs.getTime("hora").toLocalTime());
                 consulta.setDescricao(rs.getString("descricao"));
-                // Aqui você pode carregar o animal, caso seja necessário.
                 consultas.add(consulta);
             }
         } catch (SQLException e) {
@@ -389,8 +387,6 @@ public class ConsultaDaoJDBC implements ConsultaDao {
             while (rs.next()) {
                 Consulta consulta = new Consulta();
                 consulta.setId(rs.getInt("id"));
-           //     consulta.setClienteNome(rs.getString("cliente_nome"));
-              //  consulta.setAnimalNome(rs.getString("animal_nome"));
                 consulta.setDataSolicitacao(rs.getDate("data"));
                 consulta.setStatus(rs.getString("status"));
                 consultas.add(consulta);

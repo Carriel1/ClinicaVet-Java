@@ -56,12 +56,11 @@ public class FuncionarioListController implements Initializable, DataChangeListe
     private synchronized <T> void loadView(String fxmlPath, Consumer<T> initializingAction) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
-            Parent newView = loader.load(); // Parent é genérico e funciona para qualquer root
+            Parent newView = loader.load();  
 
             Scene mainScene = Main.getMainScene();
-            ScrollPane mainScrollPane = (ScrollPane) mainScene.getRoot(); // Supondo que o root principal seja um ScrollPane
+            ScrollPane mainScrollPane = (ScrollPane) mainScene.getRoot(); 
 
-            // Substituir o conteúdo do ScrollPane pela nova view carregada
             mainScrollPane.setContent(newView);
 
             // Inicializar o controlador
@@ -76,7 +75,6 @@ public class FuncionarioListController implements Initializable, DataChangeListe
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // Inicialização de componentes, se necessário
     }
 
     private void createDialogForm(Funcionario obj, String absoluteName, Stage parentStage) {
@@ -104,6 +102,5 @@ public class FuncionarioListController implements Initializable, DataChangeListe
 
     @Override
     public void onDataChanged() {
-        // Atualizar a interface com as mudanças nos dados, se necessário
     }
 }

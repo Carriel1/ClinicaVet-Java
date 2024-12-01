@@ -11,6 +11,6 @@ public interface VeterinarioDao {
     Veterinario findById(Integer id);
     Veterinario findByEmail(String email);
     Veterinario findByCpf(String cpf);
-    Veterinario findByUsername(String username);  // Adicionando o método findByUsername
+    Veterinario findByUsername(String username); 
     List<Veterinario> findAll();
 }

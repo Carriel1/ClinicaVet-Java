@@ -22,7 +22,6 @@ public class VerRelatoriosController {
 
     private RelatorioService relatorioService;
     
-    // Este método deve ser chamado para injetar o serviço
     public void setRelatorioService(RelatorioService relatorioService) {
         this.relatorioService = relatorioService;
     }

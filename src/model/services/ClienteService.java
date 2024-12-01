@@ -9,8 +9,8 @@ import model.entities.Cliente;
 public class ClienteService {
 
     private ClienteDao dao;
-    private static Cliente loggedCliente;  // Variável estática para armazenar o cliente logado
-
+    private static Cliente loggedCliente;  
+    
     // Construtor para injeção do DAO
     public ClienteService() {
         this.dao = DaoFactory.createClienteDao(); // Inicializa o DAO usando a fábrica
@@ -63,8 +63,8 @@ public class ClienteService {
 
     // Método para registrar um cliente
     public void registrarCliente(String nome, String email, String telefone, String senha, String endereco, String cpf) {
-        // Validações básicas dos campos
-        if (nome == null || nome.trim().isEmpty()) {
+
+    	if (nome == null || nome.trim().isEmpty()) {
             throw new IllegalArgumentException("Nome não pode ser vazio.");
         }
         if (email == null || email.trim().isEmpty()) {
@@ -85,7 +85,7 @@ public class ClienteService {
 
         // Cria novo cliente
         Cliente cliente = new Cliente(null, nome, email, telefone, senha, endereco, cpf);
-        dao.insert(cliente); // Insere no banco
+        dao.insert(cliente); 
     }
 }
 

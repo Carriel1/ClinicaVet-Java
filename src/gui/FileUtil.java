@@ -12,11 +12,11 @@ public class FileUtil {
 	    try {
 	        File diretorio = new File(caminhoArquivo).getParentFile();
 	        if (!diretorio.exists()) {
-	            diretorio.mkdirs();  // Cria o diretório, se não existir
+	            diretorio.mkdirs();  
 	        }
 	        
 	        Files.write(Paths.get(caminhoArquivo), conteudo.getBytes(), StandardOpenOption.CREATE, StandardOpenOption.WRITE);
-	        System.out.println("Relatório salvo em: " + caminhoArquivo);  // Opcional: para exibir onde o arquivo foi salvo
+	        System.out.println("Relatório salvo em: " + caminhoArquivo);  
 	    } catch (IOException e) {
 	        e.printStackTrace();
 	    }

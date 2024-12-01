@@ -134,14 +134,12 @@ public class TelaPrincipalClienteController {
                 return;
             }
             
-            
-            // Carregar o FXML da tela de registro de animal
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/AnimalRegistro.fxml"));
             Parent parent = loader.load();
 
             // Obter o controlador da tela de registro de animal
             AnimalController controller = loader.getController();
-            controller.setClienteId(clienteId);  // Passar o ID do cliente para o controlador
+            controller.setClienteId(clienteId); 
 
             // Abrir a tela de registro de animal em uma janela modal
             Stage stage = new Stage();
@@ -149,11 +147,10 @@ public class TelaPrincipalClienteController {
             stage.setScene(new Scene(parent));
             stage.initModality(Modality.WINDOW_MODAL);
             stage.initOwner(((Button) event.getSource()).getScene().getWindow());
-            stage.showAndWait();  // Espera a janela ser fechada
+            stage.showAndWait(); 
             
             // Após o registro, você pode atualizar a tabela de animais
-            onVerAnimaisRegistrados(event);  // Atualiza a lista de animais registrados
-
+            onVerAnimaisRegistrados(event);  
         } catch (IOException e) {
             e.printStackTrace();
             System.out.println("Erro ao carregar a tela de registro de animais: " + e.getMessage());
@@ -177,12 +174,11 @@ public class TelaPrincipalClienteController {
 
             // Atualizar a cena e exibir a janela
             Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
-            stage.setScene(mainScene);  // Atualiza a cena
-            stage.show();  // Exibe a cena novamente
+            stage.setScene(mainScene);  
+            stage.show();  
 
-            // Ajustar o tamanho da janela após a troca de cenas
             stage.sizeToScene();  // Ajusta a janela automaticamente ao conteúdo
-            stage.centerOnScreen();  // Centraliza a janela na tela
+            stage.centerOnScreen();  
 
         } catch (IOException e) {
             e.printStackTrace();

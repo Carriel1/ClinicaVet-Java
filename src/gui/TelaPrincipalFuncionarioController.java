@@ -49,7 +49,6 @@ public class TelaPrincipalFuncionarioController {
 
     @FXML
     public void initialize() {
-        // Inicializando os serviços com suas dependências corretas
         if (clienteService == null) {
             clienteService = new ClienteService();  
         }
@@ -60,12 +59,9 @@ public class TelaPrincipalFuncionarioController {
             consultaService = new ConsultaService();
         }
         
-        List<Cliente> clientes = clienteService.findAll(); // Isso agora deve funcionar
+        List<Cliente> clientes = clienteService.findAll(); 
     }
 
-
-
-    // Método chamado para cadastrar um novo veterinário
     @FXML
     public void onCadastrarVeterinario(ActionEvent event) {
         try {
@@ -123,16 +119,16 @@ public class TelaPrincipalFuncionarioController {
 
             // Configura o controlador da nova tela
             ConsultaRegistroController controller = loader.getController();
-            controller.setConsultaService(consultaService); // Passando o serviço de consulta
-            controller.setClienteService(clienteService);    // Passando o serviço de cliente
-            controller.setVeterinarioService(veterinarioService); // Passando o serviço de veterinário
+            controller.setConsultaService(consultaService); 
+            controller.setClienteService(clienteService);    
+            controller.setVeterinarioService(veterinarioService); 
 
             Stage stage = new Stage();
             stage.setTitle("Registrar Consulta");
             stage.setScene(new Scene(parent));
-            stage.initOwner(Utils.currentStage(event)); // Configura o stage pai
-            stage.initModality(Modality.WINDOW_MODAL);  // Define a modalidade
-            stage.showAndWait(); // Espera a tela ser fechada antes de continuar
+            stage.initOwner(Utils.currentStage(event)); 
+            stage.initModality(Modality.WINDOW_MODAL);  
+            stage.showAndWait(); 
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -143,17 +139,13 @@ public class TelaPrincipalFuncionarioController {
     @FXML
     public void onCancelarConsulta(ActionEvent event) {
         try {
-            // Carrega o FXML para a tela de cancelamento de consulta
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/CancelarConsulta.fxml"));
             Parent root = loader.load();
 
-            // Obtém o controlador da tela de cancelamento de consulta
             CancelarConsultaController cancelarConsultaController = loader.getController();
             
-            // Passa os serviços necessários para o controlador de CancelarConsulta
             cancelarConsultaController.setServices(consultaService); // Passa o ConsultaService
 
-            // Exibe a nova tela
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
             stage.show();
@@ -174,9 +166,9 @@ public class TelaPrincipalFuncionarioController {
             ModificarConsultaController modificarConsultaController = loader.getController();
             
             // Passa os serviços necessários para o controlador de ModificarConsulta
-            modificarConsultaController.setServices(consultaService); // Passa o ConsultaService
-            modificarConsultaController.setClienteService(clienteService); // Passa o ClienteService
-            modificarConsultaController.setVeterinarioService(veterinarioService); // Passa o VeterinarioService
+            modificarConsultaController.setServices(consultaService); 
+            modificarConsultaController.setClienteService(clienteService); 
+            modificarConsultaController.setVeterinarioService(veterinarioService); 
 
             // Exibe a nova tela
             Stage stage = new Stage();
@@ -205,8 +197,8 @@ public class TelaPrincipalFuncionarioController {
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
             stage.setTitle("Excluir Veterinário");
-            stage.initOwner(Utils.currentStage(event)); // Configura o stage pai
-            stage.initModality(Modality.WINDOW_MODAL);  // Define a modalidade
+            stage.initOwner(Utils.currentStage(event)); 
+            stage.initModality(Modality.WINDOW_MODAL);  
             stage.showAndWait();
         } catch (IOException e) {
             e.printStackTrace();
@@ -223,17 +215,17 @@ public class TelaPrincipalFuncionarioController {
 
             // Configura o controlador da nova tela
             ConsultaAprovacaoController controller = loader.getController();
-            controller.setConsultaService(consultaService); // Passando o serviço de consulta
+            controller.setConsultaService(consultaService); 
 
             // Passando o clienteId para o novo controlador
-            controller.setClienteId(clienteService.getLoggedClienteId());  // Assumindo que você tenha um método para obter o ID do cliente logado
+            controller.setClienteId(clienteService.getLoggedClienteId()); 
 
             // Criação e exibição da nova janela de aprovação
             Stage stage = new Stage();
             stage.setTitle("Aprovação de Consulta");
             stage.setScene(new Scene(parent));
-            stage.initOwner(Utils.currentStage(event)); // Configura o stage pai
-            stage.initModality(Modality.WINDOW_MODAL);  // Define a modalidade
+            stage.initOwner(Utils.currentStage(event)); 
+            stage.initModality(Modality.WINDOW_MODAL);  
             stage.showAndWait(); // Espera a tela ser fechada antes de continuar
 
         } catch (IOException e) {
@@ -281,8 +273,8 @@ public class TelaPrincipalFuncionarioController {
 
             // Atualizar a cena e exibir a janela
             Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
-            stage.setScene(mainScene);  // Atualiza a cena
-            stage.show();  // Exibe a cena novamente
+            stage.setScene(mainScene); 
+            stage.show();  
 
             // Ajustar o tamanho da janela após a troca de cenas
             stage.sizeToScene();  // Ajusta a janela automaticamente ao conteúdo

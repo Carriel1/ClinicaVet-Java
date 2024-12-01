@@ -12,10 +12,10 @@ public class Cliente implements Serializable {
     private String email;
     private String telefone;
     private String senha;
-    private String endereco; // Atributo para endereço
-    private String cpf; // Atributo para CPF
+    private String endereco; 
+    private String cpf; 
     
-    private List<Animal> animais = new ArrayList<>(); // Lista de animais registrados
+    private List<Animal> animais = new ArrayList<>();
 
     public Cliente() {
     }
@@ -80,15 +80,14 @@ public class Cliente implements Serializable {
         this.endereco = endereco;
     }
 
-    public String getCpf() { // Getter para o CPF
+    public String getCpf() { 
         return cpf;
     }
 
-    public void setCpf(String cpf) { // Setter para o CPF
+    public void setCpf(String cpf) { 
         this.cpf = cpf;
     }
 
-    // Métodos para acessar e modificar a lista de animais
     public List<Animal> getAnimais() {
         return animais;
     }
@@ -105,13 +104,11 @@ public class Cliente implements Serializable {
         animais.remove(animal);
     }
 
-    // Método toString - Ajustado para não incluir dados sensíveis como a senha
     @Override
     public String toString() {
         return "Cliente [id=" + id + ", nome=" + nome + ", email=" + email + ", telefone=" + telefone + ", endereco=" + endereco + ", cpf=" + cpf + "]";
     }
 
-    // Métodos de comparação (equals e hashCode) para uso em coleções e validações
     @Override
     public int hashCode() {
         final int prime = 31;

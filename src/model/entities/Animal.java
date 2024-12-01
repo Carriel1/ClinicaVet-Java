@@ -20,7 +20,7 @@ public class Animal {
         if (id != null) {
             this.id.set(id);
         } else {
-            this.id.set(0);  // Ou outra lógica para definir um valor padrão
+            this.id.set(0);  
         }
         this.nome.set(nome);
         this.idade.set(idade);
@@ -29,7 +29,6 @@ public class Animal {
         this.cliente = cliente;
     }
 
-    // Propriedades observáveis para as colunas da tabela
     public Integer getId() {
         return id.get();
     }
@@ -107,7 +106,7 @@ public class Animal {
     }
 
     public boolean isNew() {
-        return this.id.get() == 0;  // Verifica se o ID é zero
+        return this.id.get() == 0;  
     }
 
     @Override
@@ -116,7 +115,6 @@ public class Animal {
                ", raca=" + raca.get() + ", especie=" + especie.get() + "]";
     }
 
-    // Novo método animalInfo
     public String animalInfo() {
         return "Nome: " + getNome() + ", Idade: " + getIdade() + " anos, Raça: " + getRaca() + ", Espécie: " + getEspecie();
     }

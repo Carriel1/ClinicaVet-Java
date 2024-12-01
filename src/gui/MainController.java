@@ -13,8 +13,8 @@ public class MainController {
 
     public MainController(Stage stage, Pane rootPane) {
         this.rootPane = rootPane;
-        stage.setScene(new Scene(rootPane));  // Define a cena com rootPane como o contêiner principal
-        stage.setTitle("Aplicação JavaFX"); // Defina um título para a janela
+        stage.setScene(new Scene(rootPane));  
+        stage.setTitle("Aplicação JavaFX"); 
     }
 
     // Método para definir a tela usando o caminho do FXML
@@ -29,7 +29,6 @@ public class MainController {
         }
     }
 
-    // Método para definir a tela usando um Parent diretamente (caso queira passar um elemento já carregado)
     public void setScreen(Parent screen) {
         rootPane.getChildren().clear();
         rootPane.getChildren().add(screen);

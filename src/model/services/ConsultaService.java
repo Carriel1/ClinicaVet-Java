@@ -16,7 +16,7 @@ public class ConsultaService {
     private ConsultaDao dao;
 
     public ConsultaService() {
-        this.dao = DaoFactory.createConsultaDao(); // Certifique-se de que o DAO está sendo inicializado corretamente.
+        this.dao = DaoFactory.createConsultaDao(); 
     }
     
     // Buscar todas as consultas pendentes
@@ -26,7 +26,7 @@ public class ConsultaService {
 
     // Aceitar a consulta
     public void aceitarConsulta(Consulta consulta) {
-        dao.updateStatus(consulta, "Pendente");  // Altera status para "aceita"
+        dao.updateStatus(consulta, "Pendente");  
     }
     
     public List<Consulta> buscarConsultasRequisitadas() {
@@ -74,7 +74,6 @@ public class ConsultaService {
             throw new DbException("Erro ao atualizar consulta: " + e.getMessage());
         } finally {
             DB.closeStatement(st);
-            // A conexão não é fechada aqui, ela será fechada em outro ponto do sistema
         }
     }
     
@@ -179,7 +178,6 @@ public class ConsultaService {
             throw new DbException("Erro ao cancelar consulta: " + e.getMessage());
         } finally {
             DB.closeStatement(st);
-            // A conexão não é fechada aqui, ela será fechada em outro ponto do sistema
         }
     }
 

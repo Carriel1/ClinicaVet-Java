@@ -33,11 +33,11 @@ public class Utils {
     public static Scene loadScene(String fxmlPath) {
         try {
             FXMLLoader loader = new FXMLLoader(Utils.class.getResource(fxmlPath));
-            Parent root = loader.load(); // Carrega o arquivo FXML
-            return new Scene(root); // Retorna a cena com o layout carregado
+            Parent root = loader.load(); 
+            return new Scene(root); 
         } catch (IOException e) {
-            e.printStackTrace(); // Exibe o erro no console
-            return null; // Retorna null em caso de erro
+            e.printStackTrace(); 
+            return null; 
         }
     }
 

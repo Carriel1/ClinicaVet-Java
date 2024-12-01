@@ -20,25 +20,24 @@ import model.services.VeterinarioService;
 public class ModificarConsultaController {
 
     @FXML
-    private ComboBox<Consulta> comboConsulta;  // ComboBox para selecionar a consulta
+    private ComboBox<Consulta> comboConsulta;  
+    
+    @FXML
+    private TextField txtDescricao;  
 
     @FXML
-    private TextField txtDescricao;  // Campo para editar a descrição da consulta
+    private TextField txtData;  
+    
+    @FXML
+    private TextField txtHora;  
 
     @FXML
-    private TextField txtData;  // Campo para editar a data da consulta
-
-    @FXML
-    private TextField txtHora;  // Campo para editar a hora da consulta
-
-    @FXML
-    private Button btnSalvar;  // Botão para salvar a consulta modificada
+    private Button btnSalvar;  
 
     private ConsultaService consultaService;
     private ClienteService clienteService;
     private VeterinarioService veterinarioService;
 
-    // Injeção dos serviços
     public void setServices(ConsultaService consultaService) {
         this.consultaService = consultaService;
     }
@@ -56,14 +55,12 @@ public class ModificarConsultaController {
     public void initialize() {
   	  consultaService = new ConsultaService(); 
     	try {
-            // Carregar todas as consultas existentes
             comboConsulta.getItems().addAll(consultaService.findConsultasPendentes()); 
         } catch (Exception e) {
             e.printStackTrace();
             Alerts.showAlert("Erro", null, "Falha ao carregar as consultas.", Alert.AlertType.ERROR);
         }
 
-        // Listener para quando uma consulta for selecionada no ComboBox
         comboConsulta.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
                 carregarConsulta(newValue);  // Carregar os dados da consulta
@@ -74,8 +71,8 @@ public class ModificarConsultaController {
     // Método para carregar os dados da consulta selecionada
     private void carregarConsulta(Consulta consulta) {
         txtDescricao.setText(consulta.getDescricao());
-        txtData.setText(consulta.getData().toString());  // Supondo que a data esteja no formato adequado
-        txtHora.setText(consulta.getHora().toString());  // Supondo que a hora esteja no formato adequado
+        txtData.setText(consulta.getData().toString());  
+        txtHora.setText(consulta.getHora().toString());  
     }
 
  // Método para salvar as modificações na consulta
