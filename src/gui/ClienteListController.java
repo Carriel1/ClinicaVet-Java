@@ -2,13 +2,10 @@ package gui;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.List;
-import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.function.Consumer;
 
 import application.Main;
-import db.DbIntegrityException;
 import gui.listeners.DataChangeListener;
 import gui.util.Alerts;
 import gui.util.Utils;
@@ -21,7 +18,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
@@ -56,8 +52,6 @@ public class ClienteListController implements Initializable, DataChangeListener 
     // Atualizar os dados na tela
     public void updateTableView() {
         if (service == null) throw new IllegalStateException("Service was null");
-
-        List<Cliente> list = service.findAll();
     }
 
     // Método para criar o diálogo de formulário
@@ -81,21 +75,6 @@ public class ClienteListController implements Initializable, DataChangeListener 
             dialogStage.showAndWait();
         } catch (IOException e) {
             Alerts.showAlert("IO Exception", "Error loading view", e.getMessage(), AlertType.ERROR);
-        }
-    }
-
-    // Método para remover um cliente
-    private void removeEntity(Cliente obj) {
-        Optional<ButtonType> result = Alerts.showConfirmation("Confirmation", "Are you sure you want to delete?");
-        if (result.isPresent() && result.get() == ButtonType.OK) {
-            if (service == null) throw new IllegalStateException("Service was null");
-
-            try {
-                service.remove(obj);
-                updateTableView();
-            } catch (DbIntegrityException e) {
-                Alerts.showAlert("Error removing object", null, e.getMessage(), AlertType.ERROR);
-            }
         }
     }
 

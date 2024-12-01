@@ -44,6 +44,10 @@ public class Main extends Application {
     public static Scene getMainScene() {
         return mainScene;
     }
+    
+    public static void setMainScene(Scene scene) {
+        mainScene = scene;
+    }
 
     public static void main(String[] args) {
         launch(args); // Inicia a aplicação JavaFX

@@ -4,13 +4,20 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
 
-<VBox xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.ClienteListController" spacing="10" alignment="CENTER" style="-fx-padding: 20;">
-    
-    <!-- Título da tela -->
-    <Label text="Registro de Clientes" style="-fx-font-size: 20; -fx-font-weight: bold;" />
+<VBox xmlns:fx="http://javafx.com/fxml/1"
+	fx:controller="gui.ClienteListController" spacing="10"
+	alignment="CENTER" style="-fx-padding: 20;">
 
-   <HBox spacing="10" alignment="CENTER">
-    <Button fx:id="btNew" text="Novo Cliente" onAction="#onBtNewAction"/>
-    <Button fx:id="btCancel" text="Cancelar" onAction="#onBtCancelAction"/>
-</HBox>
+
+	<!-- Título da tela -->
+	<Label text="Registro de Clientes"
+		style="-fx-font-size: 20; -fx-font-weight: bold;" />
+
+	<HBox spacing="10" alignment="CENTER">
+		<Button fx:id="btNew" text="Novo Cliente"
+			onAction="#onBtNewAction" />
+		<Button fx:id="btCancel" text="Cancelar"
+			onAction="#onBtCancelAction" />
+	</HBox>
+
 </VBox>

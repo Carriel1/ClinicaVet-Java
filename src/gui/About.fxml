@@ -1,32 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<VBox prefHeight="400.0" prefWidth="367.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/23.0.1">
-   <children>
-      <Label text="Informações de Primeiros Socorros para Animais">
-         <font>
-            <Font name="System Bold" size="18.0" />
-         </font>
-         <padding>
-            <Insets bottom="10.0" left="20.0" top="10.0" />
-         </padding>
-      </Label>
+<VBox prefHeight="400.0" prefWidth="367.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.PrimeirosSocorrosController">
+	<children>
+		<Label prefHeight="191.0" prefWidth="367.0" text="Informações de Primeiros Socorros para Animais">
+			<font>
+				<Font name="System Bold" size="14.0" />
+			</font>
+			<padding>
+				<Insets bottom="10.0" left="20.0" right="10.0" top="10.0" />
+			</padding>
+		</Label>
 
-      <Text text="Em caso de envenenamento:" wrappingWidth="330.0" />
-      <Text text="• Administre carvão ativado se recomendado pelo veterinário, pois ajuda a reduzir a absorção do veneno." wrappingWidth="310.0" />
+		<Text text="Em caso de envenenamento:" wrappingWidth="330.0" />
+		<Text text="• Administre carvão ativado se recomendado pelo veterinário, pois ajuda a reduzir a absorção do veneno." wrappingWidth="310.0" />
 
-      <Text text="Em caso de engasgamento:" wrappingWidth="330.0" />
-      <Text text="• Realize a manobra de desengasgo segurando o animal pelas patas traseiras e inclinando-o com a cabeça para baixo. Faça compressões suaves na região do peito." wrappingWidth="310.0" />
+		<Text text="Em caso de engasgamento:" wrappingWidth="330.0" />
+		<Text text="• Realize a manobra de desengasgo segurando o animal pelas patas traseiras e inclinando-o com a cabeça para baixo. Faça compressões suaves na região do peito." wrappingWidth="310.0" />
 
-      <Text text="Para administrar medicamentos:" wrappingWidth="330.0" />
-      <Text text="• Siga as orientações do veterinário. Coloque o comprimido no fundo da boca e feche suavemente a boca até que o animal engula." wrappingWidth="310.0" />
+		<Text text="Para administrar medicamentos:" wrappingWidth="330.0" />
+		<Text text="• Siga as orientações do veterinário. Coloque o comprimido no fundo da boca e feche suavemente a boca até que o animal engula." wrappingWidth="310.0" />
 
-      <Text text="Quando levar ao veterinário:" wrappingWidth="330.0" />
-      <Text text="• Em caso de sintomas graves como convulsões, sangramentos, respiração ofegante ou apatia prolongada, leve o animal ao veterinário imediatamente." wrappingWidth="310.0" />
-   </children>
+		<Text text="Quando levar ao veterinário:" wrappingWidth="330.0" />
+		<Text text="• Em caso de sintomas graves como convulsões, sangramentos, respiração ofegante ou apatia prolongada, leve o animal ao veterinário imediatamente." wrappingWidth="310.0" />
+
+		<Button onAction="#handleBackButtonAction" prefHeight="45.0" prefWidth="92.0" text="Voltar">
+         <VBox.margin>
+            <Insets left="133.0" top="20.0" />
+         </VBox.margin></Button>
+	</children>
 </VBox>

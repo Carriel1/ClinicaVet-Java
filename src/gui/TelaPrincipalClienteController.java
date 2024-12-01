@@ -2,20 +2,28 @@ package gui;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.function.Consumer;
 
+import application.Main;
 import db.DB;
+import gui.util.Alerts;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.dao.impl.AnimalDaoJDBC;
 import model.entities.Animal;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 
 public class TelaPrincipalClienteController {
 
@@ -156,9 +164,33 @@ public class TelaPrincipalClienteController {
 
     @FXML
     public void onSairAction(ActionEvent event) {
-        Stage stage = (Stage) btnSair.getScene().getWindow();
-        stage.close();
+        try {
+            // Carregar o FXML da tela principal
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/MainView.fxml"));
+            Parent mainViewParent = loader.load();
+
+            // Obter a cena principal da aplicação
+            Scene mainScene = Main.getMainScene();
+
+            // Substituir o conteúdo da cena principal com o novo FXML (MainView)
+            mainScene.setRoot(mainViewParent);
+
+            // Atualizar a cena e exibir a janela
+            Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+            stage.setScene(mainScene);  // Atualiza a cena
+            stage.show();  // Exibe a cena novamente
+
+            // Ajustar o tamanho da janela após a troca de cenas
+            stage.sizeToScene();  // Ajusta a janela automaticamente ao conteúdo
+            stage.centerOnScreen();  // Centraliza a janela na tela
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            Alerts.showAlert("Erro", "Erro ao carregar a tela principal", e.getMessage(), Alert.AlertType.ERROR);
+        }
     }
+
+
 
     public void setWelcomeMessage(String message) {
         if (lblWelcomeMessage != null) {

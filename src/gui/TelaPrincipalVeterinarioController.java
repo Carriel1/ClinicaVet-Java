@@ -1,5 +1,6 @@
 package gui;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -7,6 +8,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import application.Main;
 import db.DB;
 import gui.util.Alerts;
 import javafx.event.ActionEvent;
@@ -172,16 +174,31 @@ public class TelaPrincipalVeterinarioController {
     }
 
 
-    // Método para o evento do botão "Sair"
     @FXML
     public void onSair(ActionEvent event) {
         try {
-            // Fecha a aplicação ou redireciona para a tela de login
-            Stage stage = (Stage) btnSair.getScene().getWindow();
-            stage.close(); // Fecha a tela atual (pode ser alterado para redirecionar para login)
-        } catch (Exception e) {
+            // Carregar o FXML da tela principal
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/MainView.fxml"));
+            Parent mainViewParent = loader.load();
+
+            // Obter a cena principal da aplicação
+            Scene mainScene = Main.getMainScene();
+
+            // Substituir o conteúdo da cena principal com o novo FXML (MainView)
+            mainScene.setRoot(mainViewParent);
+
+            // Atualizar a cena e exibir a janela
+            Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+            stage.setScene(mainScene);  // Atualiza a cena
+            stage.show();  // Exibe a cena novamente
+
+            // Ajustar o tamanho da janela após a troca de cenas
+            stage.sizeToScene();  // Ajusta a janela automaticamente ao conteúdo
+            stage.centerOnScreen();  // Centraliza a janela na tela
+
+        } catch (IOException e) {
             e.printStackTrace();
-            Alerts.showAlert("Erro", null, "Falha ao sair do sistema.", Alert.AlertType.ERROR);
+            Alerts.showAlert("Erro", "Erro ao carregar a tela principal", e.getMessage(), Alert.AlertType.ERROR);
         }
     }
 

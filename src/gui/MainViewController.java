@@ -18,6 +18,7 @@ import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import model.services.ClienteService;
 import model.services.FuncionarioService;
 import model.services.VeterinarioService;
@@ -51,7 +52,6 @@ public class MainViewController implements Initializable {
         }
     }
 
- // Método para carregar diferentes views e injetar serviços
     private synchronized <T> void loadView(String fxmlPath, Consumer<T> initializingAction) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
@@ -67,11 +67,17 @@ public class MainViewController implements Initializable {
             T controller = loader.getController();
             initializingAction.accept(controller);
 
+            // Ajustar o tamanho da janela automaticamente para o conteúdo
+            Stage stage = (Stage) mainScene.getWindow();
+            stage.sizeToScene();  // Ajusta a janela ao conteúdo
+            stage.centerOnScreen();  // Centraliza a janela na tela
+
         } catch (IOException e) {
             e.printStackTrace();
             Alerts.showAlert("IO Exception", "Erro ao carregar a view", e.getMessage(), Alert.AlertType.ERROR);
         }
     }
+
 
 
 

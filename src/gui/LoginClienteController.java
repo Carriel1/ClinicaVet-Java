@@ -61,10 +61,9 @@ public class LoginClienteController {
             return;
         }
 
-        Cliente cliente = service.authenticate(username, password); // Agora o método retorna um Cliente
+        Cliente cliente = service.authenticate(username, password); 
 
         if (cliente != null) {
-            // Após o login bem-sucedido, carregar a tela principal do cliente
             loadTelaPrincipalCliente(event, cliente);
         } else {
             lblError.setText("Nome de usuário ou senha inválidos");
@@ -80,15 +79,13 @@ public class LoginClienteController {
     private synchronized <T> void loadView(String fxmlPath, Consumer<T> initializingAction) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
-            Parent newView = loader.load(); // Parent é genérico e funciona para qualquer root
+            Parent newView = loader.load(); 
 
             Scene mainScene = Main.getMainScene();
-            ScrollPane mainScrollPane = (ScrollPane) mainScene.getRoot(); // Supondo que o root principal seja um ScrollPane
+            ScrollPane mainScrollPane = (ScrollPane) mainScene.getRoot();
 
-            // Substituir o conteúdo do ScrollPane pela nova view carregada
             mainScrollPane.setContent(newView);
 
-            // Inicializar o controlador
             T controller = loader.getController();
             initializingAction.accept(controller);
 
@@ -102,27 +99,22 @@ public class LoginClienteController {
 
     private void loadTelaPrincipalCliente(ActionEvent event, Cliente cliente) {
         try {
-            // Passo 1: Carregar o arquivo FXML da TelaPrincipalCliente
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/TelaPrincipalCliente.fxml"));
-            Parent root = loader.load(); // Carrega a interface gráfica da tela principal
-            Scene scene = new Scene(root); // Cria a cena com o conteúdo carregado do FXML
+            Parent root = loader.load(); 
+            Scene scene = new Scene(root); 
 
-            // Passo 2: Obter o controlador da TelaPrincipalCliente
             TelaPrincipalClienteController controller = loader.getController();
 
-            // Passo 3: Passar dados para o controlador
             controller.setWelcomeMessage("Bem-vindo, " + cliente.getNome() + "!");
-            controller.setClienteId(cliente.getId()); // Passa o ID do cliente para o controlador
+            controller.setClienteId(cliente.getId()); 
 
-            // Passo 4: Configurar a nova cena no Stage
-            Stage stage = (Stage) btLogin.getScene().getWindow(); // Pega o Stage atual (a janela)
-            stage.setScene(scene); // Define a nova cena
-            stage.show(); // Exibe a nova cena (TelaPrincipalCliente)
+            Stage stage = (Stage) btLogin.getScene().getWindow(); 
+            stage.setScene(scene);
+            stage.show(); 
             
         } catch (IOException e) {
-            // Caso ocorra algum erro, exibe uma mensagem de erro
             Alerts.showAlert("Erro", null, "Não foi possível carregar a tela principal do cliente.", AlertType.ERROR);
-            e.printStackTrace(); // Exibe o erro no console para depuração
+            e.printStackTrace(); 
         }
     }
 }

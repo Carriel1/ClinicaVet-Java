@@ -14,7 +14,6 @@ public class AnimalController {
 
     private AnimalDaoJDBC animalDao;
 
-    // Campos da tela para o cadastro/edição de animais
     @FXML
     private TextField nomeField;
     @FXML
@@ -26,7 +25,7 @@ public class AnimalController {
     @FXML
     private Button salvarButton;
     @FXML
-    private VBox listaAnimaisVBox; // VBox para exibir a lista de animais
+    private VBox listaAnimaisVBox; 
 
     private AnimalService animalService;
 
@@ -35,7 +34,6 @@ public class AnimalController {
         this.animalDao = new AnimalDaoJDBC(DB.getConnection());
     }
     
-    // Injeção do serviço
     public void setAnimalService(AnimalService animalService) {
         this.animalService = animalService;
     }
@@ -53,7 +51,6 @@ public class AnimalController {
     @FXML
     public void salvarAnimal() {
         try {
-            // Verifique se todos os campos foram preenchidos
             String nome = nomeField.getText();
             String idadeText = idadeField.getText();
             String raca = racaField.getText();
@@ -66,18 +63,17 @@ public class AnimalController {
 
             Integer idade = Integer.parseInt(idadeText);
 
-            // Crie o animal e salve no banco de dados
             Animal animal = new Animal();
             animal.setNome(nome);
             animal.setIdade(idade);
             animal.setRaca(raca);
             animal.setEspecie(especie);
-            animal.setClienteId(clienteId);  // Passa o clienteId diretamente
+            animal.setClienteId(clienteId);  
 
             animalDao.insert(animal);
 
             showAlert("Sucesso", "Animal cadastrado com sucesso!", Alert.AlertType.INFORMATION);
-            limparCampos(); // Limpar campos após o salvamento
+            limparCampos(); 
         } catch (NumberFormatException e) {
             showAlert("Erro", "Idade inválida. Por favor, insira um número válido.", Alert.AlertType.ERROR);
         } catch (Exception e) {
@@ -88,10 +84,10 @@ public class AnimalController {
     // Método para salvar o animal
     public void salvarAnimal(Animal animal) {
         try {
-            animalService.insert(animal);  // Chama o serviço para inserir o animal
+            animalService.insert(animal);  
         } catch (Exception e) {
-            e.printStackTrace();  // Captura qualquer erro
-            throw new RuntimeException("Erro ao salvar animal", e);  // Lança exceção caso ocorra um erro
+            e.printStackTrace();  
+            throw new RuntimeException("Erro ao salvar animal", e); 
         }
     }
     
@@ -103,7 +99,6 @@ public class AnimalController {
     }
 
     public void mostrarAnimalDetalhes(Animal animal) {
-        // Lógica para mostrar os detalhes do animal (ex: preencher campos para edição)
         nomeField.setText(animal.getNome());
         idadeField.setText(String.valueOf(animal.getIdade()));
         racaField.setText(animal.getRaca());

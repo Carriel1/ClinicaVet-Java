@@ -13,14 +13,13 @@ import model.services.ConsultaService;
 public class CancelarConsultaController {
 
     @FXML
-    private ComboBox<Consulta> comboConsulta;  // ComboBox para selecionar a consulta
-
+    private ComboBox<Consulta> comboConsulta;  
+    
     @FXML
-    private Button btnCancelar;  // Botão para cancelar a consulta
+    private Button btnCancelar;  
 
     private ConsultaService consultaService;
 
-    // Método para injeção do serviço
     public void setServices(ConsultaService consultaService) {
         this.consultaService = consultaService;
     }
@@ -48,7 +47,6 @@ public class CancelarConsultaController {
                 return;
             }
 
-            // Cancela a consulta
             consultaService.cancelarConsulta(consultaSelecionada);
 
             Alerts.showAlert("Sucesso", null, "Consulta cancelada com sucesso!", Alert.AlertType.INFORMATION);
@@ -61,7 +59,6 @@ public class CancelarConsultaController {
     // Método para fechar a tela
     @FXML
     public void onFechar(ActionEvent event) {
-        // Fecha a tela de cancelamento
         ((Stage) btnCancelar.getScene().getWindow()).close();
     }
 }

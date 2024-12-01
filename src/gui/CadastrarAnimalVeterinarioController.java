@@ -33,7 +33,7 @@ public class CadastrarAnimalVeterinarioController {
     private AnimalService animalService;
     private ClienteService clienteService;
 
-    // Método para injeção dos serviços (sem o AnimalController)
+    // Método para injeção dos serviços 
     public void setServices(AnimalService animalService, ClienteService clienteService) {
         if (animalService == null || clienteService == null) {
             throw new IllegalStateException("Os serviços não foram configurados corretamente.");
@@ -70,10 +70,8 @@ public class CadastrarAnimalVeterinarioController {
             String raca = racaTextField.getText();
             String especie = especieTextField.getText();
 
-            // Criando o animal com os dados inseridos
             Animal animal = new Animal(null, nome, idade, raca, especie, clienteSelecionado);
 
-            // Chama o serviço de inserção
             animalService.insert(animal);
 
             Alerts.showAlert("Sucesso", null, "Animal cadastrado com sucesso!", Alert.AlertType.INFORMATION);
