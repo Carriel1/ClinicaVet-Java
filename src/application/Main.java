@@ -9,10 +9,24 @@ import javafx.scene.Scene;
 import javafx.scene.control.ScrollPane;
 import javafx.stage.Stage;
 
+/**
+ * Classe principal do aplicativo ClinicaVet.
+ * Esta classe é responsável por iniciar a aplicação JavaFX,
+ * carregar a interface principal e gerenciar a cena principal.
+ */
 public class Main extends Application {
     
+    /**
+     * Cena principal da aplicação, utilizada para trocar e exibir diferentes telas.
+     */
     private static Scene mainScene;
 
+    /**
+     * Método principal do ciclo de vida da aplicação JavaFX.
+     * Inicializa a interface gráfica carregando o arquivo FXML e configura a cena principal.
+     *
+     * @param primaryStage O estágio principal fornecido pelo JavaFX.
+     */
     @Override
     public void start(Stage primaryStage) {
         try {
@@ -24,7 +38,7 @@ public class Main extends Application {
             scrollPane.setFitToHeight(true);
             scrollPane.setFitToWidth(true);
 
-          // Cria a cena principal e a define no estágio
+            // Cria a cena principal e a define no estágio
             mainScene = new Scene(scrollPane);
             primaryStage.setScene(mainScene);
             primaryStage.setTitle("Clinica Vet");
@@ -40,17 +54,33 @@ public class Main extends Application {
         }
     }
 
-    // Método para obter a cena principal
+    /**
+     * Obtém a cena principal da aplicação.
+     *
+     * @return A cena principal utilizada para gerenciar as telas.
+     */
     public static Scene getMainScene() {
         return mainScene;
     }
     
+    /**
+     * Define a cena principal da aplicação.
+     *
+     * @param scene A nova cena principal a ser definida.
+     */
     public static void setMainScene(Scene scene) {
         mainScene = scene;
     }
 
+    /**
+     * Método principal da aplicação. 
+     * Este método inicia o ciclo de vida da aplicação JavaFX.
+     *
+     * @param args Argumentos de linha de comando (não utilizados).
+     */
     public static void main(String[] args) {
         launch(args); // Inicia a aplicação JavaFX
     }
 }
+
 

@@ -21,25 +21,53 @@ import model.services.ClienteService;
 import model.services.ConsultaService;
 import model.services.VeterinarioService;
 
+/**
+ * Controlador responsável pela tela de login do veterinário no sistema.
+ * Realiza a autenticação do veterinário e, em caso de sucesso, redireciona
+ * para a tela principal do veterinário.
+ */
 public class LoginVeterinarioController {
 
+    /**
+     * Campo de texto para o nome do veterinário.
+     */
     @FXML
     private TextField txtNome;
 
+    /**
+     * Campo de senha para a autenticação do veterinário.
+     */
     @FXML
     private PasswordField txtSenha;
 
+    /**
+     * Serviço responsável pelas operações relacionadas ao veterinário.
+     */
     private VeterinarioService veterinarioService;
 
+    /**
+     * Configura o serviço de autenticação do veterinário.
+     * 
+     * @param service O serviço de autenticação do veterinário.
+     */
     public void setVeterinarioService(VeterinarioService service) {
         this.veterinarioService = service;
     }
 
+    /**
+     * Ação chamada quando o botão de login é pressionado.
+     * Realiza a autenticação do veterinário utilizando o nome e a senha fornecidos.
+     * Se a autenticação for bem-sucedida, redireciona o veterinário para a tela principal do sistema.
+     * Caso contrário, exibe uma mensagem de erro.
+     * 
+     * @param event O evento de clique do botão de login.
+     */
     @FXML
     private void onBtLoginAction(ActionEvent event) {
         String nome = txtNome.getText();
         String senha = txtSenha.getText();
 
+        // Verifica se o serviço foi configurado
         if (veterinarioService == null) {
             Alerts.showAlert("Erro no Login", null, "Service não foi configurado.", AlertType.ERROR);
             return;
@@ -56,6 +84,12 @@ public class LoginVeterinarioController {
         }
     }
 
+    /**
+     * Carrega a tela principal do veterinário após a autenticação bem-sucedida.
+     * Inicializa os serviços necessários e passa-os para o controlador da tela principal.
+     * 
+     * @param event O evento de clique do botão de login.
+     */
     private void loadTelaPrincipalVeterinario(ActionEvent event) {
         try {
             // Carregar o FXML da tela principal do veterinário
@@ -86,11 +120,22 @@ public class LoginVeterinarioController {
         }
     }
 
+    /**
+     * Ação chamada quando o botão de cancelamento é pressionado.
+     * Redireciona o usuário para a tela principal do sistema.
+     */
     @FXML
     public void onBtCancelAction() {
-    	loadView("/gui/MainView.fxml", controller -> {});
+        loadView("/gui/MainView.fxml", controller -> {});
     }
-    
+
+    /**
+     * Carrega uma nova view (tela) no sistema.
+     * 
+     * @param fxmlPath O caminho para o arquivo FXML da view a ser carregada.
+     * @param initializingAction Ação de inicialização que será executada no controlador da nova view.
+     * @param <T> O tipo do controlador da nova view.
+     */
     private synchronized <T> void loadView(String fxmlPath, Consumer<T> initializingAction) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));

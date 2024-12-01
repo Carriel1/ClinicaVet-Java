@@ -17,6 +17,10 @@ import javafx.stage.Stage;
 import model.entities.Consulta;
 import model.services.ConsultaService;
 
+/**
+ * Controlador para a tela de aprovação de consultas.
+ * Permite ao usuário aprovar ou negar consultas requisitadas.
+ */
 public class ConsultaAprovacaoController {
 
     @FXML
@@ -40,22 +44,35 @@ public class ConsultaAprovacaoController {
     private ConsultaService consultaService;
     private List<Consulta> consultasPendentes;
     private Integer clienteId;  // Variável para armazenar o ID do cliente
-    
-    
+
+    /**
+     * Construtor da classe. Instancia o serviço de consulta.
+     */
     public ConsultaAprovacaoController() {
         this.consultaService = new ConsultaService();  // Instanciando o serviço manualmente
     }
 
-    
-    // Método para setar o clienteId
+    /**
+     * Define o ID do cliente.
+     * 
+     * @param clienteId O ID do cliente.
+     */
     public void setClienteId(Integer clienteId) {
         this.clienteId = clienteId;
     }
 
+    /**
+     * Define o serviço de consulta.
+     * 
+     * @param consultaService O serviço de consulta.
+     */
     public void setConsultaService(ConsultaService consultaService) {
         this.consultaService = consultaService;
     }
 
+    /**
+     * Inicializa o controlador. Configura as colunas da tabela e carrega as consultas.
+     */
     @FXML
     public void initialize() {
         // Configuração das colunas da tabela
@@ -67,8 +84,10 @@ public class ConsultaAprovacaoController {
         carregarConsultasRequisitadas();
     }
 
-
- // Método para carregar as consultas requisitadas
+    /**
+     * Carrega as consultas requisitadas e as exibe na tabela.
+     * Caso ocorra um erro, exibe uma mensagem de alerta.
+     */
     public void carregarConsultasRequisitadas() {
         try {
             // Recupera a lista de consultas requisitadas, garantindo que não seja null
@@ -90,9 +109,13 @@ public class ConsultaAprovacaoController {
         }
     }
 
-
-
- // Método para aprovar a consulta selecionada e mudar seu status para "Pendente"
+    /**
+     * Aprova a consulta selecionada e altera seu status para "Pendente".
+     * Exibe uma mensagem de sucesso ou erro dependendo do resultado da operação.
+     * 
+     * @param event O evento gerado pelo clique do botão.
+     */
+    @FXML
     public void onAprovarConsulta(ActionEvent event) {
         Consulta consulta = tableConsultas.getSelectionModel().getSelectedItem();
 
@@ -117,11 +140,12 @@ public class ConsultaAprovacaoController {
         }
     }
 
-
-
-
-
-    // Método para negar a consulta selecionada
+    /**
+     * Nega a consulta selecionada e altera seu status para "Negada".
+     * Exibe uma mensagem de sucesso ou erro dependendo do resultado da operação.
+     * 
+     * @param event O evento gerado pelo clique do botão.
+     */
     @FXML
     public void onNegarConsulta(ActionEvent event) {
         Consulta consulta = tableConsultas.getSelectionModel().getSelectedItem();
@@ -147,8 +171,11 @@ public class ConsultaAprovacaoController {
         }
     }
 
-
-    // Método para fechar a tela de aprovação
+    /**
+     * Fecha a tela de aprovação de consultas.
+     * 
+     * @param event O evento gerado pelo clique do botão.
+     */
     @FXML
     public void onFecharTela(ActionEvent event) {
         Stage stage = (Stage) btnAceitar.getScene().getWindow();

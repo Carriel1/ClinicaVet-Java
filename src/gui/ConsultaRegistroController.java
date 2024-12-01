@@ -24,6 +24,11 @@ import model.services.ClienteService;
 import model.services.ConsultaService;
 import model.services.VeterinarioService;
 
+/**
+ * Controlador para o registro de consultas veterinárias no sistema.
+ * Esta classe permite o cadastro de uma nova consulta com informações do cliente, 
+ * veterinário, animal, data, hora e descrição da consulta.
+ */
 public class ConsultaRegistroController {
 
     @FXML
@@ -51,36 +56,76 @@ public class ConsultaRegistroController {
 
     private String criadoPor;
 
+    /**
+     * Define o serviço de consultas.
+     *
+     * @param consultaService o serviço de consultas
+     */
     public void setConsultaService(ConsultaService consultaService) {
         this.consultaService = consultaService;
     }
 
+    /**
+     * Define o serviço de clientes.
+     *
+     * @param clienteService o serviço de clientes
+     */
     public void setClienteService(ClienteService clienteService) {
         this.clienteService = clienteService;
     }
 
+    /**
+     * Define o serviço de veterinários.
+     *
+     * @param veterinarioService o serviço de veterinários
+     */
     public void setVeterinarioService(VeterinarioService veterinarioService) {
         this.veterinarioService = veterinarioService;
     }
 
+    /**
+     * Define o serviço de animais.
+     *
+     * @param animalService o serviço de animais
+     */
     public void setAnimalService(AnimalService animalService) {
         this.animalService = animalService;
     }
 
+    /**
+     * Define o nome da pessoa que criou a consulta.
+     *
+     * @param criadoPor o nome da pessoa que criou a consulta
+     */
     public void setCriadoPor(String criadoPor) {
         this.criadoPor = criadoPor;
     }
 
+    /**
+     * Construtor padrão da classe.
+     */
     public ConsultaRegistroController() {
     }
 
-    public ConsultaRegistroController(ClienteService clienteService, VeterinarioService veterinarioService, ConsultaService consultaService, AnimalService animalService) {
+    /**
+     * Construtor com os serviços necessários.
+     *
+     * @param clienteService o serviço de clientes
+     * @param veterinarioService o serviço de veterinários
+     * @param consultaService o serviço de consultas
+     * @param animalService o serviço de animais
+     */
+    public ConsultaRegistroController(ClienteService clienteService, VeterinarioService veterinarioService, 
+                                       ConsultaService consultaService, AnimalService animalService) {
         this.clienteService = clienteService;
         this.veterinarioService = veterinarioService;
         this.consultaService = consultaService;
         this.animalService = animalService;
     }
 
+    /**
+     * Inicializa os serviços e carrega os dados para os ComboBoxes de cliente, veterinário e animal.
+     */
     public void initialize() {
         if (clienteService == null) {
             clienteService = new ClienteService();
@@ -109,15 +154,24 @@ public class ConsultaRegistroController {
         comboBoxCliente.setOnAction(event -> carregarAnimaisDoCliente());
     }
 
+    /**
+     * Carrega os animais do cliente selecionado na ComboBox.
+     * 
+     * @param cliente o cliente selecionado
+     */
     private void carregarAnimaisDoCliente() {
         Cliente cliente = comboBoxCliente.getValue();
         if (cliente != null) {
-        	Integer clienteId = cliente.getId();
-        	List<Animal> animais = animalService.findByClienteId(clienteId);
+            Integer clienteId = cliente.getId();
+            List<Animal> animais = animalService.findByClienteId(clienteId);
             comboBoxAnimal.setItems(FXCollections.observableArrayList(animais));
         }
     }
 
+    /**
+     * Método chamado ao clicar no botão "Salvar" para registrar a consulta.
+     * Realiza a validação dos campos e, caso estejam corretos, salva a consulta.
+     */
     @FXML
     private void onSalvarConsulta() {
         try {
@@ -164,12 +218,21 @@ public class ConsultaRegistroController {
         }
     }
 
+    /**
+     * Método chamado ao clicar no botão "Cancelar" para fechar a tela de cadastro sem salvar.
+     */
     @FXML
     private void onCancelar() {
         Stage stage = (Stage) comboBoxCliente.getScene().getWindow();
         stage.close(); // Fecha a janela sem salvar
     }
 
+    /**
+     * Método auxiliar para validar o formato de hora.
+     * 
+     * @param hora a hora no formato "HH:mm"
+     * @return a hora como um objeto LocalTime, ou null se o formato for inválido
+     */
     private LocalTime parseHora(String hora) {
         try {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");

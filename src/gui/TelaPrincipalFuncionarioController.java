@@ -23,6 +23,11 @@ import model.services.ClienteService;
 import model.services.ConsultaService;
 import model.services.VeterinarioService;
 
+/**
+ * Controlador da tela principal do funcionário, que gerencia as ações do menu principal.
+ * Esta tela permite realizar ações como cadastro de veterinário e cliente, marcação e modificação de consultas,
+ * controle de estoque, e geração de relatórios.
+ */
 public class TelaPrincipalFuncionarioController {
 
     @FXML
@@ -47,6 +52,10 @@ public class TelaPrincipalFuncionarioController {
     private VeterinarioService veterinarioService;
     private ConsultaService consultaService;
 
+    /**
+     * Inicializa os serviços necessários para a tela principal do funcionário.
+     * Esse método é chamado automaticamente ao carregar a tela.
+     */
     @FXML
     public void initialize() {
         if (clienteService == null) {
@@ -62,6 +71,11 @@ public class TelaPrincipalFuncionarioController {
         List<Cliente> clientes = clienteService.findAll(); 
     }
 
+    /**
+     * Abre a tela de cadastro de veterinário quando o botão é pressionado.
+     * 
+     * @param event O evento de clique no botão.
+     */
     @FXML
     public void onCadastrarVeterinario(ActionEvent event) {
         try {
@@ -85,7 +99,11 @@ public class TelaPrincipalFuncionarioController {
         }
     }
 
-    // Método chamado para cadastrar um novo cliente
+    /**
+     * Abre a tela de cadastro de cliente quando o botão é pressionado.
+     * 
+     * @param event O evento de clique no botão.
+     */
     @FXML
     public void onCadastrarCliente(ActionEvent event) {
         try {
@@ -109,15 +127,17 @@ public class TelaPrincipalFuncionarioController {
         }
     }
 
-    // Método chamado para aceitar ou marcar uma consulta
+    /**
+     * Abre a tela de marcação de consulta quando o botão é pressionado.
+     * 
+     * @param event O evento de clique no botão.
+     */
     @FXML
     public void onMarcarConsulta(ActionEvent event) {
         try {
-            // Carrega o arquivo FXML da tela de registro de consulta
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/ConsultaRegistro.fxml"));
             Parent parent = loader.load();
 
-            // Configura o controlador da nova tela
             ConsultaRegistroController controller = loader.getController();
             controller.setConsultaService(consultaService); 
             controller.setClienteService(clienteService);    
@@ -135,7 +155,12 @@ public class TelaPrincipalFuncionarioController {
             Alerts.showAlert("Erro", "Erro ao carregar tela", e.getMessage(), Alert.AlertType.ERROR);
         }
     }
-    
+
+    /**
+     * Abre a tela de cancelamento de consulta quando o botão é pressionado.
+     * 
+     * @param event O evento de clique no botão.
+     */
     @FXML
     public void onCancelarConsulta(ActionEvent event) {
         try {
@@ -155,22 +180,23 @@ public class TelaPrincipalFuncionarioController {
         }
     }
 
+    /**
+     * Abre a tela de modificação de consulta quando o botão é pressionado.
+     * 
+     * @param event O evento de clique no botão.
+     */
     @FXML
     public void onModificarConsulta(ActionEvent event) {
         try {
-            // Carrega o FXML para a tela de modificação de consulta
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/ModificarConsulta.fxml"));
             Parent root = loader.load();
 
-            // Obtém o controlador da tela de modificação de consulta
             ModificarConsultaController modificarConsultaController = loader.getController();
             
-            // Passa os serviços necessários para o controlador de ModificarConsulta
             modificarConsultaController.setServices(consultaService); 
             modificarConsultaController.setClienteService(clienteService); 
             modificarConsultaController.setVeterinarioService(veterinarioService); 
 
-            // Exibe a nova tela
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
             stage.show();
@@ -180,20 +206,21 @@ public class TelaPrincipalFuncionarioController {
         }
     }
     
+    /**
+     * Abre a tela de exclusão de veterinário quando o botão é pressionado.
+     * 
+     * @param event O evento de clique no botão.
+     */
     @FXML
     public void onExcluirVeterinario(ActionEvent event) {
         try {
-            // Carrega o FXML para a tela de exclusão de veterinário
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/ExcluirVeterinario.fxml"));
             Parent root = loader.load();
 
-            // Obtém o controlador da tela de exclusão de veterinário
             ExcluirVeterinarioController excluirVeterinarioController = loader.getController();
             
-            // Passa o serviço necessário para o controlador de exclusão
             excluirVeterinarioController.setVeterinarioService(veterinarioService);
 
-            // Exibe a nova tela
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
             stage.setTitle("Excluir Veterinário");
@@ -206,27 +233,28 @@ public class TelaPrincipalFuncionarioController {
         }
     }
     
+    /**
+     * Abre a tela de aprovação de consulta quando o botão é pressionado.
+     * 
+     * @param event O evento de clique no botão.
+     */
     @FXML
     public void onAprovarConsulta(ActionEvent event) {
         try {
-            // Carrega o arquivo FXML da tela de aprovação de consulta
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/ConsultaAprovacao.fxml"));
             Parent parent = loader.load();
 
-            // Configura o controlador da nova tela
             ConsultaAprovacaoController controller = loader.getController();
             controller.setConsultaService(consultaService); 
 
-            // Passando o clienteId para o novo controlador
             controller.setClienteId(clienteService.getLoggedClienteId()); 
 
-            // Criação e exibição da nova janela de aprovação
             Stage stage = new Stage();
             stage.setTitle("Aprovação de Consulta");
             stage.setScene(new Scene(parent));
             stage.initOwner(Utils.currentStage(event)); 
             stage.initModality(Modality.WINDOW_MODAL);  
-            stage.showAndWait(); // Espera a tela ser fechada antes de continuar
+            stage.showAndWait(); 
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -234,15 +262,15 @@ public class TelaPrincipalFuncionarioController {
         }
     }
 
+    /**
+     * Gera e salva um relatório com todos os dados necessários.
+     */
     @FXML
     private void ongerarRelatorio() {
-        // Instanciando a classe RelatorioCTodosDadosDS
         RelatorioCTodosDadosDS relatorioCTodosDadosDS = new RelatorioCTodosDadosDS();
 
-        // Chamando o método para salvar o relatório
         relatorioCTodosDadosDS.salvarRelatorio();
 
-        // Exibindo um alerta de confirmação
         Alert alert = new Alert(AlertType.INFORMATION);
         alert.setTitle("Relatório Gerado");
         alert.setHeaderText(null);
@@ -250,35 +278,32 @@ public class TelaPrincipalFuncionarioController {
         alert.showAndWait();
     }
 
-
-    // Método chamado para o controle de estoque
+    /**
+     * Abre a tela de controle de estoque quando o botão é pressionado.
+     * 
+     * @param event O evento de clique no botão.
+     */
     @FXML
     public void onControleEstoque(ActionEvent event) {
         try {
-            // Carregar o FXML da tela de estoque
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/Estoque.fxml"));
             Parent estoqueView = loader.load();
 
-            // Criar uma nova cena com a tela de estoque
             Scene estoqueScene = new Scene(estoqueView);
-
-            // Criar um novo palco (janela)
-            Stage estoqueStage = new Stage();
-            estoqueStage.setTitle("Controle de Estoque");
-            estoqueStage.setScene(estoqueScene);
-            estoqueStage.show();
-
-            // Se você quiser fechar a janela atual após abrir a nova:
-            // ((Node)(event.getSource())).getScene().getWindow().hide();
-
+            Stage stage = new Stage();
+            stage.setTitle("Controle de Estoque");
+            stage.setScene(estoqueScene);
+            stage.initModality(Modality.WINDOW_MODAL);
+            stage.initOwner(Utils.currentStage(event));
+            stage.showAndWait();
         } catch (IOException e) {
-            e.printStackTrace();
-            System.out.println("Erro ao carregar a tela de estoque.");
+            Alerts.showAlert("Erro", "Erro ao carregar a tela de controle de estoque", e.getMessage(), Alert.AlertType.ERROR);
         }
     }
 
-    // Método chamado para sair da tela principal
-    @FXML
+    /**
+     * Encerra a aplicação e fecha a tela principal.
+     */    @FXML
     public void onSairAction(ActionEvent event) {
         try {
             // Carregar o FXML da tela principal

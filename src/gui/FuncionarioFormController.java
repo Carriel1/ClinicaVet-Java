@@ -28,6 +28,12 @@ import model.entities.Funcionario;
 import model.exceptions.ValidationException;
 import model.services.FuncionarioService;
 
+/**
+ * Controlador da tela de cadastro e edição de funcionários.
+ * 
+ * Esta classe gerencia os dados do funcionário, incluindo a validação, exibição e manipulação dos dados
+ * no formulário, bem como o controle de ações de salvar e cancelar.
+ */
 public class FuncionarioFormController implements Initializable {
 
     private Funcionario entity;
@@ -73,18 +79,39 @@ public class FuncionarioFormController implements Initializable {
     @FXML
     private Label labelErrorBaseSalary;
 
+    /**
+     * Configura o objeto de funcionário que será manipulado neste formulário.
+     * 
+     * @param entity O funcionário a ser editado ou criado.
+     */
     public void setFuncionario(Funcionario entity) {
         this.entity = entity;
     }
 
+    /**
+     * Configura o serviço utilizado para salvar ou atualizar os dados do funcionário.
+     * 
+     * @param service O serviço de funcionário.
+     */
     public void setFuncionarioService(FuncionarioService service) {
         this.service = service;
     }
 
+    /**
+     * Inscreve um ouvinte para ouvir mudanças de dados no formulário.
+     * 
+     * @param listener O ouvinte a ser inscrito.
+     */
     public void subscribeDataChangeListener(DataChangeListener listener) {
         dataChangeListeners.add(listener);
     }
 
+    /**
+     * Ação do botão "Salvar" do formulário.
+     * Salva ou atualiza os dados do funcionário, exibindo mensagens de erro, se necessário.
+     * 
+     * @param event O evento do clique no botão.
+     */
     @FXML
     public void onBtSaveAction(ActionEvent event) {
         if (entity == null || service == null) {
@@ -102,10 +129,19 @@ public class FuncionarioFormController implements Initializable {
         }
     }
 
+    /**
+     * Notifica todos os ouvintes registrados sobre a mudança nos dados.
+     */
     private void notifyDataChangeListeners() {
         dataChangeListeners.forEach(DataChangeListener::onDataChanged);
     }
 
+    /**
+     * Extrai os dados do formulário e os converte para um objeto `Funcionario`.
+     * 
+     * @return Um objeto `Funcionario` com os dados extraídos do formulário.
+     * @throws ValidationException Se houver erros de validação nos dados.
+     */
     private Funcionario getFormData() {
         Funcionario obj = new Funcionario();
         ValidationException exception = new ValidationException("Validation error");
@@ -152,17 +188,32 @@ public class FuncionarioFormController implements Initializable {
         return obj;
     }
 
-
+    /**
+     * Ação do botão "Cancelar" do formulário.
+     * Fecha o formulário sem salvar as alterações.
+     * 
+     * @param event O evento do clique no botão.
+     */
     @FXML
     public void onBtCancelAction(ActionEvent event) {
         Utils.currentStage(event).close();
     }
 
+    /**
+     * Inicializa os componentes do formulário.
+     * Este método é chamado automaticamente ao carregar a tela.
+     * 
+     * @param url O URL que foi usado para localizar o arquivo FXML.
+     * @param rb O ResourceBundle usado para internacionalização (caso seja necessário).
+     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         initializeNodes();
     }
 
+    /**
+     * Configura as restrições nos campos de texto do formulário.
+     */
     private void initializeNodes() {
         Constraints.setTextFieldInteger(txtId);
         Constraints.setTextFieldMaxLength(txtName, 70);
@@ -171,6 +222,9 @@ public class FuncionarioFormController implements Initializable {
         Utils.formatDatePicker(dpBirthDate, "dd/MM/yyyy");
     }
 
+    /**
+     * Atualiza os dados do formulário com os dados do funcionário.
+     */
     public void updateFormData() {
         if (entity == null) throw new IllegalStateException("Entity was null");
 
@@ -187,7 +241,11 @@ public class FuncionarioFormController implements Initializable {
         txtPassword.setText(entity.getPassword() == null ? "" : entity.getPassword());
     }
 
-
+    /**
+     * Exibe as mensagens de erro no formulário, de acordo com os campos que falharam na validação.
+     * 
+     * @param errors Um mapa contendo os erros de validação, com a chave sendo o nome do campo e o valor sendo a mensagem de erro.
+     */
     private void setErrorMessages(Map<String, String> errors) {
         labelErrorName.setText(errors.getOrDefault("name", ""));
         labelErrorEmail.setText(errors.getOrDefault("email", ""));
@@ -195,3 +253,4 @@ public class FuncionarioFormController implements Initializable {
         labelErrorBaseSalary.setText(errors.getOrDefault("baseSalary", ""));
     }
 }
+

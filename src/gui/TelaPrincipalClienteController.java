@@ -2,11 +2,6 @@ package gui;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.function.Consumer;
-
-import application.Main;
-import db.DB;
-import gui.util.Alerts;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -17,55 +12,74 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.dao.impl.AnimalDaoJDBC;
 import model.entities.Animal;
+import application.Main;
+import db.DB;
+import gui.util.Alerts;
 
+/**
+ * Controlador da tela principal do cliente. Esta classe gerencia a exibição
+ * das informações do cliente, incluindo a lista de animais registrados e 
+ * a interação com outras funcionalidades, como requisitar consultas, 
+ * visualizar relatórios e registrar novos animais.
+ */
 public class TelaPrincipalClienteController {
 
     @FXML
-    private Label lblWelcomeMessage;
+    private Label lblWelcomeMessage;  // Mensagem de boas-vindas ao cliente
 
     @FXML
-    private Button btnRequisitarConsulta;
+    private Button btnRequisitarConsulta;  // Botão para requisitar uma consulta
 
     @FXML
-    private Button btnVerRelatorios;
+    private Button btnVerRelatorios;  // Botão para visualizar relatórios de animais
 
     @FXML
-    private Button btnVerAnimaisRegistrados;
+    private Button btnVerAnimaisRegistrados;  // Botão para visualizar os animais registrados
 
     @FXML
-    private Button btnRegistrarAnimal;
+    private Button btnRegistrarAnimal;  // Botão para registrar um novo animal
 
     @FXML
-    private Button btnSair;
+    private Button btnSair;  // Botão para sair da aplicação
 
     @FXML
-    private TableView<Animal> tableAnimais;
+    private TableView<Animal> tableAnimais;  // Tabela para exibir os animais registrados
 
     @FXML
-    private TableColumn<Animal, String> colNome;
+    private TableColumn<Animal, String> colNome;  // Coluna para o nome do animal
 
     @FXML
-    private TableColumn<Animal, Integer> colIdade;
+    private TableColumn<Animal, Integer> colIdade;  // Coluna para a idade do animal
 
     @FXML
-    private TableColumn<Animal, String> colRaca;
+    private TableColumn<Animal, String> colRaca;  // Coluna para a raça do animal
 
     @FXML
-    private TableColumn<Animal, String> colEspecie;
+    private TableColumn<Animal, String> colEspecie;  // Coluna para a espécie do animal
 
-    private Integer clienteId; // ID do cliente logado
+    private Integer clienteId;  // ID do cliente logado
 
+    /**
+     * Define o ID do cliente logado.
+     * 
+     * @param clienteId O ID do cliente.
+     */
     public void setClienteId(Integer clienteId) {
         this.clienteId = clienteId;
     }
 
+    /**
+     * Abre a tela para requisitar uma consulta.
+     * A tela é carregada em uma janela modal.
+     * 
+     * @param event O evento gerado pelo clique no botão.
+     */
     @FXML
     public void onRequisitarConsulta(ActionEvent event) {
         try {
@@ -75,7 +89,7 @@ public class TelaPrincipalClienteController {
 
             // Obter o controlador da tela de requisitar consulta
             RequisitarConsultaController controller = loader.getController();
-            controller.setClienteId(clienteId); // Passar o ID do cliente para o controlador
+            controller.setClienteId(clienteId);  // Passar o ID do cliente para o controlador
 
             // Exibir a tela como uma janela modal
             Stage stage = new Stage();
@@ -91,13 +105,22 @@ public class TelaPrincipalClienteController {
         }
     }
 
-
-
+    /**
+     * Método de placeholder para a funcionalidade de visualização de relatórios.
+     * 
+     * @param event O evento gerado pelo clique no botão.
+     */
     @FXML
     public void onVerRelatorios(ActionEvent event) {
         System.out.println("Cliente visualizou relatórios dos animais.");
     }
 
+    /**
+     * Exibe os animais registrados pelo cliente na tabela.
+     * Carrega os dados do banco e preenche a tabela com as informações.
+     * 
+     * @param event O evento gerado pelo clique no botão.
+     */
     @FXML
     public void onVerAnimaisRegistrados(ActionEvent event) {
         if (clienteId == null) {
@@ -126,6 +149,13 @@ public class TelaPrincipalClienteController {
         }
     }
 
+    /**
+     * Abre a tela para registrar um novo animal para o cliente.
+     * A tela é carregada em uma janela modal e, após o registro, a tabela de animais
+     * é atualizada.
+     * 
+     * @param event O evento gerado pelo clique no botão.
+     */
     @FXML
     public void onRegistrarAnimal(ActionEvent event) {
         try {
@@ -151,14 +181,18 @@ public class TelaPrincipalClienteController {
             
             // Após o registro, você pode atualizar a tabela de animais
             onVerAnimaisRegistrados(event);  
+
         } catch (IOException e) {
             e.printStackTrace();
             System.out.println("Erro ao carregar a tela de registro de animais: " + e.getMessage());
         }
     }
 
-
-
+    /**
+     * Realiza o logout do cliente e retorna para a tela principal da aplicação.
+     * 
+     * @param event O evento gerado pelo clique no botão de sair.
+     */
     @FXML
     public void onSairAction(ActionEvent event) {
         try {
@@ -186,8 +220,11 @@ public class TelaPrincipalClienteController {
         }
     }
 
-
-
+    /**
+     * Define a mensagem de boas-vindas exibida na tela principal.
+     * 
+     * @param message A mensagem de boas-vindas.
+     */
     public void setWelcomeMessage(String message) {
         if (lblWelcomeMessage != null) {
             lblWelcomeMessage.setText(message);

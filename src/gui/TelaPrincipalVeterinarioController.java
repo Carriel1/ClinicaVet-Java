@@ -27,6 +27,10 @@ import model.services.ClienteService;
 import model.services.ConsultaService;
 import model.services.VeterinarioService;
 
+/**
+ * Controlador responsável por gerenciar as ações e a lógica da tela principal do veterinário.
+ * A tela oferece funcionalidades como cadastro de animais, realização de consultas e visualização de relatórios.
+ */
 public class TelaPrincipalVeterinarioController {
 
     @FXML
@@ -49,6 +53,14 @@ public class TelaPrincipalVeterinarioController {
     private ConsultaService consultaService;
     private VeterinarioService veterinarioService;
     
+    /**
+     * Construtor da classe. Inicializa os serviços necessários para a operação do controlador.
+     * 
+     * @param clienteService Serviço relacionado aos clientes.
+     * @param animalService Serviço relacionado aos animais.
+     * @param consultaService Serviço relacionado às consultas.
+     * @param veterinarioService Serviço relacionado aos veterinários.
+     */
     public TelaPrincipalVeterinarioController(ClienteService clienteService, AnimalService animalService, ConsultaService consultaService, VeterinarioService veterinarioService) {
         this.clienteService = clienteService;
         this.consultaService = consultaService;
@@ -56,11 +68,21 @@ public class TelaPrincipalVeterinarioController {
         this.veterinarioService = veterinarioService;
     }
     
+    /**
+     * Construtor vazio, necessário para o carregamento via FXML.
+     */
     public TelaPrincipalVeterinarioController () {
     	
     }
     
-    // Método para injeção dos serviços
+    /**
+     * Método para injeção de dependência dos serviços.
+     * 
+     * @param animalService Serviço de gerenciamento de animais.
+     * @param clienteService Serviço de gerenciamento de clientes.
+     * @param consultaService Serviço de gerenciamento de consultas.
+     * @param veterinarioService Serviço de gerenciamento de veterinários.
+     */
     public void setServices(AnimalService animalService, ClienteService clienteService, ConsultaService consultaService, VeterinarioService veterinarioService) {
         if (animalService == null || clienteService == null || consultaService == null || veterinarioService == null) {
             throw new IllegalStateException("Os serviços não foram configurados corretamente.");
@@ -71,7 +93,12 @@ public class TelaPrincipalVeterinarioController {
         this.veterinarioService = veterinarioService;
     }
 
-    // Método para o evento do botão "Realizar Consulta"
+    /**
+     * Método acionado quando o botão "Realizar Consulta" é pressionado.
+     * Carrega a tela de consultas pendentes.
+     * 
+     * @param event O evento gerado pelo clique no botão.
+     */
     @FXML
     public void onRealizarConsulta(ActionEvent event) {
         try {
@@ -83,7 +110,7 @@ public class TelaPrincipalVeterinarioController {
             ConsultasPendentesController consultasController = loader.getController();
                         
             // Passa os serviços para o controlador de ConsultasPendentes
-            consultasController.setServices(clienteService, animalService, consultaService);  // Passa também o ConsultaService
+            consultasController.setServices(clienteService, animalService, consultaService);
 
             // Exibe a nova tela
             Stage stage = new Stage();
@@ -95,7 +122,12 @@ public class TelaPrincipalVeterinarioController {
         }
     }
 
-    // Método para o evento do botão "Ver Relatórios"
+    /**
+     * Método acionado quando o botão "Ver Relatórios" é pressionado.
+     * Carrega a tela de relatórios.
+     * 
+     * @param event O evento gerado pelo clique no botão.
+     */
     @FXML
     public void onVerRelatorios(ActionEvent event) {
         try {
@@ -116,8 +148,12 @@ public class TelaPrincipalVeterinarioController {
         }
     }
 
-
-    // Método para o evento do botão "Cadastrar Animal"
+    /**
+     * Método acionado quando o botão "Cadastrar Animal" é pressionado.
+     * Carrega a tela de cadastro de animal.
+     * 
+     * @param event O evento gerado pelo clique no botão.
+     */
     @FXML
     public void onCadastrarAnimal(ActionEvent event) {
         try {
@@ -144,36 +180,12 @@ public class TelaPrincipalVeterinarioController {
             Alerts.showAlert("Erro", null, "Falha ao abrir a tela de cadastro de animal.", Alert.AlertType.ERROR);
         }
     }
-    
-    public class RelatorioService {
 
-        public static List<Relatorio> findAllRelatoriosComVeterinario() {
-            // Exemplo de consulta no banco para pegar todos os relatórios e seus veterinários responsáveis
-            List<Relatorio> relatorios = new ArrayList<>();
-            
-            String query = "SELECT r.*, v.nome FROM relatorio r INNER JOIN veterinario v ON r.veterinario_id = v.id";
-            
-            try (Connection conn = DB.getConnection();
-                 PreparedStatement pst = conn.prepareStatement(query);
-                 ResultSet rs = pst.executeQuery()) {
-
-                while (rs.next()) {
-                    Relatorio relatorio = new Relatorio();
-                    relatorio.setDescricao(rs.getString("descricao"));
-                    Veterinario veterinario = new Veterinario();
-                    veterinario.setNome(rs.getString("nome"));
-                    relatorio.setVeterinarioResponsavel(veterinario);
-                    relatorios.add(relatorio);
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-            
-            return relatorios;
-        }
-    }
-
-
+    /**
+     * Método para a ação de sair da tela principal do veterinário e retornar à tela principal do sistema.
+     * 
+     * @param event O evento gerado pelo clique no botão.
+     */
     @FXML
     public void onSair(ActionEvent event) {
         try {
@@ -199,7 +211,11 @@ public class TelaPrincipalVeterinarioController {
         }
     }
 
-    // Método para definir a mensagem de boas-vindas
+    /**
+     * Define a mensagem de boas-vindas exibida na tela principal do veterinário.
+     * 
+     * @param message A mensagem de boas-vindas a ser exibida.
+     */
     public void setWelcomeMessage(String message) {
         if (lblWelcomeMessage != null) {
             lblWelcomeMessage.setText(message);  // Atualiza o texto do label

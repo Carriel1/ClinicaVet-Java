@@ -6,19 +6,31 @@ import model.dao.ClienteDao;
 import model.dao.DaoFactory;
 import model.entities.Cliente;
 
+/**
+ * Serviço responsável pela lógica de negócios relacionada a {@link Cliente}.
+ * Contém métodos para autenticação, registro, busca, remoção e atualização de clientes.
+ * Utiliza o DAO de clientes para interagir com o banco de dados.
+ */
 public class ClienteService {
 
     private ClienteDao dao;
-    private static Cliente loggedCliente;  
+    private static Cliente loggedCliente;  // Cliente atualmente autenticado
     
-    // Construtor para injeção do DAO
+    /**
+     * Construtor que inicializa o serviço com o DAO de clientes.
+     * O DAO é obtido por meio de uma fábrica de DAOs.
+     */
     public ClienteService() {
         this.dao = DaoFactory.createClienteDao(); // Inicializa o DAO usando a fábrica
     }
 
-    // Método para buscar todos os clientes
+    /**
+     * Busca todos os clientes no banco de dados.
+     * 
+     * @return Uma lista de {@link Cliente} contendo todos os clientes encontrados.
+     * @throws IllegalStateException Se não houver clientes no banco de dados.
+     */
     public List<Cliente> findAll() {
-        // Busca todos os clientes disponíveis no banco
         List<Cliente> clientes = dao.findAll();
         if (clientes == null || clientes.isEmpty()) {
             throw new IllegalStateException("Nenhum cliente encontrado no banco de dados.");
@@ -26,7 +38,12 @@ public class ClienteService {
         return clientes;
     }
 
-    // Método para salvar ou atualizar um cliente
+    /**
+     * Salva um cliente, ou atualiza caso já exista.
+     * 
+     * @param obj O objeto {@link Cliente} a ser salvo ou atualizado.
+     * @throws IllegalArgumentException Se o cliente for inválido.
+     */
     public void saveOrUpdate(Cliente obj) {
         if (obj.getId() == null) {
             dao.insert(obj); // Insere novo cliente se ID for nulo
@@ -35,7 +52,12 @@ public class ClienteService {
         }
     }
 
-    // Método para remover cliente pelo ID
+    /**
+     * Remove um cliente do banco de dados.
+     * 
+     * @param obj O objeto {@link Cliente} a ser removido.
+     * @throws IllegalArgumentException Se o cliente ou ID for nulo.
+     */
     public void remove(Cliente obj) {
         if (obj == null || obj.getId() == null) {
             throw new IllegalArgumentException("Cliente ou ID não pode ser nulo.");
@@ -43,7 +65,13 @@ public class ClienteService {
         dao.deleteById(obj.getId()); // Deleta cliente
     }
 
-    // Método para autenticar um cliente por username e senha
+    /**
+     * Autentica um cliente por seu nome de usuário (username) e senha.
+     * 
+     * @param username O nome de usuário do cliente.
+     * @param password A senha do cliente.
+     * @return O objeto {@link Cliente} autenticado, ou {@code null} se a autenticação falhar.
+     */
     public Cliente authenticate(String username, String password) {
         Cliente cliente = dao.findByUsername(username); // Busca cliente pelo username
         if (cliente != null && cliente.getSenha().equals(password)) {
@@ -53,7 +81,11 @@ public class ClienteService {
         return null; // Retorna null se autenticação falhar
     }
 
-    // Método para obter o ID do cliente logado
+    /**
+     * Obtém o ID do cliente atualmente autenticado.
+     * 
+     * @return O ID do cliente logado, ou {@code null} se não houver cliente logado.
+     */
     public static Integer getLoggedClienteId() {
         if (loggedCliente != null) {
             return loggedCliente.getId(); // Retorna o ID do cliente logado
@@ -61,7 +93,18 @@ public class ClienteService {
         return null; // Se não houver cliente logado, retorna null
     }
 
-    // Método para registrar um cliente
+    /**
+     * Registra um novo cliente no banco de dados.
+     * Realiza validações dos campos necessários (nome, email, telefone, senha, CPF).
+     * 
+     * @param nome O nome do cliente.
+     * @param email O email do cliente.
+     * @param telefone O telefone do cliente.
+     * @param senha A senha do cliente.
+     * @param endereco O endereço do cliente.
+     * @param cpf O CPF do cliente.
+     * @throws IllegalArgumentException Se algum campo for inválido ou faltar informação.
+     */
     public void registrarCliente(String nome, String email, String telefone, String senha, String endereco, String cpf) {
 
     	if (nome == null || nome.trim().isEmpty()) {
@@ -85,7 +128,6 @@ public class ClienteService {
 
         // Cria novo cliente
         Cliente cliente = new Cliente(null, nome, email, telefone, senha, endereco, cpf);
-        dao.insert(cliente); 
+        dao.insert(cliente); // Insere o cliente no banco
     }
 }
-

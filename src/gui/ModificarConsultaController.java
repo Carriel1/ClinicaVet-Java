@@ -17,50 +17,74 @@ import model.services.ClienteService;
 import model.services.ConsultaService;
 import model.services.VeterinarioService;
 
+/**
+ * Controlador responsável por modificar uma consulta já existente.
+ * Permite ao usuário selecionar uma consulta pendente e editar seus dados, como descrição, data e hora.
+ */
 public class ModificarConsultaController {
 
     @FXML
-    private ComboBox<Consulta> comboConsulta;  
-    
-    @FXML
-    private TextField txtDescricao;  
+    private ComboBox<Consulta> comboConsulta;  // ComboBox para selecionar a consulta pendente
 
     @FXML
-    private TextField txtData;  
-    
-    @FXML
-    private TextField txtHora;  
+    private TextField txtDescricao;  // Campo de texto para editar a descrição da consulta
 
     @FXML
-    private Button btnSalvar;  
+    private TextField txtData;  // Campo de texto para editar a data da consulta
 
-    private ConsultaService consultaService;
-    private ClienteService clienteService;
-    private VeterinarioService veterinarioService;
+    @FXML
+    private TextField txtHora;  // Campo de texto para editar a hora da consulta
 
+    @FXML
+    private Button btnSalvar;  // Botão para salvar as modificações
+
+    private ConsultaService consultaService;  // Serviço responsável pelas operações de consulta
+    private ClienteService clienteService;  // Serviço responsável pelas operações de cliente
+    private VeterinarioService veterinarioService;  // Serviço responsável pelas operações de veterinário
+
+    /**
+     * Define o serviço de consulta a ser usado neste controlador.
+     * 
+     * @param consultaService O serviço de consultas a ser usado.
+     */
     public void setServices(ConsultaService consultaService) {
         this.consultaService = consultaService;
     }
 
+    /**
+     * Define o serviço de cliente a ser usado neste controlador.
+     * 
+     * @param clienteService O serviço de cliente a ser usado.
+     */
     public void setClienteService(ClienteService clienteService) {
         this.clienteService = clienteService;
     }
 
+    /**
+     * Define o serviço de veterinário a ser usado neste controlador.
+     * 
+     * @param veterinarioService O serviço de veterinário a ser usado.
+     */
     public void setVeterinarioService(VeterinarioService veterinarioService) {
         this.veterinarioService = veterinarioService;
     }
 
-    // Método para carregar as consultas no ComboBox
+    /**
+     * Inicializa a tela, carregando as consultas pendentes no ComboBox.
+     * Este método é chamado automaticamente pelo JavaFX durante a inicialização da tela.
+     */
     @FXML
     public void initialize() {
-  	  consultaService = new ConsultaService(); 
-    	try {
+        consultaService = new ConsultaService();
+        try {
+            // Carrega todas as consultas pendentes no ComboBox
             comboConsulta.getItems().addAll(consultaService.findConsultasPendentes()); 
         } catch (Exception e) {
             e.printStackTrace();
             Alerts.showAlert("Erro", null, "Falha ao carregar as consultas.", Alert.AlertType.ERROR);
         }
 
+        // Adiciona listener para carregar os dados da consulta selecionada
         comboConsulta.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
                 carregarConsulta(newValue);  // Carregar os dados da consulta
@@ -68,14 +92,23 @@ public class ModificarConsultaController {
         });
     }
 
-    // Método para carregar os dados da consulta selecionada
+    /**
+     * Carrega os dados de uma consulta selecionada nos campos de edição.
+     * 
+     * @param consulta A consulta cujos dados serão carregados.
+     */
     private void carregarConsulta(Consulta consulta) {
         txtDescricao.setText(consulta.getDescricao());
         txtData.setText(consulta.getData().toString());  
         txtHora.setText(consulta.getHora().toString());  
     }
 
- // Método para salvar as modificações na consulta
+    /**
+     * Método chamado ao clicar no botão "Salvar".
+     * Realiza a validação e salva as modificações feitas na consulta.
+     * 
+     * @param event O evento de clique do botão.
+     */
     @FXML
     public void onSalvar(ActionEvent event) {
         try {
@@ -125,5 +158,4 @@ public class ModificarConsultaController {
             Alerts.showAlert("Erro", null, "Falha ao salvar as modificações.", Alert.AlertType.ERROR);
         }
     }
-
 }

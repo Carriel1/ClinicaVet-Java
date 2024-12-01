@@ -14,17 +14,31 @@ import model.dao.AnimalDao;
 import model.entities.Animal;
 import model.entities.Cliente;
 
+/**
+ * Implementação da interface AnimalDao usando JDBC para interagir com o banco de dados.
+ */
 public class AnimalDaoJDBC implements AnimalDao {
     private Connection conn;
 
+    /**
+     * Construtor para inicializar a conexão com o banco de dados.
+     * 
+     * @param conn A conexão com o banco de dados.
+     */
     public AnimalDaoJDBC(Connection conn) {
         this.conn = conn;
     }
     
+    /**
+     * Construtor vazio.
+     */
     public AnimalDaoJDBC () {
     	
     }
     
+    /**
+     * Verifica se a conexão com o banco de dados está aberta e, se não, reabre.
+     */
     public void verificarConexao() {
         try {
             if (conn == null || conn.isClosed()) {
@@ -37,6 +51,11 @@ public class AnimalDaoJDBC implements AnimalDao {
         }
     }
 
+    /**
+     * Insere um novo animal no banco de dados.
+     * 
+     * @param animal O objeto Animal a ser inserido.
+     */
     @Override
     public void insert(Animal animal) {
         String sql = "INSERT INTO animais (nome, idade, raca, especie, cliente_id) VALUES (?, ?, ?, ?, ?)";
@@ -62,7 +81,11 @@ public class AnimalDaoJDBC implements AnimalDao {
         }
     }
 
-
+    /**
+     * Atualiza os dados de um animal no banco de dados.
+     * 
+     * @param obj O objeto Animal a ser atualizado.
+     */
     @Override
     public void update(Animal obj) {
         try (PreparedStatement st = conn.prepareStatement(
@@ -78,7 +101,12 @@ public class AnimalDaoJDBC implements AnimalDao {
             throw new DbException(e.getMessage());
         }
     }
-
+    
+    /**
+     * Deleta um animal do banco de dados, baseado no seu ID.
+     * 
+     * @param id O ID do animal a ser deletado.
+     */
     @Override
     public void deleteById(Integer id) {
         try (PreparedStatement st = conn.prepareStatement("DELETE FROM animais WHERE id = ?")) {
@@ -88,7 +116,13 @@ public class AnimalDaoJDBC implements AnimalDao {
             throw new DbException(e.getMessage());
         }
     }
-
+    
+    /**
+     * Busca um animal no banco de dados pelo seu ID.
+     * 
+     * @param id O ID do animal a ser buscado.
+     * @return O objeto Animal, ou null se não encontrado.
+     */
     @Override
     public Animal findById(Integer id) {
         try (PreparedStatement st = conn.prepareStatement("SELECT * FROM animais WHERE id = ?")) {
@@ -103,7 +137,12 @@ public class AnimalDaoJDBC implements AnimalDao {
         }
         return null;
     }
-
+    
+    /**
+     * Busca todos os animais no banco de dados.
+     * 
+     * @return Uma lista de todos os animais.
+     */
     @Override
     public List<Animal> findAll() {
         List<Animal> list = new ArrayList<>();
@@ -119,6 +158,12 @@ public class AnimalDaoJDBC implements AnimalDao {
         return list;
     }
 
+    /**
+     * Busca os animais de um cliente específico, pelo ID do cliente.
+     * 
+     * @param clienteId O ID do cliente.
+     * @return Uma lista de animais associados ao cliente.
+     */
     @Override
     public List<Animal> findByClienteId(Integer clienteId) {
         List<Animal> list = new ArrayList<>();
@@ -135,11 +180,19 @@ public class AnimalDaoJDBC implements AnimalDao {
         return list;
     }
 
+    
     @Override
     public List<Animal> findAnimaisByClienteId(Integer clienteId) {
         return findByClienteId(clienteId);  
     }
-
+    
+    /**
+     * Método auxiliar para instanciar um objeto Animal a partir de um ResultSet.
+     * 
+     * @param rs O ResultSet contendo os dados do animal.
+     * @return O objeto Animal instanciado.
+     * @throws SQLException Se ocorrer um erro ao acessar os dados no ResultSet.
+     */
     private Animal instantiateAnimal(ResultSet rs) throws SQLException {
         Animal animal = new Animal();
         animal.setId(rs.getInt("id"));
@@ -153,6 +206,12 @@ public class AnimalDaoJDBC implements AnimalDao {
         return animal;
     }
     
+    /**
+     * Busca os animais de um cliente específico, pelo ID do cliente.
+     * 
+     * @param clienteId O ID do cliente.
+     * @return Uma lista de animais associados ao cliente.
+     */
     @Override
     public List<Animal> buscarPorClienteId(int clienteId) {
         List<Animal> lista = new ArrayList<>();
@@ -177,6 +236,11 @@ public class AnimalDaoJDBC implements AnimalDao {
         return lista;
     }
     
+    /**
+     * Deleta todos os animais de um cliente específico, pelo ID do cliente.
+     * 
+     * @param clienteId O ID do cliente.
+     */
     @Override
     public void deleteByClienteId(Integer clienteId) {
         String sql = "DELETE FROM animais WHERE cliente_id = ?";

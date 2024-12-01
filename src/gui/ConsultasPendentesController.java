@@ -19,6 +19,10 @@ import model.services.AnimalService;
 import model.services.ClienteService;
 import model.services.ConsultaService;
 
+/**
+ * Controlador responsável por gerenciar a tela de consultas pendentes no sistema.
+ * Esta classe permite visualizar, selecionar e realizar consultas pendentes.
+ */
 public class ConsultasPendentesController {
 
     @FXML
@@ -37,15 +41,32 @@ public class ConsultasPendentesController {
     private AnimalService animalService;
     private ConsultaService consultaService;
 
+    /**
+     * Construtor padrão da classe.
+     */
     public ConsultasPendentesController() {
     }
-    
+
+    /**
+     * Construtor com os serviços necessários.
+     * 
+     * @param clienteService o serviço de clientes
+     * @param animalService o serviço de animais
+     * @param consultaService o serviço de consultas
+     */
     public ConsultasPendentesController(ClienteService clienteService, AnimalService animalService, ConsultaService consultaService) {
         this.clienteService = clienteService;
         this.animalService = animalService;
         this.consultaService = consultaService;
     }
 
+    /**
+     * Configura os serviços necessários e carrega as consultas pendentes.
+     * 
+     * @param clienteService o serviço de clientes
+     * @param animalService o serviço de animais
+     * @param consultaService o serviço de consultas
+     */
     public void setServices(ClienteService clienteService, AnimalService animalService, ConsultaService consultaService) {
         if (clienteService == null || animalService == null || consultaService == null) {
             throw new IllegalStateException("Os serviços não foram configurados corretamente.");
@@ -56,6 +77,10 @@ public class ConsultasPendentesController {
         loadConsultasPendentes();
     }
 
+    /**
+     * Carrega as consultas pendentes na tabela.
+     * Atualiza os dados das colunas e exibe os dados de clientes, animais e data de consulta.
+     */
     private void loadConsultasPendentes() {
         try {
             List<Consulta> consultasPendentes = consultaService.findConsultasPendentes();
@@ -78,10 +103,19 @@ public class ConsultasPendentesController {
         }
     }
 
+    /**
+     * Exibe um alerta de erro com a mensagem fornecida.
+     * 
+     * @param message a mensagem a ser exibida no alerta
+     */
     private void showErrorAlert(String message) {
         Alerts.showAlert("Erro", null, message, Alert.AlertType.ERROR);
     }
 
+    /**
+     * Método chamado ao clicar no botão "Realizar Consulta".
+     * Marca a consulta como realizada e abre a tela de relatório correspondente.
+     */
     @FXML
     public void onRealizarConsulta() {
         try {
@@ -105,7 +139,11 @@ public class ConsultasPendentesController {
         }
     }
 
-    
+    /**
+     * Abre a tela de relatório para a consulta selecionada.
+     * 
+     * @param consulta a consulta para a qual o relatório será gerado
+     */
     public void abrirTelaRelatorio(Consulta consulta) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/relatorio.fxml"));
@@ -124,6 +162,4 @@ public class ConsultasPendentesController {
             Alerts.showAlert("Erro", "Falha ao carregar tela de relatório", "Não foi possível carregar a tela de relatório.", Alert.AlertType.ERROR);
         }
     }
-
-
 }

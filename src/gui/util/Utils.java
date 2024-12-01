@@ -6,7 +6,6 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.stage.Stage;
 import java.io.IOException;
-
 import javafx.event.ActionEvent;
 import javafx.util.StringConverter;
 import javafx.scene.control.DatePicker;
@@ -19,9 +18,20 @@ import java.util.Locale;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
+/**
+ * Classe utilitária contendo métodos diversos para facilitar o uso de funcionalidades
+ * comuns no aplicativo, como carregamento de cenas, formatação de colunas de tabelas,
+ * conversões de tipos e manipulação de datas.
+ */
 public class Utils {
 
-    // Método para obter o Stage atual a partir de um evento
+    /**
+     * Obtém o Stage (janela) atual a partir de um evento.
+     * 
+     * @param event O evento gerado pelo usuário (geralmente um clique).
+     * @return O Stage atual que disparou o evento.
+     * @throws IllegalArgumentException Caso o evento ou sua origem seja nula.
+     */
     public static Stage currentStage(ActionEvent event) {
         if (event == null || event.getSource() == null) {
             throw new IllegalArgumentException("O evento ou a origem do evento está nulo.");
@@ -29,7 +39,12 @@ public class Utils {
         return (Stage) ((Node) event.getSource()).getScene().getWindow();
     }
 
-    // Método para carregar uma nova cena a partir de um arquivo FXML
+    /**
+     * Carrega uma nova cena a partir de um arquivo FXML.
+     * 
+     * @param fxmlPath O caminho do arquivo FXML.
+     * @return A cena carregada a partir do arquivo FXML.
+     */
     public static Scene loadScene(String fxmlPath) {
         try {
             FXMLLoader loader = new FXMLLoader(Utils.class.getResource(fxmlPath));
@@ -41,8 +56,12 @@ public class Utils {
         }
     }
 
-    
-    // Método para obter o controlador da cena carregada
+    /**
+     * Obtém o controlador da cena carregada.
+     * 
+     * @param scene A cena da qual se deseja obter o controlador.
+     * @return O controlador da cena carregada.
+     */
     public static Object getController(Scene scene) {
         if (scene != null && scene.getRoot() != null) {
             return scene.getRoot().getProperties().get("controller");
@@ -50,7 +69,12 @@ public class Utils {
         return null;
     }
 
-    // Método para tentar converter String para Integer, retornando null em caso de erro
+    /**
+     * Tenta converter uma String para Integer, retornando null em caso de erro.
+     * 
+     * @param str A string a ser convertida.
+     * @return O valor convertido como Integer ou null caso ocorra um erro.
+     */
     public static Integer tryParseToInt(String str) {
         try {
             return Integer.parseInt(str);
@@ -59,7 +83,12 @@ public class Utils {
         }
     }
 
-    // Método para tentar converter String para Double, retornando null em caso de erro
+    /**
+     * Tenta converter uma String para Double, retornando null em caso de erro.
+     * 
+     * @param str A string a ser convertida.
+     * @return O valor convertido como Double ou null caso ocorra um erro.
+     */
     public static Double tryParseToDouble(String str) {
         try {
             return Double.parseDouble(str);
@@ -68,7 +97,13 @@ public class Utils {
         }
     }
 
-    // Método para formatar colunas de data em tabelas, recebendo o formato como parâmetro
+    /**
+     * Formata uma coluna de data em uma tabela, permitindo o formato especificado.
+     * 
+     * @param <T> O tipo da tabela.
+     * @param tableColumn A coluna da tabela a ser formatada.
+     * @param format O formato da data (por exemplo, "dd/MM/yyyy").
+     */
     public static <T> void formatTableColumnDate(TableColumn<T, Date> tableColumn, String format) {
         tableColumn.setCellFactory(column -> {
             TableCell<T, Date> cell = new TableCell<T, Date>() {
@@ -84,7 +119,13 @@ public class Utils {
         });
     }
 
-    // Método para formatar colunas de valores Double em tabelas, especificando casas decimais
+    /**
+     * Formata uma coluna de valores Double em uma tabela, com o número de casas decimais especificado.
+     * 
+     * @param <T> O tipo da tabela.
+     * @param tableColumn A coluna da tabela a ser formatada.
+     * @param decimalPlaces O número de casas decimais.
+     */
     public static <T> void formatTableColumnDouble(TableColumn<T, Double> tableColumn, int decimalPlaces) {
         tableColumn.setCellFactory(column -> {
             TableCell<T, Double> cell = new TableCell<T, Double>() {
@@ -103,7 +144,12 @@ public class Utils {
         });
     }
 
-    // Método para formatar o DatePicker, permitindo definir o formato de data exibido e aceito
+    /**
+     * Formata um DatePicker, permitindo definir o formato de data exibido e aceito.
+     * 
+     * @param datePicker O DatePicker a ser formatado.
+     * @param format O formato desejado para a data (por exemplo, "dd/MM/yyyy").
+     */
     public static void formatDatePicker(DatePicker datePicker, String format) {
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern(format);
         datePicker.setPromptText(format.toLowerCase());
@@ -121,14 +167,26 @@ public class Utils {
         });
     }
 
-    // Método adicional para converter Date para String, com suporte ao formato desejado
+    /**
+     * Converte uma data (Date) para uma string no formato especificado.
+     * 
+     * @param date A data a ser convertida.
+     * @param format O formato desejado (por exemplo, "dd/MM/yyyy").
+     * @return A data formatada como String.
+     */
     public static String formatDateToString(Date date, String format) {
         if (date == null) return "";
         SimpleDateFormat sdf = new SimpleDateFormat(format);
         return sdf.format(date);
     }
 
-    // Método adicional para converter String para Date, com suporte a formatos específicos
+    /**
+     * Converte uma string no formato especificado para uma data (Date).
+     * 
+     * @param dateStr A string representando uma data.
+     * @param format O formato da data na string.
+     * @return A data convertida ou null se ocorrer um erro de parsing.
+     */
     public static Date parseStringToDate(String dateStr, String format) {
         try {
             SimpleDateFormat sdf = new SimpleDateFormat(format);

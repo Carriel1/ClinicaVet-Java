@@ -20,15 +20,24 @@ import model.entities.Funcionario;
 import model.entities.Relatorio;
 import model.entities.Veterinario;
 
+/**
+ * Classe responsável por gerar e salvar um relatório completo contendo dados de
+ * consultas, clientes, veterinários, funcionários, animais e relatórios.
+ * A classe utiliza os DAOs para consultar os dados do banco e gerar o relatório.
+ */
 public class RelatorioCTodosDadosDS {
 
-    private ConsultaDaoJDBC consultaDao;
-    private ClienteDaoJDBC clienteDao;
-    private RelatorioDaoJDBC relatorioDao;
-    private VeterinarioDaoJDBC veterinarioDao;
-    private FuncionarioDaoJDBC funcionarioDao;
-    private AnimalDaoJDBC animalDao;  
+    private ConsultaDaoJDBC consultaDao;  // DAO para consultas
+    private ClienteDaoJDBC clienteDao;    // DAO para clientes
+    private RelatorioDaoJDBC relatorioDao; // DAO para relatórios
+    private VeterinarioDaoJDBC veterinarioDao; // DAO para veterinários
+    private FuncionarioDaoJDBC funcionarioDao; // DAO para funcionários
+    private AnimalDaoJDBC animalDao;  // DAO para animais
 
+    /**
+     * Construtor da classe.
+     * Inicializa os DAOs necessários para consulta dos dados.
+     */
     public RelatorioCTodosDadosDS() {
         this.consultaDao = new ConsultaDaoJDBC();
         this.clienteDao = new ClienteDaoJDBC();
@@ -38,10 +47,15 @@ public class RelatorioCTodosDadosDS {
         this.animalDao = new AnimalDaoJDBC();  
     }
 
-    // Método que coleta todos os dados e gera o relatório
+    /**
+     * Método que coleta todos os dados e gera o relatório com informações sobre
+     * consultas, clientes, veterinários, funcionários, animais e relatórios.
+     * 
+     * @return O relatório gerado como uma string.
+     */
     public String gerarRelatorio() {
         System.out.println("Método gerarRelatorio chamado!");
-    	StringBuilder relatorio = new StringBuilder();
+        StringBuilder relatorio = new StringBuilder();
         
         try {
             // Verificar e reabrir a conexão antes de fazer consultas
@@ -102,11 +116,17 @@ public class RelatorioCTodosDadosDS {
         return relatorio.toString(); // Retorna o relatório gerado como uma string
     }
 
-    // Método opcional para salvar o relatório em um arquivo (exemplo)
+    /**
+     * Método que salva o relatório gerado em um arquivo no caminho especificado.
+     * Se o diretório não existir, ele será criado.
+     * 
+     * @param caminhoArquivo O caminho onde o relatório será salvo.
+     */
     public void salvarRelatorioEmArquivo(String caminhoArquivo) {
         try {
             String dadosRelatorio = gerarRelatorio();  // Gera o conteúdo do relatório
             System.out.println("Conteúdo do relatório gerado:\n" + dadosRelatorio);  
+            
             // Verificar e criar o diretório, se necessário
             File diretorio = new File(caminhoArquivo).getParentFile();
             System.out.println("Relatório salvo em: " + caminhoArquivo); 
@@ -122,10 +142,13 @@ public class RelatorioCTodosDadosDS {
         }
     }
 
-    // Método para salvar o relatório
+    /**
+     * Método que salva o relatório gerado em um arquivo no diretório padrão.
+     * O caminho do arquivo é fixo.
+     */
     public void salvarRelatorio() {
         System.out.println("Método salvarRelatorio chamado!");
-    	// Definindo o caminho onde o relatório será salvo
+        // Definindo o caminho onde o relatório será salvo
         String caminhoArquivo = "C:/Users/mateu/OneDrive/Área de Trabalho/Projetos em JAVA/Eclipse/ClinicaVet/src/resources/relatorios/relatorio_completo.txt";
         System.out.println("Iniciando o salvamento do relatório...");
         // Chamando o método para salvar o relatório no arquivo

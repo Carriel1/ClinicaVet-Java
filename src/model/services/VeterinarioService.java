@@ -6,39 +6,79 @@ import model.dao.DaoFactory;
 import model.dao.VeterinarioDao;
 import model.entities.Veterinario;
 
+/**
+ * Serviço responsável pela lógica de negócios relacionada aos veterinários.
+ * Permite o registro, atualização, remoção e autenticação de veterinários.
+ * 
+ * Utiliza {@link VeterinarioDao} para interagir com o banco de dados de veterinários.
+ */
 public class VeterinarioService {
 
     private VeterinarioDao dao = DaoFactory.createVeterinarioDao();
 
+    /**
+     * Recupera todos os veterinários cadastrados no banco de dados.
+     * 
+     * @return Uma lista de todos os veterinários.
+     */
     public List<Veterinario> findAll() {
         return dao.findAll();
     }
 
+    /**
+     * Salva ou atualiza um veterinário no banco de dados.
+     * Se o veterinário já possui um ID, o método realiza uma atualização; 
+     * caso contrário, insere um novo veterinário.
+     * 
+     * @param obj O veterinário a ser salvo ou atualizado.
+     */
     public void saveOrUpdate(Veterinario obj) {
         if (obj.getId() == null) {
-            dao.insert(obj);
+            dao.insert(obj);  // Insere um novo veterinário
         } else {
-            dao.update(obj);
+            dao.update(obj);  // Atualiza o veterinário existente
         }
     }
 
+    /**
+     * Remove um veterinário do banco de dados pelo seu ID.
+     * 
+     * @param veterinario O veterinário a ser removido.
+     * @throws IllegalArgumentException Se o veterinário ou o ID forem inválidos.
+     */
     public void remove(Veterinario veterinario) {
         if (veterinario == null || veterinario.getId() == null) {
             throw new IllegalArgumentException("Veterinário inválido");
         }
-        dao.deleteById(veterinario.getId());
+        dao.deleteById(veterinario.getId());  // Deleta o veterinário pelo ID
     }
 
-
+    /**
+     * Realiza a autenticação de um veterinário pelo seu nome de usuário e senha.
+     * 
+     * @param username O nome de usuário do veterinário.
+     * @param password A senha do veterinário.
+     * @return {@code true} se a autenticação for bem-sucedida, {@code false} caso contrário.
+     */
     public boolean authenticate(String username, String password) {
-        Veterinario veterinario = dao.findByUsername(username);
+        Veterinario veterinario = dao.findByUsername(username);  // Busca o veterinário pelo nome de usuário
         if (veterinario != null && veterinario.getSenha().equals(password)) {
-            return true;
+            return true;  // Autenticação bem-sucedida
         }
-        return false;
+        return false;  // Falha na autenticação
     }
 
-    // Novo método para registrar Veterinário com os campos necessários
+    /**
+     * Registra um novo veterinário no banco de dados.
+     * Realiza validações nos dados antes de salvar o veterinário.
+     * 
+     * @param nome O nome do veterinário.
+     * @param cpf O CPF do veterinário (deve conter 11 números).
+     * @param email O email do veterinário.
+     * @param telefone O telefone de contato do veterinário.
+     * @param senha A senha do veterinário.
+     * @throws IllegalArgumentException Se algum dado de entrada for inválido.
+     */
     public void registrarVeterinario(String nome, String cpf, String email, String telefone, String senha) {
         // Validar os dados de entrada
         if (nome == null || nome.trim().isEmpty()) {
@@ -63,7 +103,7 @@ public class VeterinarioService {
         // Criar novo veterinário com os dados fornecidos
         Veterinario veterinario = new Veterinario(null, nome, cpf, email, telefone, senha);
 
-        // Inserir no banco de dados
+        // Inserir o veterinário no banco de dados
         dao.insert(veterinario);
     }
 }

@@ -31,6 +31,10 @@ import javafx.stage.Stage;
 import model.entities.Veterinario;
 import model.services.VeterinarioService;
 
+/**
+ * Controlador responsável por gerenciar a visualização, edição e remoção de veterinários na interface.
+ * Ele permite a interação com uma lista de veterinários e a realização de operações CRUD (Criar, Ler, Atualizar e Deletar).
+ */
 public class VeterinarioListController implements Initializable, DataChangeListener {
 
     private VeterinarioService service;
@@ -61,6 +65,11 @@ public class VeterinarioListController implements Initializable, DataChangeListe
 
     private ObservableList<Veterinario> obsList;
 
+    /**
+     * Manipula o evento de clique no botão "Novo" para abrir o formulário de cadastro de um novo veterinário.
+     * 
+     * @param event O evento do clique no botão "Novo".
+     */
     @FXML
     public void onBtNewAction(ActionEvent event) {
         Stage parentStage = Utils.currentStage(event);
@@ -68,15 +77,30 @@ public class VeterinarioListController implements Initializable, DataChangeListe
         createDialogForm(obj, "/gui/VeterinarioRegistro.fxml", parentStage);
     }
 
+    /**
+     * Define o serviço de veterinários a ser utilizado por este controlador.
+     * 
+     * @param service O serviço responsável pela gestão dos veterinários.
+     */
     public void setVeterinarioService(VeterinarioService service) {
         this.service = service;
     }
 
+    /**
+     * Inicializa o controlador e seus componentes, configurando a tabela de veterinários.
+     * Este método é automaticamente chamado quando o FXML é carregado.
+     * 
+     * @param url A URL da localização do recurso FXML.
+     * @param rb O bundle de recursos.
+     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         initializeNodes();
     }
 
+    /**
+     * Inicializa os componentes da tabela, definindo como as colunas devem ser preenchidas.
+     */
     private void initializeNodes() {
         tableColumnId.setCellValueFactory(new PropertyValueFactory<>("id"));
         tableColumnName.setCellValueFactory(new PropertyValueFactory<>("nome"));
@@ -87,6 +111,9 @@ public class VeterinarioListController implements Initializable, DataChangeListe
         tableViewVeterinario.prefHeightProperty().bind(stage.heightProperty());
     }
 
+    /**
+     * Atualiza a tabela de veterinários com os dados mais recentes.
+     */
     public void updateTableView() {
         if (service == null) throw new IllegalStateException("Service was null");
 
@@ -97,6 +124,13 @@ public class VeterinarioListController implements Initializable, DataChangeListe
         initRemoveButtons();
     }
 
+    /**
+     * Cria um formulário de diálogo para cadastrar ou editar um veterinário.
+     * 
+     * @param obj O veterinário a ser cadastrado ou editado.
+     * @param absoluteName O nome do arquivo FXML do formulário.
+     * @param parentStage A janela pai do diálogo.
+     */
     private void createDialogForm(Veterinario obj, String absoluteName, Stage parentStage) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(absoluteName));
@@ -120,6 +154,10 @@ public class VeterinarioListController implements Initializable, DataChangeListe
         }
     }
 
+    /**
+     * Inicializa os botões de edição na tabela.
+     * Cada linha terá um botão "Editar" que abre o formulário de edição do veterinário correspondente.
+     */
     private void initEditButtons() {
         tableColumnEDIT.setCellFactory(param -> new TableCell<Veterinario, Veterinario>() {
             private final Button button = new Button("Edit");
@@ -137,6 +175,10 @@ public class VeterinarioListController implements Initializable, DataChangeListe
         });
     }
 
+    /**
+     * Inicializa os botões de remoção na tabela.
+     * Cada linha terá um botão "Remover" que exclui o veterinário correspondente.
+     */
     private void initRemoveButtons() {
         tableColumnREMOVE.setCellFactory(param -> new TableCell<Veterinario, Veterinario>() {
             private final Button button = new Button("Remove");
@@ -154,6 +196,11 @@ public class VeterinarioListController implements Initializable, DataChangeListe
         });
     }
 
+    /**
+     * Remove um veterinário da lista após confirmação do usuário.
+     * 
+     * @param obj O veterinário a ser removido.
+     */
     private void removeEntity(Veterinario obj) {
         Optional<ButtonType> result = Alerts.showConfirmation("Confirmation", "Are you sure you want to delete?");
         if (result.isPresent() && result.get() == ButtonType.OK) {
@@ -168,6 +215,9 @@ public class VeterinarioListController implements Initializable, DataChangeListe
         }
     }
 
+    /**
+     * Atualiza a tabela quando os dados são alterados, refletindo as mudanças realizadas.
+     */
     @Override
     public void onDataChanged() {
         updateTableView();

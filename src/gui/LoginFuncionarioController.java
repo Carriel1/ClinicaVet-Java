@@ -22,29 +22,65 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import model.services.FuncionarioService;
 
+/**
+ * Controlador responsável pela tela de login do funcionário no sistema.
+ * Realiza a autenticação do funcionário e, em caso de sucesso, redireciona
+ * para a tela principal do sistema de gestão.
+ */
 public class LoginFuncionarioController {
 
+    /**
+     * Serviço responsável pelas operações relacionadas ao funcionário.
+     */
     private FuncionarioService service;
 
+    /**
+     * Campo de texto para o nome de usuário.
+     */
     @FXML
     private TextField txtUsername;
 
+    /**
+     * Campo de senha para a autenticação.
+     */
     @FXML
     private PasswordField txtPassword;
 
+    /**
+     * Botão responsável por iniciar o processo de login.
+     */
     @FXML
     private Button btLogin;
 
+    /**
+     * Botão responsável por cancelar a ação de login.
+     */
     @FXML
     private Button btCancel;
 
+    /**
+     * Rótulo utilizado para exibir mensagens de erro.
+     */
     @FXML
     private Label lblError;
 
+    /**
+     * Configura o serviço de autenticação de funcionário.
+     * 
+     * @param service O serviço de autenticação de funcionário.
+     */
     public void setFuncionarioService(FuncionarioService service) {
         this.service = service;
     }
 
+    /**
+     * Ação chamada quando o botão de login é pressionado.
+     * Realiza a autenticação do funcionário utilizando o nome de usuário e senha fornecidos.
+     * Se a autenticação for bem-sucedida, redireciona o funcionário para a tela principal do sistema.
+     * Caso contrário, exibe uma mensagem de erro.
+     * 
+     * @param event O evento de clique do botão de login.
+     */
     @FXML
     public void onBtLoginAction(ActionEvent event) {
         if (service == null) {
@@ -55,9 +91,11 @@ public class LoginFuncionarioController {
         String username = txtUsername.getText();
         String password = txtPassword.getText();
 
+        // Autenticação do funcionário
         if (service.authenticate(username, password)) {
             try {
                 System.out.println("Carregando Tela Principal...");
+
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/TelaPrincipalFuncionarioController.fxml"));
                 
                 if (loader.getLocation() == null) {
@@ -70,11 +108,13 @@ public class LoginFuncionarioController {
                 TelaPrincipalFuncionarioController controller = loader.getController();
                 controller.setWelcomeMessage("Bem-vindo, " + username + "!");
 
+                // Cria uma nova janela para a tela principal do funcionário
                 Stage stage = new Stage();
                 stage.setTitle("Tela Principal - Sistema de Gestão");
                 stage.setScene(new Scene(pane));
                 stage.show();
 
+                // Fecha a janela de login
                 Stage currentStage = Utils.currentStage(event);
                 currentStage.close();
 
@@ -83,25 +123,35 @@ public class LoginFuncionarioController {
                 Alerts.showAlert("Erro", null, "Falha ao carregar a Tela Principal.", AlertType.ERROR);
             }
         } else {
-            lblError.setText("Invalid username or password");
-            Alerts.showAlert("Login Error", null, "Username or password is incorrect.", AlertType.ERROR);
+            lblError.setText("Nome de usuário ou senha inválidos");
+            Alerts.showAlert("Erro no Login", null, "Nome de usuário ou senha incorretos.", AlertType.ERROR);
         }
     }
 
-
+    /**
+     * Ação chamada quando o botão de cancelamento é pressionado.
+     * Redireciona o usuário para a tela principal do sistema.
+     */
     @FXML
     public void onBtCancelAction() {
-    	loadView("/gui/MainView.fxml", controller -> {});
+        loadView("/gui/MainView.fxml", controller -> {});
     }
-    
+
+    /**
+     * Carrega uma nova view (tela) no sistema.
+     * 
+     * @param fxmlPath O caminho para o arquivo FXML da view a ser carregada.
+     * @param initializingAction Ação de inicialização que será executada no controlador da nova view.
+     * @param <T> O tipo do controlador da nova view.
+     */
     private synchronized <T> void loadView(String fxmlPath, Consumer<T> initializingAction) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
             Parent newView = loader.load(); 
 
+            // Carrega a nova view na tela principal
             Scene mainScene = Main.getMainScene();
             ScrollPane mainScrollPane = (ScrollPane) mainScene.getRoot(); 
-
             mainScrollPane.setContent(newView);
 
             T controller = loader.getController();
@@ -113,5 +163,3 @@ public class LoginFuncionarioController {
         }
     }
 }
-
-

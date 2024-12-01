@@ -13,18 +13,34 @@ import model.dao.ClienteDao;
 import model.entities.Cliente;
 import model.entities.Animal;
 
+/**
+ * Implementação da interface ClienteDao utilizando JDBC para realizar operações no banco de dados.
+ * Esta classe fornece métodos para inserir, atualizar, excluir e buscar clientes, além de manipular
+ * os animais associados a cada cliente.
+ */
 public class ClienteDaoJDBC implements ClienteDao {
 
     private Connection conn;
 
+    /**
+     * Construtor que recebe a conexão com o banco de dados.
+     * 
+     * @param conn A conexão com o banco de dados.
+     */
     public ClienteDaoJDBC(Connection conn) {
         this.conn = conn;
     }
     
+    /**
+     * Construtor padrão.
+     */
     public ClienteDaoJDBC () {
     	
     }
     
+    /**
+     * Verifica se a conexão com o banco de dados está aberta e, caso não esteja, reabre a conexão.
+     */
     public void verificarConexao() {
         try {
             if (conn == null || conn.isClosed()) {
@@ -37,6 +53,11 @@ public class ClienteDaoJDBC implements ClienteDao {
         }
     }
     
+    /**
+     * Insere um cliente no banco de dados, incluindo os animais associados a ele.
+     * 
+     * @param obj O cliente a ser inserido.
+     */
     @Override
     public void insert(Cliente obj) {
         PreparedStatement st = null;
@@ -79,6 +100,11 @@ public class ClienteDaoJDBC implements ClienteDao {
         }
     }
 
+    /**
+     * Atualiza as informações de um cliente no banco de dados, incluindo seus animais.
+     * 
+     * @param obj O cliente a ser atualizado.
+     */
     @Override
     public void update(Cliente obj) {
         PreparedStatement st = null;
@@ -111,6 +137,11 @@ public class ClienteDaoJDBC implements ClienteDao {
         }
     }
 
+    /**
+     * Exclui um cliente do banco de dados, removendo também seus animais associados.
+     * 
+     * @param id O id do cliente a ser excluído.
+     */
     @Override
     public void deleteById(Integer id) {
         PreparedStatement st = null;
@@ -130,6 +161,12 @@ public class ClienteDaoJDBC implements ClienteDao {
         }
     }
 
+    /**
+     * Busca um cliente pelo seu id no banco de dados.
+     * 
+     * @param id O id do cliente a ser buscado.
+     * @return O cliente encontrado ou null caso não exista.
+     */
     @Override
     public Cliente findById(Integer id) {
         PreparedStatement st = null;
@@ -158,6 +195,12 @@ public class ClienteDaoJDBC implements ClienteDao {
         }
     }
 
+    /**
+     * Busca um cliente pelo seu nome (usuário) no banco de dados.
+     * 
+     * @param username O nome do cliente a ser buscado.
+     * @return O cliente encontrado ou null caso não exista.
+     */
     @Override
     public Cliente findByUsername(String username) {
         PreparedStatement st = null;
@@ -186,6 +229,13 @@ public class ClienteDaoJDBC implements ClienteDao {
         }
     }
 
+    /**
+     * Cria um objeto Cliente a partir de um ResultSet.
+     * 
+     * @param rs O ResultSet contendo os dados do cliente.
+     * @return O cliente instanciado.
+     * @throws SQLException Se ocorrer um erro ao acessar os dados do ResultSet.
+     */
     private Cliente instantiateCliente(ResultSet rs) throws SQLException {
         Cliente obj = new Cliente();
         obj.setId(rs.getInt("id"));
@@ -198,6 +248,11 @@ public class ClienteDaoJDBC implements ClienteDao {
         return obj;
     }
 
+    /**
+     * Retorna uma lista de todos os clientes cadastrados no banco de dados.
+     * 
+     * @return Uma lista de todos os clientes.
+     */
     @Override
     public List<Cliente> findAll() {
         PreparedStatement st = null;

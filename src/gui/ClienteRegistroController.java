@@ -22,6 +22,10 @@ import model.entities.Cliente;
 import model.exceptions.ValidationException;
 import model.services.ClienteService;
 
+/**
+ * Controlador responsável pela interface de registro de clientes.
+ * Ele lida com o formulário de registro, validação de dados, e a interação com o serviço de cliente.
+ */
 public class ClienteRegistroController implements Initializable {
 
     private Cliente entity;
@@ -76,18 +80,39 @@ public class ClienteRegistroController implements Initializable {
     @FXML
     private Label labelErrorCpf;  // Label de erro para o CPF
 
+    /**
+     * Define a entidade Cliente para o controlador.
+     * 
+     * @param entity Cliente a ser associado ao controlador.
+     */
     public void setCliente(Cliente entity) {
         this.entity = entity;
     }
 
+    /**
+     * Define o serviço Cliente a ser usado pelo controlador.
+     * 
+     * @param service Serviço de cliente que será utilizado para operações de banco de dados.
+     */
     public void setClienteService(ClienteService service) {
         this.service = service;
     }
 
+    /**
+     * Inscreve um ouvinte para alterações nos dados.
+     * 
+     * @param listener O ouvinte que será notificado quando os dados forem alterados.
+     */
     public void subscribeDataChangeListener(DataChangeListener listener) {
         dataChangeListeners.add(listener);
     }
 
+    /**
+     * Ação executada ao clicar no botão de salvar.
+     * Valida os dados do formulário e chama o serviço para salvar o cliente.
+     * 
+     * @param event Evento gerado pelo clique no botão de salvar.
+     */
     @FXML
     public void onBtSaveAction(ActionEvent event) {
         if (entity == null || service == null) {
@@ -105,10 +130,19 @@ public class ClienteRegistroController implements Initializable {
         }
     }
 
+    /**
+     * Notifica todos os ouvintes registrados sobre a alteração nos dados.
+     */
     private void notifyDataChangeListeners() {
         dataChangeListeners.forEach(DataChangeListener::onDataChanged);
     }
 
+    /**
+     * Obtém os dados do formulário e os valida.
+     * 
+     * @return Um objeto Cliente com os dados preenchidos no formulário.
+     * @throws ValidationException Se algum dado não for válido.
+     */
     private Cliente getFormData() {
         Cliente obj = new Cliente();
         ValidationException exception = new ValidationException("Validation error");
@@ -158,16 +192,33 @@ public class ClienteRegistroController implements Initializable {
         return obj;
     }
 
+    /**
+     * Ação executada ao clicar no botão de cancelar.
+     * Fecha a janela atual sem salvar as alterações.
+     * 
+     * @param event Evento gerado pelo clique no botão de cancelar.
+     */
     @FXML
     public void onBtCancelAction(ActionEvent event) {
         Utils.currentStage(event).close();
     }
 
+    /**
+     * Inicializa o controlador. Este método é chamado automaticamente
+     * após a injeção de dependências.
+     * 
+     * @param url URL usada para localizar recursos.
+     * @param rb Bundle de recursos.
+     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         initializeNodes();
     }
 
+    /**
+     * Configura as restrições dos campos de texto.
+     * Limita o tamanho máximo e define os campos de texto para aceitar apenas números quando necessário.
+     */
     private void initializeNodes() {
         Constraints.setTextFieldInteger(txtId);
         Constraints.setTextFieldMaxLength(txtName, 70);
@@ -178,6 +229,9 @@ public class ClienteRegistroController implements Initializable {
         Constraints.setTextFieldMaxLength(txtCpf, 11); // Limite de 11 caracteres para CPF
     }
 
+    /**
+     * Atualiza o formulário com os dados da entidade Cliente.
+     */
     public void updateFormData() {
         if (entity == null) throw new IllegalStateException("Entity was null");
 
@@ -185,19 +239,16 @@ public class ClienteRegistroController implements Initializable {
         txtName.setText(entity.getNome());
         txtEmail.setText(entity.getEmail());
         txtPhone.setText(entity.getTelefone());
-
-  
-
-        // Preenche o campo 'password' (vazio para novos clientes)
         txtPassword.setText(entity.getSenha() == null ? "" : entity.getSenha());
-        
-        // Preenche o campo 'endereco'
         txtEndereco.setText(entity.getEndereco() == null ? "" : entity.getEndereco());
-
-        // Preenche o campo 'cpf'
         txtCpf.setText(entity.getCpf() == null ? "" : entity.getCpf());
     }
 
+    /**
+     * Define as mensagens de erro para os campos do formulário.
+     * 
+     * @param errors Mapa de erros com os campos e suas respectivas mensagens.
+     */
     private void setErrorMessages(Map<String, String> errors) {
         labelErrorName.setText(errors.getOrDefault("name", ""));
         labelErrorEmail.setText(errors.getOrDefault("email", ""));
@@ -208,3 +259,4 @@ public class ClienteRegistroController implements Initializable {
         labelErrorCpf.setText(errors.getOrDefault("cpf", ""));  // Erro de CPF
     }
 }
+

@@ -21,18 +21,39 @@ import model.entities.Cliente;
 import model.entities.Consulta;
 import model.entities.Veterinario;
 
+/**
+ * Implementação do DAO (Data Access Object) para a entidade {@link Consulta} com operações
+ * CRUD no banco de dados utilizando JDBC.
+ * <p>
+ * Essa classe é responsável por interagir com a tabela de consultas no banco de dados, incluindo
+ * operações de inserção, atualização, remoção e busca.
+ */
 public class ConsultaDaoJDBC implements ConsultaDao {
+    
     private Connection conn;
 
+    /**
+     * Construtor que recebe uma conexão {@link Connection} já estabelecida.
+     * 
+     * @param conn A conexão com o banco de dados.
+     */
     public ConsultaDaoJDBC(Connection conn) {
         this.conn = conn;
     }
-    
+
+    /**
+     * Construtor padrão. 
+     * Este construtor não inicializa a conexão. A conexão deve ser fornecida posteriormente.
+     */
     public ConsultaDaoJDBC () {
-    	
     }
-    
-    // Método para verificar e reabrir a conexão, se necessário
+
+    /**
+     * Verifica a validade da conexão com o banco de dados e a reabre se necessário.
+     * <p>
+     * Esse método é utilizado para garantir que a conexão não esteja fechada ou nula antes de
+     * executar operações no banco de dados.
+     */
     public void verificarConexao() {
         try {
             if (conn == null || conn.isClosed()) {
@@ -44,7 +65,17 @@ public class ConsultaDaoJDBC implements ConsultaDao {
             throw new RuntimeException("Erro ao verificar ou reabrir a conexão", e);
         }
     }
-    
+
+    /**
+     * Insere uma nova consulta no banco de dados.
+     * <p>
+     * Esse método realiza a inserção dos dados de uma consulta no banco de dados, atribuindo também
+     * o ID gerado automaticamente para a consulta.
+     * 
+     * @param consulta A consulta a ser inserida no banco de dados.
+     * @throws IllegalArgumentException Se o cliente da consulta não for válido ou não tiver um ID configurado.
+     * @throws DbException Se ocorrer um erro ao inserir os dados no banco.
+     */
     @Override
     public void insert(Consulta consulta) {
     	if (consulta.getCliente() == null || consulta.getCliente().getId() == null) {
@@ -88,6 +119,14 @@ public class ConsultaDaoJDBC implements ConsultaDao {
         }
     }
 
+    /**
+     * Atualiza uma consulta existente no banco de dados.
+     * <p>
+     * Esse método atualiza os dados de uma consulta no banco de dados, baseado no ID da consulta.
+     * 
+     * @param consulta A consulta a ser atualizada, contendo os novos dados.
+     * @throws DbException Se ocorrer um erro ao atualizar os dados da consulta.
+     */
     @Override
     public void update(Consulta consulta) {
         String sql = "UPDATE consulta SET descricao = ?, hora = ?, data = ? WHERE id = ?";
@@ -113,7 +152,14 @@ public class ConsultaDaoJDBC implements ConsultaDao {
         }
     }
 
-
+    /**
+     * Obtém uma conexão com o banco de dados, verificando se a conexão já está estabelecida.
+     * <p>
+     * Se a conexão estiver nula ou fechada, este método irá criar uma nova conexão com o banco.
+     * 
+     * @return A conexão com o banco de dados.
+     * @throws SQLException Se ocorrer um erro ao obter a conexão.
+     */
     private Connection getConnection() throws SQLException {
         // Verifica se a conexão já foi estabelecida, caso contrário, cria uma nova conexão.
         if (conn == null || conn.isClosed()) {
@@ -122,8 +168,12 @@ public class ConsultaDaoJDBC implements ConsultaDao {
         return conn;
     }
 
-
-
+    /**
+     * Exclui uma consulta do banco de dados pelo ID.
+     * 
+     * @param id O ID da consulta a ser excluída.
+     * @throws DbException Se ocorrer um erro ao excluir a consulta.
+     */
     @Override
     public void deleteById(Integer id) {
         String sql = "DELETE FROM Consulta WHERE id = ?";
@@ -134,7 +184,14 @@ public class ConsultaDaoJDBC implements ConsultaDao {
             throw new DbException(e.getMessage());
         }
     }
-    
+
+    /**
+     * Busca uma consulta no banco de dados pelo ID.
+     * 
+     * @param id O ID da consulta a ser buscada.
+     * @return A consulta correspondente ao ID fornecido, ou {@code null} caso não seja encontrada.
+     * @throws DbException Se ocorrer um erro ao buscar a consulta no banco de dados.
+     */
     @Override
     public Consulta findById(Integer id) {
         PreparedStatement st = null;
@@ -174,8 +231,15 @@ public class ConsultaDaoJDBC implements ConsultaDao {
         }
     }
 
-
-
+    /**
+     * Método responsável por buscar todas as consultas no banco de dados.
+     * <p>
+     * Este método executa uma consulta SQL para buscar todas as consultas e seus dados relacionados, como
+     * cliente, veterinário e animal, e os retorna como uma lista de objetos {@link Consulta}.
+     * 
+     * @return Uma lista de {@link Consulta} com todas as consultas encontradas no banco de dados.
+     * @throws RuntimeException Se ocorrer um erro ao executar a consulta SQL ou ao mapear os resultados.
+     */
     public List<Consulta> findAll() {
         verificarConexao();  // Verifica e reabre a conexão se necessário
         try {
@@ -255,24 +319,47 @@ public class ConsultaDaoJDBC implements ConsultaDao {
         }
     }
 
-
-
-
+    /**
+     * Método responsável por buscar todas as consultas de um cliente específico no banco de dados.
+     * <p>
+     * Este método executa uma consulta SQL filtrando as consultas de um cliente específico pelo ID do cliente
+     * e retorna uma lista de objetos {@link Consulta}.
+     * 
+     * @param clienteId O ID do cliente para o qual as consultas serão buscadas.
+     * @return Uma lista de {@link Consulta} com as consultas encontradas para o cliente especificado.
+     * @throws RuntimeException Se ocorrer um erro ao executar a consulta SQL ou ao mapear os resultados.
+     */
     @Override
     public List<Consulta> findByClienteId(Integer clienteId) {
         String sql = "SELECT * FROM Consulta WHERE clienteId = ?";
         return findByForeignKey(sql, clienteId);
     }
 
+    /**
+     * Método responsável por buscar todas as consultas de um veterinário específico no banco de dados.
+     * <p>
+     * Este método executa uma consulta SQL filtrando as consultas de um veterinário específico pelo ID do veterinário
+     * e retorna uma lista de objetos {@link Consulta}.
+     * 
+     * @param veterinarioId O ID do veterinário para o qual as consultas serão buscadas.
+     * @return Uma lista de {@link Consulta} com as consultas encontradas para o veterinário especificado.
+     * @throws RuntimeException Se ocorrer um erro ao executar a consulta SQL ou ao mapear os resultados.
+     */
     @Override
     public List<Consulta> findByVeterinarioId(Integer veterinarioId) {
         String sql = "SELECT * FROM Consulta WHERE veterinarioId = ?";
         return findByForeignKey(sql, veterinarioId);
     }
-    
-    
 
-
+    /**
+     * Método responsável por buscar todas as consultas com um status específico no banco de dados.
+     * <p>
+     * Este método executa uma consulta SQL filtrando as consultas com base no status fornecido e retorna uma lista
+     * de objetos {@link Consulta}.
+     * 
+     * @param status O status das consultas a serem buscadas.
+     * @return Uma lista de {@link Consulta} com as consultas encontradas para o status especificado.
+     */
     public List<Consulta> findByStatus(String status) {
         String sql = """
             SELECT 
@@ -334,8 +421,16 @@ public class ConsultaDaoJDBC implements ConsultaDao {
         return consultas;  
     }
 
-
-
+    /**
+     * Método responsável por buscar todas as consultas pendentes de um veterinário específico.
+     * <p>
+     * Este método executa uma consulta SQL filtrando as consultas pendentes de um veterinário pelo ID do veterinário 
+     * e retorna uma lista de objetos {@link Consulta}.
+     * 
+     * @param veterinarioId O ID do veterinário para o qual as consultas pendentes serão buscadas.
+     * @return Uma lista de {@link Consulta} com as consultas pendentes encontradas para o veterinário especificado.
+     * @throws DbException Se ocorrer um erro ao executar a consulta SQL ou ao mapear os resultados.
+     */
     public List<Consulta> findConsultasPendentesByVeterinarioId(Integer veterinarioId) {
         List<Consulta> consultas = new ArrayList<>();
         String sql = "SELECT * FROM consulta WHERE veterinarioId = ? AND status = 'Pendente'"; 
@@ -347,23 +442,23 @@ public class ConsultaDaoJDBC implements ConsultaDao {
                 Consulta consulta = new Consulta();
                 consulta.setId(rs.getInt("id"));
                 consulta.setVeterinario(new Veterinario(
-                	    rs.getInt("veterinarioId"), 
-                	    rs.getString("nome_veterinario"),
-                	    rs.getString("cpf_veterinario"),
-                	    rs.getString("email_veterinario"),
-                	    rs.getString("telefone_veterinario"),
-                	    rs.getString("senha_veterinario")
-                	));
+                	rs.getInt("veterinarioId"), 
+                	rs.getString("nome_veterinario"),
+                	rs.getString("cpf_veterinario"),
+                	rs.getString("email_veterinario"),
+                	rs.getString("telefone_veterinario"),
+                	rs.getString("senha_veterinario")
+                ));
 
-                	consulta.setCliente(new Cliente(
-                	    rs.getInt("clienteId"), // Preencher o cliente com os dados do banco
-                	    rs.getString("nome_cliente"),
-                	    rs.getString("email_cliente"),
-                	    rs.getString("telefone_cliente"),
-                	    rs.getString("senha_cliente"),
-                	    rs.getString("endereco_cliente"),
-                	    rs.getString("cpf_cliente")
-                	));
+                consulta.setCliente(new Cliente(
+                	rs.getInt("clienteId"), // Preencher o cliente com os dados do banco
+                	rs.getString("nome_cliente"),
+                	rs.getString("email_cliente"),
+                	rs.getString("telefone_cliente"),
+                	rs.getString("senha_cliente"),
+                	rs.getString("endereco_cliente"),
+                	rs.getString("cpf_cliente")
+                ));
 
                 consulta.setData(rs.getDate("data").toLocalDate());
                 consulta.setHora(rs.getTime("hora").toLocalTime());
@@ -377,6 +472,15 @@ public class ConsultaDaoJDBC implements ConsultaDao {
         return consultas;
     }
 
+    /**
+     * Método responsável por buscar todas as consultas com o status 'pendente' no banco de dados.
+     * <p>
+     * Este método executa uma consulta SQL para buscar todas as consultas com o status 'pendente' e retorna uma lista
+     * de objetos {@link Consulta}.
+     * 
+     * @return Uma lista de {@link Consulta} com as consultas com status 'pendente'.
+     * @throws DbException Se ocorrer um erro ao executar a consulta SQL ou ao mapear os resultados.
+     */
     @Override
     public List<Consulta> findAllPendentes() {
         List<Consulta> consultas = new ArrayList<>();
@@ -397,6 +501,16 @@ public class ConsultaDaoJDBC implements ConsultaDao {
         return consultas;
     }
 
+    /**
+     * Método responsável por atualizar o status de uma consulta no banco de dados.
+     * <p>
+     * Este método executa uma consulta SQL para atualizar o status de uma consulta existente, 
+     * mudando-o para o status fornecido (ex: 'aceita', 'negada').
+     * 
+     * @param consulta A consulta cuja o status será alterado.
+     * @param status O novo status para a consulta (ex: 'aceita', 'negada').
+     * @throws DbException Se ocorrer um erro ao executar a atualização no banco de dados.
+     */
     @Override
     public void updateStatus(Consulta consulta, String status) {
         String sql = "UPDATE consulta SET status = ? WHERE id = ?";
@@ -409,6 +523,15 @@ public class ConsultaDaoJDBC implements ConsultaDao {
         }
     }
 
+    /**
+     * Método responsável por instanciar uma consulta a partir de um {@link ResultSet}.
+     * <p>
+     * Este método é utilizado internamente para mapear os dados de um {@link ResultSet} em um objeto {@link Consulta}.
+     * 
+     * @param rs O {@link ResultSet} contendo os dados da consulta.
+     * @return Um objeto {@link Consulta} com os dados mapeados.
+     * @throws SQLException Se ocorrer um erro ao ler os dados do {@link ResultSet}.
+     */
     private Consulta instantiateConsulta(ResultSet rs) throws SQLException {
         Consulta consulta = new Consulta();
         consulta.setId(rs.getInt("id"));
@@ -428,7 +551,16 @@ public class ConsultaDaoJDBC implements ConsultaDao {
 
         return consulta;
     }
-    
+
+    /**
+     * Método responsável por buscar todas as consultas com o status 'Requisitada' no banco de dados.
+     * <p>
+     * Este método executa uma consulta SQL filtrando as consultas com o status 'Requisitada' e retorna uma lista
+     * de objetos {@link Consulta}.
+     * 
+     * @return Uma lista de {@link Consulta} com as consultas com status 'Requisitada'.
+     * @throws DbException Se ocorrer um erro ao executar a consulta SQL ou ao mapear os resultados.
+     */
     @Override
     public List<Consulta> findAllRequisitadas() {
         List<Consulta> consultas = new ArrayList<>();
@@ -456,9 +588,16 @@ public class ConsultaDaoJDBC implements ConsultaDao {
         return consultas;
     }
 
-
-
-
+    /**
+     * Método auxiliar para buscar consultas baseadas em uma chave estrangeira no banco de dados.
+     * <p>
+     * Este método é utilizado para consultar as consultas com base em um parâmetro passado (por exemplo, clienteId ou veterinarioId).
+     * 
+     * @param sql A consulta SQL para ser executada.
+     * @param param O parâmetro a ser utilizado na consulta SQL.
+     * @return Uma lista de {@link Consulta} com as consultas encontradas.
+     * @throws DbException Se ocorrer um erro ao executar a consulta SQL ou ao mapear os resultados.
+     */
     private List<Consulta> findByForeignKey(String sql, Object param) {
         try (PreparedStatement st = conn.prepareStatement(sql)) {
             st.setObject(1, param);
