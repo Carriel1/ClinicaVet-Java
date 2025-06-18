@@ -1,3 +1,3 @@
-SOFTWARE PARA UMA CLINÍCA VETERINARIA
+# Software-para-uma-clinica-veterinaria
 
-PROJETO DISCIPLINA POO (PROGRAMAÇÃO ORIENTADA A OBJETOS)
+# Projeto-disciplina-POO
